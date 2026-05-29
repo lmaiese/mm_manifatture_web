@@ -54,6 +54,10 @@ class Settings:
     cloudinary_api_key: str = field(default="", repr=False)
     cloudinary_api_secret: str = field(default="", repr=False)
     caption_examples_path: Path = BOT_ROOT / "data" / "caption_examples.json"
+    # Sprint 3
+    github_token: str = field(default="", repr=False)
+    github_repo: str = "lmaiese/mm_manifatture_web"
+    vercel_deploy_hook: str = field(default="", repr=False)
 
 
 def load_settings() -> Settings:
@@ -90,6 +94,9 @@ def load_settings() -> Settings:
         cloudinary_cloud_name=os.environ.get("CLOUDINARY_CLOUD_NAME", ""),
         cloudinary_api_key=os.environ.get("CLOUDINARY_API_KEY", ""),
         cloudinary_api_secret=os.environ.get("CLOUDINARY_API_SECRET", ""),
+        github_token=os.environ.get("GITHUB_TOKEN", ""),
+        github_repo=os.environ.get("GITHUB_REPO", "lmaiese/mm_manifatture_web"),
+        vercel_deploy_hook=os.environ.get("VERCEL_DEPLOY_HOOK", ""),
     )
 
 

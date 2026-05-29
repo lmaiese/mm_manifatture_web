@@ -1,0 +1,17 @@
+{
+  "_note": "TASK APERTO — compilare con dati reali prima del go-live",
+  "name": "M&M Manifatture di Scarpa Monica",
+  "address": "TODO — indirizzo da fornire",
+  "city": "TODO — città da fornire",
+  "phone": "TODO — telefono da fornire",
+  "email": "TODO — email da fornire",
+  "hours": [
+    { "days": "Lunedì – Venerdì", "time": "09:00 – 13:00 / 15:00 – 19:00" },
+    { "days": "Sabato", "time": "09:00 – 13:00" },
+    { "days": "Domenica", "time": "Chiuso" }
+  ],
+  "social": {
+    "instagram": "https://www.instagram.com/",
+    "facebook": "https://www.facebook.com/"
+  }
+}

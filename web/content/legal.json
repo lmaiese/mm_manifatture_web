@@ -1,0 +1,9 @@
+{
+  "_note": "TASK APERTO — compilare P.IVA, sede legale ed email prima del go-live",
+  "company_name": "M&M Manifatture di Scarpa Monica",
+  "vat_number": "TODO — P.IVA da fornire",
+  "legal_address": "TODO — indirizzo da fornire",
+  "email": "TODO — email da fornire",
+  "ga_property": "G-XXXXXXXXXX",
+  "_note_ga": "TASK APERTO — sostituire con Measurement ID reale dopo creazione property GA4"
+}

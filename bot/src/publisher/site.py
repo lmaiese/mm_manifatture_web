@@ -1,0 +1,128 @@
+"""Publish a product to the Vercel static site via GitHub + deploy hook.
+
+Flow:
+1. Read catalog.json from GitHub repo (main branch)
+2. Append new product entry
+3. Commit updated catalog.json back to main
+4. POST to Vercel deploy hook — Vercel rebuilds the site in ~30s
+
+Requires: GITHUB_TOKEN, GITHUB_REPO, VERCEL_DEPLOY_HOOK in .env
+"""
+
+import asyncio
+import json
+import logging
+import time
+import uuid
+from datetime import datetime, timezone
+from typing import Any
+
+import aiohttp
+from github import Github, GithubException
+
+from ..config import SETTINGS
+
+logger = logging.getLogger("publisher.site")
+
+CATALOG_PATH = "web/catalog.json"
+
+
+def _make_product_entry(product: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "id": str(uuid.uuid4()),
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "category": product.get("category") or "",
+        "price": float(product.get("price") or 0.0),
+        "size": product.get("size"),
+        "description_site": product.get("description_site") or product.get("description") or "",
+        "description_instagram": product.get("description_instagram") or "",
+        "description_facebook": product.get("description_facebook") or "",
+        "photos": product.get("photos") or [],
+        "published": True,
+        "scheduled_for": product.get("scheduled_for"),
+    }
+
+
+async def publish_to_site(product: dict[str, Any]) -> bool:
+    """Update catalog.json on GitHub and trigger Vercel rebuild.
+
+    Returns True on full success, False on partial failure (deploy hook failed
+    but catalog was updated).
+    """
+    github_token = SETTINGS.github_token
+    github_repo = SETTINGS.github_repo
+    vercel_hook = SETTINGS.vercel_deploy_hook
+
+    if not github_token or not github_repo:
+        logger.error("site_publish_skipped", extra={"reason": "GITHUB_TOKEN or GITHUB_REPO missing"})
+        return False
+
+    entry = _make_product_entry(product)
+
+    try:
+        catalog_updated = await asyncio.to_thread(_update_catalog_on_github, github_token, github_repo, entry)
+    except Exception as exc:
+        logger.error("catalog_update_failed", extra={"error": str(exc)})
+        return False
+
+    if not catalog_updated:
+        return False
+
+    # Trigger Vercel deploy hook
+    if vercel_hook:
+        hook_ok = await _trigger_deploy_hook(vercel_hook)
+        if not hook_ok:
+            logger.warning("deploy_hook_failed", extra={"product_id": entry["id"]})
+            return False
+    else:
+        logger.warning("deploy_hook_skipped", extra={"reason": "VERCEL_DEPLOY_HOOK not configured"})
+
+    logger.info("site_published", extra={"product_id": entry["id"], "category": entry["category"]})
+    return True
+
+
+def _update_catalog_on_github(token: str, repo_name: str, entry: dict[str, Any]) -> bool:
+    gh = Github(token)
+    try:
+        repo = gh.get_repo(repo_name)
+        file = repo.get_contents(CATALOG_PATH, ref="main")
+        raw = file.decoded_content.decode("utf-8")  # type: ignore[union-attr]
+        catalog = json.loads(raw)
+    except GithubException as exc:
+        logger.error("github_read_failed", extra={"error": str(exc)})
+        return False
+    except json.JSONDecodeError as exc:
+        logger.error("catalog_json_invalid", extra={"error": str(exc)})
+        return False
+
+    catalog.setdefault("products", [])
+    catalog["products"].append(entry)
+
+    updated_raw = json.dumps(catalog, ensure_ascii=False, indent=2)
+    commit_msg = f"feat: add product {entry['id'][:8]} — {entry['category']}"
+
+    try:
+        repo.update_file(
+            path=CATALOG_PATH,
+            message=commit_msg,
+            content=updated_raw,
+            sha=file.sha,  # type: ignore[union-attr]
+            branch="main",
+        )
+        logger.info("catalog_committed", extra={"product_id": entry["id"]})
+        return True
+    except GithubException as exc:
+        logger.error("github_write_failed", extra={"error": str(exc)})
+        return False
+
+
+async def _trigger_deploy_hook(hook_url: str) -> bool:
+    try:
+        async with aiohttp.ClientSession() as session:
+            async with session.post(hook_url, timeout=aiohttp.ClientTimeout(total=10)) as resp:
+                ok = resp.status < 300
+                logger.info("deploy_hook_triggered", extra={"status": resp.status, "ok": ok})
+                return ok
+    except Exception as exc:
+        logger.error("deploy_hook_error", extra={"error": str(exc)})
+        return False

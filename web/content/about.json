@@ -1,0 +1,14 @@
+{
+  "title": "Chi siamo",
+  "subtitle": "Artigianato fatto a mano, con cura",
+  "body": [
+    "M&M Manifatture di Scarpa Monica nasce dalla passione per l'artigianato e dalla volontà di creare oggetti unici, realizzati interamente a mano con materiali di qualità.",
+    "Ogni pezzo è pensato, lavorato e rifinito personalmente — nessun pezzo è identico a un altro. È questo che rende speciale il lavoro artigianale: il tempo, la cura, e la traccia di chi lo ha creato.",
+    "Trovate i nostri prodotti in negozio o contattateci direttamente per richieste personalizzate."
+  ],
+  "values": [
+    { "label": "Fatto a mano", "description": "Ogni prodotto è lavorato personalmente, dal materiale grezzo alla finitura finale." },
+    { "label": "Qualità", "description": "Usiamo solo materiali selezionati, scelti per durabilità e bellezza." },
+    { "label": "Unicità", "description": "Nessun pezzo è identico. Ogni oggetto porta con sé il segno di chi lo ha creato." }
+  ]
+}
