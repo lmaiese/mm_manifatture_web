@@ -48,6 +48,12 @@ class Settings:
     db_path: Path = BOT_ROOT / "bot.sqlite"
     catalog_path: Path = PROJECT_ROOT / "web" / "catalog.json"
     inactivity_minutes: int = 30
+    # Sprint 2
+    anthropic_api_key: str = field(default="", repr=False)
+    cloudinary_cloud_name: str = field(default="", repr=False)
+    cloudinary_api_key: str = field(default="", repr=False)
+    cloudinary_api_secret: str = field(default="", repr=False)
+    caption_examples_path: Path = BOT_ROOT / "data" / "caption_examples.json"
 
 
 def load_settings() -> Settings:
@@ -80,6 +86,10 @@ def load_settings() -> Settings:
         db_path=db_path,
         catalog_path=catalog_path,
         inactivity_minutes=inactivity,
+        anthropic_api_key=os.environ.get("ANTHROPIC_API_KEY", ""),
+        cloudinary_cloud_name=os.environ.get("CLOUDINARY_CLOUD_NAME", ""),
+        cloudinary_api_key=os.environ.get("CLOUDINARY_API_KEY", ""),
+        cloudinary_api_secret=os.environ.get("CLOUDINARY_API_SECRET", ""),
     )
 
 

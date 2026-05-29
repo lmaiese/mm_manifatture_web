@@ -1,0 +1,44 @@
+{
+  "_note": "Esempi few-shot per calibrare il tono di voce. Sostituire con esempi reali dopo i primi prodotti.",
+  "examples": [
+    {
+      "input": {
+        "description": "Borsa in pelle intrecciata, fatta a mano",
+        "price": 85.0,
+        "size": "Media",
+        "category": "Borse"
+      },
+      "output": {
+        "site": "Borsa in pelle intrecciata fatta a mano — ogni pezzo è unico. Dimensione media, ideale per uso quotidiano. €85,00.",
+        "instagram": "✨ Nuova borsa arrivata! Pelle intrecciata, lavorata a mano con cura. Ogni pezzo è unico 🤍\n\n€85 · Disponibile in negozio e online\n\n#artigianato #borsaartigianale #fattoadamano #pellelavorata #handmade",
+        "facebook": "🎨 Nuova creazione disponibile: borsa in pelle intrecciata fatta completamente a mano.\n\nOgni borsa è un pezzo unico — la lavorazione artigianale garantisce che nessun altro avrà la tua stessa borsa.\n\nDimensione media · Prezzo: €85,00\n\nScrivici per info o per acquistare!"
+      }
+    },
+    {
+      "input": {
+        "description": "Collana con perle di vetro colorate",
+        "price": 30.0,
+        "size": null,
+        "category": "Gioielli"
+      },
+      "output": {
+        "site": "Collana con perle di vetro colorate, realizzata a mano. Un accessorio vivace e originale. €30,00.",
+        "instagram": "🌈 Colori che fanno primavera! Collana con perle di vetro, ogni pezzo fatto a mano 🤍\n\n€30 · Disponibile ora\n\n#gioielliartigianali #collana #perledivetro #colorful #handmadejewelry",
+        "facebook": "Nuova collana disponibile: perle di vetro colorate lavorate a mano.\n\nPerfetta come regalo o per aggiungere un tocco di colore al tuo look.\n\nPrezzo: €30,00 · Disponibile in quantità limitata.\n\nContattaci per acquistare o per maggiori informazioni!"
+      }
+    },
+    {
+      "input": {
+        "description": "Cuscino ricamato con fiori, cotone",
+        "price": 45.0,
+        "size": "40x40",
+        "category": "Casa"
+      },
+      "output": {
+        "site": "Cuscino in cotone con ricamo floreale fatto a mano. Misura 40×40 cm. Un tocco artigianale per la tua casa. €45,00.",
+        "instagram": "🌸 Per la casa con un tocco speciale — cuscino ricamato a mano con motivi floreali.\n\n40×40 cm · Cotone · €45\n\n#cuscinartigianali #ricamo #homedecor #fattoadamano #casaartigianale",
+        "facebook": "Nuovo arrivo per la casa 🏡\n\nCuscino in cotone ricamato a mano con motivi floreali — 40×40 cm, perfetto per divano o letto.\n\nOgni ricamo è eseguito a mano, quindi ogni cuscino è leggermente diverso dall'altro.\n\nPrezzo: €45,00 · Scrivi per acquistare!"
+      }
+    }
+  ]
+}

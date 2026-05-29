@@ -15,7 +15,10 @@ CHANNELS = ("site", "instagram", "facebook")
 
 
 async def publish(product: dict[str, Any]) -> dict[str, bool]:
-    sanitized = {k: (len(v) if k == "photos" else v) for k, v in product.items()}
+    sanitized = {
+        k: (len(v) if k == "photos" else v)
+        for k, v in product.items()
+    }
     logger.info(
         "mock_publish",
         extra={

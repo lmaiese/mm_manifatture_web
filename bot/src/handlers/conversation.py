@@ -20,6 +20,8 @@ from telegram.ext import ContextTypes
 
 from .. import catalog as catalog_io
 from .. import db
+from ..ai.caption import CaptionError, CaptionResult, generate_captions
+from ..cloudinary_uploader import UploadError, upload_photos
 from ..config import SETTINGS
 from ..messages import HELP_BY_STEP, MESSAGES, STEP_LABELS
 from ..publisher import publish
@@ -46,6 +48,10 @@ CB_PREVIEW_CONFIRM = "pv_confirm"
 CB_PREVIEW_EDIT = "pv_edit"
 CB_PREVIEW_CANCEL = "pv_cancel"
 CB_EDIT_PREFIX = "edit:"
+CB_AI_USE = "ai_use"
+CB_AI_USE_MINE = "ai_use_mine"
+CB_AI_FALLBACK_CONFIRM = "ai_fb_confirm"
+CB_AI_FALLBACK_CANCEL = "ai_fb_cancel"
 
 
 # ---------- state helpers ----------
@@ -226,6 +232,29 @@ def _preview_keyboard() -> InlineKeyboardMarkup:
     )
 
 
+def _ai_choice_keyboard() -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup(
+        [
+            [
+                InlineKeyboardButton(MESSAGES["ai_use_button"], callback_data=CB_AI_USE),
+                InlineKeyboardButton(MESSAGES["ai_use_mine_button"], callback_data=CB_AI_USE_MINE),
+            ],
+            [InlineKeyboardButton(MESSAGES["preview_cancel_button"], callback_data=CB_PREVIEW_CANCEL)],
+        ]
+    )
+
+
+def _ai_fallback_keyboard() -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup(
+        [
+            [
+                InlineKeyboardButton(MESSAGES["ai_confirm_yes"], callback_data=CB_AI_FALLBACK_CONFIRM),
+                InlineKeyboardButton(MESSAGES["ai_confirm_no"], callback_data=CB_AI_FALLBACK_CANCEL),
+            ]
+        ]
+    )
+
+
 def _edit_menu_keyboard() -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(
         [
@@ -243,6 +272,81 @@ def _edit_menu_keyboard() -> InlineKeyboardMarkup:
             ],
         ]
     )
+
+
+async def _send_preview(
+    chat_id: int,
+    data: dict[str, Any],
+    context: ContextTypes.DEFAULT_TYPE,
+) -> None:
+    """Send the PREVIEW step. Attempts AI caption generation; falls back explicitly."""
+    bot = context.bot
+
+    # If captions are already cached (e.g. user re-enters PREVIEW after edit), reuse them.
+    if data.get("_ai_captions"):
+        captions = data["_ai_captions"]
+        text = MESSAGES["step_preview_ai"].format(
+            photos_count=len(data.get("photos") or []),
+            price=float(data.get("price") or 0.0),
+            size=data.get("size") or "-",
+            when=_format_when(data),
+            category=data.get("category") or "-",
+            description=data.get("description") or "-",
+            ai_site=captions["site"],
+            ai_instagram=captions["instagram"],
+            ai_facebook=captions["facebook"],
+        )
+        await bot.send_message(chat_id, text, reply_markup=_ai_choice_keyboard())
+        return
+
+    # No cached captions — try to generate them.
+    if SETTINGS.anthropic_api_key:
+        thinking_msg = await bot.send_message(chat_id, MESSAGES["ai_generating"])
+        try:
+            result = await generate_captions(
+                description=data.get("description") or "",
+                price=float(data.get("price") or 0.0),
+                size=data.get("size"),
+                category=data.get("category") or "",
+            )
+            data["_ai_captions"] = {
+                "site": result.site,
+                "instagram": result.instagram,
+                "facebook": result.facebook,
+            }
+            # Persist cached captions so re-entering PREVIEW skips re-generation.
+            state = db.load_state(chat_id)
+            if state is not None:
+                _persist(chat_id, PREVIEW, data)
+            try:
+                await thinking_msg.delete()
+            except Exception:  # noqa: BLE001
+                pass
+            text = MESSAGES["step_preview_ai"].format(
+                photos_count=len(data.get("photos") or []),
+                price=float(data.get("price") or 0.0),
+                size=data.get("size") or "-",
+                when=_format_when(data),
+                category=data.get("category") or "-",
+                description=data.get("description") or "-",
+                ai_site=result.site,
+                ai_instagram=result.instagram,
+                ai_facebook=result.facebook,
+            )
+            await bot.send_message(chat_id, text, reply_markup=_ai_choice_keyboard())
+            return
+        except CaptionError as exc:
+            logger.warning("caption_error_fallback", extra={"chat_id": chat_id, "error": str(exc)})
+            try:
+                await thinking_msg.delete()
+            except Exception:  # noqa: BLE001
+                pass
+            # Explicit fallback confirmation — never silent.
+            await bot.send_message(chat_id, MESSAGES["ai_unavailable_confirm"], reply_markup=_ai_fallback_keyboard())
+            return
+
+    # No API key configured: show plain preview directly.
+    await bot.send_message(chat_id, _format_preview(data), reply_markup=_preview_keyboard())
 
 
 async def _ask_for_step(
@@ -269,7 +373,7 @@ async def _ask_for_step(
         await bot.send_message(chat_id, MESSAGES["step_category_request"], reply_markup=_category_keyboard())
     elif step == PREVIEW:
         data = data or {}
-        await bot.send_message(chat_id, _format_preview(data), reply_markup=_preview_keyboard())
+        await _send_preview(chat_id, data, context)
 
 
 # ---------- price parsing ----------
@@ -525,6 +629,9 @@ async def _advance_after(
     # If user is editing a single field, jump back to PREVIEW
     if data.get("_edit_return"):
         data["_edit_return"] = False
+        # Invalidate cached AI captions if the completed step affects caption content.
+        if completed in (DESCRIPTION, CATEGORY, PRICE, SIZE):
+            data.pop("_ai_captions", None)
         _persist(chat_id, PREVIEW, data)
         await _ask_for_step(chat_id, PREVIEW, context, data)
         return
@@ -644,6 +751,35 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
         await _advance_after(chat_id, CATEGORY, data, context)
         return
 
+    # --- AI CHOICE ---
+    if data_token == CB_AI_USE:
+        if step != PREVIEW:
+            return
+        # User accepted AI captions — proceed to publish.
+        await _confirm_publish(chat_id, data, context)
+        return
+
+    if data_token == CB_AI_USE_MINE:
+        if step != PREVIEW:
+            return
+        # User rejected AI captions — clear cached captions and publish with original text.
+        data.pop("_ai_captions", None)
+        await _confirm_publish(chat_id, data, context)
+        return
+
+    if data_token == CB_AI_FALLBACK_CONFIRM:
+        if step != PREVIEW:
+            return
+        # AI was unavailable, user confirmed to publish with their own text.
+        await _confirm_publish(chat_id, data, context)
+        return
+
+    if data_token == CB_AI_FALLBACK_CANCEL:
+        if step != PREVIEW:
+            return
+        await cancel_flow(chat_id, context)
+        return
+
     # --- PREVIEW ---
     if data_token == CB_PREVIEW_CONFIRM:
         if step != PREVIEW:
@@ -699,12 +835,44 @@ async def _confirm_publish(
     data: dict[str, Any],
     context: ContextTypes.DEFAULT_TYPE,
 ) -> None:
-    await context.bot.send_message(chat_id, MESSAGES["publishing"])
+    local_paths = data.get("photos") or []
+    progress_msg = await context.bot.send_message(
+        chat_id,
+        MESSAGES["uploading_photos"].format(done=0, total=len(local_paths)),
+    )
+
+    async def _on_progress(done: int, total: int) -> None:
+        try:
+            await progress_msg.edit_text(MESSAGES["uploading_photos"].format(done=done, total=total))
+        except Exception:  # noqa: BLE001
+            pass
+
+    try:
+        photo_urls = await upload_photos(local_paths, on_progress=_on_progress)
+    except UploadError as exc:
+        logger.error("upload_error", extra={"chat_id": chat_id, "error": str(exc)})
+        await context.bot.send_message(chat_id, MESSAGES["upload_failed"])
+        await notify_admin(context, f"upload_failed chat={chat_id} error={exc}")
+        return
+
+    try:
+        await progress_msg.edit_text(MESSAGES["publishing"])
+    except Exception:  # noqa: BLE001
+        pass
+
+    # Choose description: AI site caption if accepted, otherwise user text.
+    captions = data.get("_ai_captions")
+    description_site = captions["site"] if captions else (data.get("description") or "")
+    description_instagram = captions["instagram"] if captions else (data.get("description") or "")
+    description_facebook = captions["facebook"] if captions else (data.get("description") or "")
+
     product = {
-        "photos": data.get("photos") or [],
+        "photos": photo_urls,
         "price": data.get("price"),
         "size": data.get("size"),
-        "description": data.get("description"),
+        "description_site": description_site,
+        "description_instagram": description_instagram,
+        "description_facebook": description_facebook,
         "when": data.get("when"),
         "slot": data.get("slot"),
         "category": data.get("category"),

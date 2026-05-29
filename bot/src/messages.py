@@ -53,8 +53,32 @@ MESSAGES: dict[str, str] = {
     "edit_description_button": "Descrizione",
     "edit_when_button": "Orario",
     "edit_category_button": "Categoria",
+    # AI caption
+    "ai_generating": "Genero suggerimento AI...",
+    "ai_unavailable_confirm": (
+        "⚠️ Suggerimento AI non disponibile. Pubblico con la tua descrizione. Confermi?"
+    ),
+    "ai_confirm_yes": "Sì, pubblica",
+    "ai_confirm_no": "Annulla",
+    "step_preview_ai": (
+        "Riepilogo prodotto\n\n"
+        "Foto: {photos_count} foto\n"
+        "Prezzo: EUR {price:.2f}\n"
+        "Taglia: {size}\n"
+        "Pubblicazione: {when}\n"
+        "Categoria: {category}\n\n"
+        "📝 Tua descrizione:\n{description}\n\n"
+        "🤖 Suggerimento AI (sito):\n{ai_site}\n\n"
+        "📸 Instagram:\n{ai_instagram}\n\n"
+        "👥 Facebook:\n{ai_facebook}"
+    ),
+    "ai_use_button": "Usa AI",
+    "ai_use_mine_button": "Usa il mio testo",
+    # Upload progress
+    "uploading_photos": "⏳ Carico foto ({done}/{total})...",
+    "upload_failed": "Errore nel caricamento delle foto. Riprova o /annulla.",
     # Publish outcome
-    "publishing": "Sto pubblicando...",
+    "publishing": "⏳ Sto pubblicando...",
     "publish_ok": (
         "Pubblicato!\n"
         "Sito: {site}\n"
