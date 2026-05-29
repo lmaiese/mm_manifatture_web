@@ -54,10 +54,39 @@ Dopo ogni setup (token Meta, dominio, VPS) aggiorna `bot/data/reminders.json`:
 
 ### Refresh token Meta (ogni ~53gg)
 
-```bash
-# TODO Sprint 4: script refresh_meta_token.py
-# Per ora: manuale su https://developers.facebook.com/tools/explorer
+Il bot invia un alert Telegram a Luigi 7 giorni prima della scadenza (`meta_token.py → check_token_expiry`).
+
+**Procedura refresh:**
+1. Vai su https://developers.facebook.com/tools/explorer
+2. Genera un nuovo short-lived user token con i permessi `instagram_content_publish`, `pages_manage_posts`
+3. Scambialo con long-lived via API:
+   ```
+   GET https://graph.facebook.com/v19.0/oauth/access_token
+     ?grant_type=fb_exchange_token
+     &client_id=APP_ID
+     &client_secret=APP_SECRET
+     &fb_exchange_token=SHORT_LIVED_TOKEN
+   ```
+4. Aggiorna `bot/.env`: `INSTAGRAM_ACCESS_TOKEN=` e `FACEBOOK_ACCESS_TOKEN=`
+5. Riavvia il bot
+
+### Attivare Meta publisher (dopo App Review Meta)
+
+1. Completare App Review su https://developers.facebook.com/
+2. Verificare: account IG è Business/Creator + collegato alla Facebook Page
+3. In `bot/.env`: `META_ENABLED=1`
+4. Riavvia il bot
+
+### Slot di pubblicazione automatica
+
+Gli slot predefiniti sono `10,13,18,21` (UTC). Per cambiarli:
 ```
+PUBLICATION_SLOTS=9,12,17,20   # in bot/.env
+```
+
+### Report giornaliero
+
+Disabilitato di default. Per attivarlo: `DAILY_REPORT_ENABLED=1` in `bot/.env`.
 
 ### Backup manuale SQLite
 
@@ -97,5 +126,4 @@ cd /Users/maiesel/Obsidian/mm_manifatture_web/bot
 
 ---
 
-*Aperto: 2026-05-29 (Sprint 1)*
-*Aggiornare ad ogni sprint con nuove operazioni e troubleshooting.*
+*Aperto: 2026-05-29 (Sprint 1) — Aggiornato: 2026-05-29 (Sprint 4+5)*

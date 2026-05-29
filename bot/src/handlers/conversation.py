@@ -866,6 +866,8 @@ async def _confirm_publish(
     description_instagram = captions["instagram"] if captions else (data.get("description") or "")
     description_facebook = captions["facebook"] if captions else (data.get("description") or "")
 
+    from datetime import datetime, timezone as _tz
+
     product = {
         "photos": photo_urls,
         "price": data.get("price"),
@@ -877,6 +879,24 @@ async def _confirm_publish(
         "slot": data.get("slot"),
         "category": data.get("category"),
     }
+
+    when = data.get("when")
+
+    # "Automatico": find best upcoming slot and enqueue — queue_worker handles publishing.
+    if when == "auto":
+        now_iso = datetime.now(_tz.utc).isoformat()
+        publish_at = db.best_upcoming_slot(now_iso, SETTINGS.publication_slots)
+        db.enqueue_product(chat_id, product, publish_at=publish_at)
+        db.clear_state(chat_id)
+        _cancel_inactivity(context, chat_id)
+        slot_label = publish_at[:16].replace("T", " ") if publish_at else "prossimo slot"
+        await context.bot.send_message(
+            chat_id,
+            f"✅ In coda! Pubblicherò il {slot_label} UTC.",
+        )
+        return
+
+    # "Adesso" or specific slot: publish immediately.
     try:
         result = await publish(product)
     except Exception as exc:  # noqa: BLE001
@@ -885,7 +905,7 @@ async def _confirm_publish(
         await notify_admin(context, f"publish_failed chat={chat_id} error={exc}")
         return
 
-    scheduled_for = data.get("slot") if data.get("when") == "slot" else None
+    scheduled_for = data.get("slot") if when == "slot" else None
     db.save_product(chat_id, product, result, scheduled_for=scheduled_for)
     db.clear_state(chat_id)
     _cancel_inactivity(context, chat_id)

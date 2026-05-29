@@ -30,6 +30,19 @@ def _parse_chat_ids(raw: str) -> list[int]:
     return out
 
 
+def _parse_slots(raw: str) -> list[int]:
+    out: list[int] = []
+    for chunk in raw.split(","):
+        chunk = chunk.strip()
+        try:
+            h = int(chunk)
+            if 0 <= h <= 23:
+                out.append(h)
+        except ValueError:
+            continue
+    return out or [10, 13, 18, 21]
+
+
 def _int_or_none(raw: str | None) -> int | None:
     if not raw:
         return None
@@ -64,6 +77,9 @@ class Settings:
     facebook_page_id: str = field(default="", repr=False)
     facebook_access_token: str = field(default="", repr=False)
     meta_enabled: bool = False
+    # Sprint 5 — Scheduler
+    publication_slots: list[int] = field(default_factory=lambda: [10, 13, 18, 21])
+    daily_report_enabled: bool = False
 
 
 def load_settings() -> Settings:
@@ -108,6 +124,8 @@ def load_settings() -> Settings:
         facebook_page_id=os.environ.get("FACEBOOK_PAGE_ID", ""),
         facebook_access_token=os.environ.get("FACEBOOK_ACCESS_TOKEN", ""),
         meta_enabled=os.environ.get("META_ENABLED", "0") == "1",
+        publication_slots=_parse_slots(os.environ.get("PUBLICATION_SLOTS", "10,13,18,21")),
+        daily_report_enabled=os.environ.get("DAILY_REPORT_ENABLED", "0") == "1",
     )
 
 

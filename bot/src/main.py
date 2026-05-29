@@ -7,6 +7,7 @@ or, from the bot/ dir:
 """
 
 import logging
+from datetime import time as dtime, timezone
 
 from telegram import Update
 from telegram.ext import (
@@ -24,6 +25,7 @@ try:
     from .logging_setup import setup_logging
     from .handlers import commands as cmd
     from .handlers import conversation as conv
+    from . import scheduler as sched
 except ImportError:  # pragma: no cover - script-mode fallback
     import sys
     from pathlib import Path
@@ -34,6 +36,7 @@ except ImportError:  # pragma: no cover - script-mode fallback
     from src.logging_setup import setup_logging  # type: ignore[no-redef]
     from src.handlers import commands as cmd  # type: ignore[no-redef]
     from src.handlers import conversation as conv  # type: ignore[no-redef]
+    from src import scheduler as sched  # type: ignore[no-redef]
 
 
 logger = logging.getLogger("main")
@@ -41,6 +44,16 @@ logger = logging.getLogger("main")
 
 async def _post_init(app: Application) -> None:
     conv.reschedule_all_inactivity(app)
+
+    jq = app.job_queue
+    if jq is not None:
+        # Queue worker: every 60s
+        jq.run_repeating(sched.queue_worker, interval=60, first=10)
+        # Token expiry check: daily at 08:00 UTC
+        jq.run_daily(sched.token_expiry_check, time=dtime(8, 0, tzinfo=timezone.utc))
+        # Daily report: daily at 09:00 UTC (no-op if DAILY_REPORT_ENABLED=0)
+        jq.run_daily(sched.daily_report, time=dtime(9, 0, tzinfo=timezone.utc))
+
     logger.info(
         "bot_post_init",
         extra={
