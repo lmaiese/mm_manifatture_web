@@ -62,7 +62,20 @@ def setup_logging(level: int = logging.INFO, log_dir: Path | None = None) -> Non
         file_handler.setFormatter(formatter)
         root.addHandler(file_handler)
 
+        # Separate error-only log for quick triage
+        error_handler = RotatingFileHandler(
+            log_dir / "error.log",
+            maxBytes=5 * 1024 * 1024,  # 5 MB
+            backupCount=3,
+            encoding="utf-8",
+        )
+        error_handler.setLevel(logging.ERROR)
+        error_handler.setFormatter(formatter)
+        root.addHandler(error_handler)
+
     # Tame the chattiest libs
     logging.getLogger("httpx").setLevel(logging.WARNING)
+    logging.getLogger("httpcore").setLevel(logging.WARNING)
+    logging.getLogger("aiohttp").setLevel(logging.WARNING)
     logging.getLogger("telegram").setLevel(logging.INFO)
     logging.getLogger("apscheduler").setLevel(logging.WARNING)

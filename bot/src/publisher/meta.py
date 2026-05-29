@@ -77,20 +77,28 @@ async def _ig_wait_container_ready(
     container_id: str,
     token: str,
 ) -> None:
-    for _ in range(_CONTAINER_POLL_MAX):
-        async with session.get(
-            f"{_GRAPH_BASE}/{container_id}",
-            params={"fields": "status_code", "access_token": token},
-            timeout=aiohttp.ClientTimeout(total=10),
-        ) as resp:
-            data = await resp.json()
-            status = data.get("status_code", "")
-            if status == "FINISHED":
-                return
-            if status == "ERROR":
-                raise MetaPublishError(f"IG container {container_id} failed: {data}")
+    for attempt in range(_CONTAINER_POLL_MAX):
+        try:
+            async with session.get(
+                f"{_GRAPH_BASE}/{container_id}",
+                params={"fields": "status_code", "access_token": token},
+                timeout=aiohttp.ClientTimeout(total=10),
+            ) as resp:
+                data = await resp.json()
+                status = data.get("status_code", "")
+                if status == "FINISHED":
+                    return
+                if status == "ERROR":
+                    raise MetaPublishError(f"IG container {container_id} failed: {data}")
+        except MetaPublishError:
+            raise
+        except Exception as exc:
+            logger.warning(
+                "ig_container_poll_error",
+                extra={"container_id": container_id, "attempt": attempt, "error": str(exc)},
+            )
         await asyncio.sleep(_CONTAINER_POLL_INTERVAL)
-    raise MetaPublishError(f"IG container {container_id} timed out")
+    raise MetaPublishError(f"IG container {container_id} timed out after {_CONTAINER_POLL_MAX} attempts")
 
 
 async def _ig_publish_container(

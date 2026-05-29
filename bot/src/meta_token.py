@@ -1,44 +1,24 @@
 """Meta Graph API token management.
 
-Stores long-lived tokens in SQLite, handles the 60-day refresh via the
-Meta token exchange endpoint, and fires a Telegram alert to Luigi 7 days
-before expiry.
+Stores long-lived tokens in the shared SQLite DB (table meta_tokens, created
+by db.init_db). Handles the 60-day refresh via the Meta token exchange
+endpoint, and fires a Telegram alert to Luigi 7 days before expiry.
 
 Token lifecycle:
   short-lived (1h) → exchange → long-lived (60d) → store → refresh at day 53
 """
 
-import asyncio
 import logging
 from datetime import datetime, timedelta, timezone
-from pathlib import Path
-from typing import Any
 
 import aiohttp
 
+from . import db
 from .config import SETTINGS
 
 logger = logging.getLogger("meta_token")
 
 _GRAPH_BASE = "https://graph.facebook.com/v19.0"
-
-_SCHEMA = """
-CREATE TABLE IF NOT EXISTS meta_tokens (
-    key TEXT PRIMARY KEY,
-    token TEXT NOT NULL,
-    expires_at TEXT NOT NULL,
-    updated_at TEXT NOT NULL
-);
-"""
-
-
-def _connect() -> Any:
-    import sqlite3
-    conn = sqlite3.connect(SETTINGS.db_path, isolation_level=None)
-    conn.row_factory = sqlite3.Row
-    conn.execute("PRAGMA journal_mode=WAL;")
-    conn.executescript(_SCHEMA)
-    return conn
 
 
 def _now() -> datetime:
@@ -49,11 +29,11 @@ def _iso(dt: datetime) -> str:
     return dt.isoformat()
 
 
-# ---------- storage ----------
+# ---------- storage (uses shared db._connect) ----------
 
 
 def save_token(key: str, token: str, expires_at: datetime) -> None:
-    conn = _connect()
+    conn = db._connect()
     try:
         conn.execute(
             """
@@ -72,7 +52,7 @@ def save_token(key: str, token: str, expires_at: datetime) -> None:
 
 
 def load_token(key: str) -> tuple[str, datetime] | None:
-    conn = _connect()
+    conn = db._connect()
     try:
         row = conn.execute(
             "SELECT token, expires_at FROM meta_tokens WHERE key = ?", (key,)
@@ -119,18 +99,20 @@ async def exchange_for_long_lived(
             if "error" in data:
                 raise ValueError(f"Meta token exchange failed: {data['error']}")
             token = data["access_token"]
-            # expires_in is in seconds; default 60 days if missing
             expires_in = int(data.get("expires_in", 60 * 24 * 3600))
             expires_at = _now() + timedelta(seconds=expires_in)
             logger.info("token_exchanged", extra={"expires_at": _iso(expires_at)})
             return token, expires_at
 
 
-# ---------- expiry check (called at startup and by daily job) ----------
+# ---------- expiry check (called by daily job in scheduler.py) ----------
 
 
-async def check_token_expiry(notify_fn: Any | None = None) -> None:
-    """Logs a warning and optionally calls notify_fn(message) if any token expires within 7 days."""
+async def check_token_expiry(notify_fn=None) -> None:
+    """Skip entirely if META_ENABLED=0 — no tokens to check."""
+    if not SETTINGS.meta_enabled:
+        return
+
     keys = ["instagram", "facebook"]
     for key in keys:
         days = days_until_expiry(key)

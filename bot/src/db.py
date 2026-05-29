@@ -7,7 +7,7 @@ can read/write without blocking each other.
 import json
 import logging
 import sqlite3
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
 
@@ -48,6 +48,13 @@ CREATE TABLE IF NOT EXISTS follower_heatmap (
     score REAL NOT NULL DEFAULT 0,
     updated_at TEXT NOT NULL,
     PRIMARY KEY (day_of_week, hour)
+);
+
+CREATE TABLE IF NOT EXISTS meta_tokens (
+    key TEXT PRIMARY KEY,
+    token TEXT NOT NULL,
+    expires_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL
 );
 """
 
@@ -212,13 +219,57 @@ def upsert_heatmap(day_of_week: int, hour: int, score: float) -> None:
         conn.close()
 
 
+def reset_stale_processing(older_than_minutes: int = 30) -> int:
+    """Reset queue items stuck in 'processing' back to 'pending'.
+
+    Called at bot startup to recover from crashes between mark-processing and mark-done.
+    Returns number of rows reset.
+    """
+    cutoff = (datetime.now(timezone.utc) - timedelta(minutes=older_than_minutes)).isoformat()
+    conn = _connect()
+    try:
+        cur = conn.execute(
+            """
+            UPDATE publication_queue SET status='pending'
+            WHERE status='processing' AND enqueued_at < ?
+            """,
+            (cutoff,),
+        )
+        count = cur.rowcount
+        if count:
+            logger.warning("stale_processing_reset", extra={"count": count, "older_than_minutes": older_than_minutes})
+        return count
+    finally:
+        conn.close()
+
+
+def get_published_today() -> list[dict[str, Any]]:
+    """Return all published_products rows from today (UTC)."""
+    today = datetime.now(timezone.utc).date().isoformat()
+    conn = _connect()
+    try:
+        rows = conn.execute(
+            "SELECT channels FROM published_products WHERE published_at >= ?",
+            (today,),
+        ).fetchall()
+    finally:
+        conn.close()
+    result = []
+    for r in rows:
+        try:
+            ch = json.loads(r["channels"])
+        except (json.JSONDecodeError, TypeError):
+            ch = {}
+        result.append(ch)
+    return result
+
+
 def best_upcoming_slot(after_iso: str, slots: list[int]) -> str | None:
     """Return the next slot hour (from `slots`) that maximises heatmap score.
 
     Falls back to the earliest slot if heatmap is empty.
     `after_iso` is an ISO datetime string; we look at the next 24h.
     """
-    from datetime import datetime, timezone, timedelta
     try:
         after = datetime.fromisoformat(after_iso)
     except ValueError:

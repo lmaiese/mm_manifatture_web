@@ -43,6 +43,8 @@ logger = logging.getLogger("main")
 
 
 async def _post_init(app: Application) -> None:
+    from .db import reset_stale_processing
+    reset_stale_processing()
     conv.reschedule_all_inactivity(app)
 
     jq = app.job_queue

@@ -42,7 +42,7 @@ async def publish(product: dict[str, Any]) -> dict[str, bool]:
         if isinstance(fb_result, Exception):
             logger.error("fb_publish_exception", extra={"error": str(fb_result)})
     else:
-        logger.info("meta_publisher_disabled", extra={"reason": "META_ENABLED not set"})
+        logger.debug("meta_publisher_disabled", extra={"reason": "META_ENABLED not set"})
 
     return result
 
