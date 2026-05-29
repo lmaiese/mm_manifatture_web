@@ -41,7 +41,7 @@ def _int_or_none(raw: str | None) -> int | None:
 
 @dataclass(frozen=True)
 class Settings:
-    telegram_token: str
+    telegram_token: str = field(repr=False)
     allowed_chat_ids: list[int] = field(default_factory=list)
     admin_chat_id: int | None = None
     photos_dir: Path = BOT_ROOT / "photos"
@@ -64,7 +64,10 @@ def load_settings() -> Settings:
     catalog_path = Path(
         os.environ.get("CATALOG_PATH") or (PROJECT_ROOT / "web" / "catalog.json")
     )
-    inactivity = int(os.environ.get("INACTIVITY_MINUTES") or 30)
+    try:
+        inactivity = int(os.environ.get("INACTIVITY_MINUTES") or 30)
+    except ValueError:
+        inactivity = 30
 
     photos_dir.mkdir(parents=True, exist_ok=True)
     db_path.parent.mkdir(parents=True, exist_ok=True)

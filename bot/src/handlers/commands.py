@@ -22,6 +22,7 @@ async def cmd_nuovo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     if chat is None:
         return
     chat_id = chat.id
+    logger.info("cmd_invoked", extra={"cmd": "nuovo", "chat_id": chat_id})
     if conv.has_active_flow(chat_id):
         await context.bot.send_message(chat_id, MESSAGES["cmd_already_in_progress"])
         return
@@ -35,6 +36,7 @@ async def cmd_annulla(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
     chat = update.effective_chat
     if chat is None:
         return
+    logger.info("cmd_invoked", extra={"cmd": "annulla", "chat_id": chat.id})
     await conv.cancel_flow(chat.id, context)
 
 
@@ -44,6 +46,7 @@ async def cmd_riprendi(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     chat = update.effective_chat
     if chat is None:
         return
+    logger.info("cmd_invoked", extra={"cmd": "riprendi", "chat_id": chat.id})
     await conv.resume_flow(chat.id, context)
 
 
@@ -53,6 +56,7 @@ async def cmd_aiuto(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     chat = update.effective_chat
     if chat is None:
         return
+    logger.info("cmd_invoked", extra={"cmd": "aiuto", "chat_id": chat.id})
     await context.bot.send_message(chat.id, conv.help_for_current_step(chat.id))
 
 
@@ -62,4 +66,5 @@ async def cmd_stato(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     chat = update.effective_chat
     if chat is None:
         return
+    logger.info("cmd_invoked", extra={"cmd": "stato", "chat_id": chat.id})
     await context.bot.send_message(chat.id, conv.status_for(chat.id))

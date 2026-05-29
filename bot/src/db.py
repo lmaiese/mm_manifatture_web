@@ -5,12 +5,15 @@ can read/write without blocking each other.
 """
 
 import json
+import logging
 import sqlite3
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
 from .config import SETTINGS
+
+logger = logging.getLogger("db")
 
 
 _SCHEMA = """
@@ -45,6 +48,10 @@ def init_db(db_path: Path | None = None) -> None:
         conn.execute("PRAGMA journal_mode=WAL;")
         conn.execute("PRAGMA synchronous=NORMAL;")
         conn.executescript(_SCHEMA)
+        logger.info("db_initialized", extra={"path": str(db_path or SETTINGS.db_path)})
+    except Exception as exc:
+        logger.error("db_init_failed", extra={"error": str(exc)})
+        raise
     finally:
         conn.close()
 
@@ -135,6 +142,14 @@ def save_product(
                 scheduled_for,
             ),
         )
-        return cur.lastrowid or 0
+        row_id = cur.lastrowid or 0
+        logger.info(
+            "product_saved",
+            extra={"chat_id": chat_id, "row_id": row_id, "scheduled_for": scheduled_for},
+        )
+        return row_id
+    except Exception as exc:
+        logger.error("product_save_failed", extra={"chat_id": chat_id, "error": str(exc)})
+        raise
     finally:
         conn.close()

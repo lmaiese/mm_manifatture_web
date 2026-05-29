@@ -4,6 +4,8 @@ import json
 import logging
 import sys
 from datetime import datetime, timezone
+from logging.handlers import RotatingFileHandler
+from pathlib import Path
 from typing import Any
 
 
@@ -36,15 +38,29 @@ class JsonFormatter(logging.Formatter):
         return json.dumps(payload, ensure_ascii=False, default=str)
 
 
-def setup_logging(level: int = logging.INFO) -> None:
+def setup_logging(level: int = logging.INFO, log_dir: Path | None = None) -> None:
     root = logging.getLogger()
     root.setLevel(level)
     # Replace any existing handlers so basicConfig from main.py legacy is wiped
     for h in list(root.handlers):
         root.removeHandler(h)
-    handler = logging.StreamHandler(sys.stdout)
-    handler.setFormatter(JsonFormatter())
-    root.addHandler(handler)
+
+    formatter = JsonFormatter()
+
+    stdout_handler = logging.StreamHandler(sys.stdout)
+    stdout_handler.setFormatter(formatter)
+    root.addHandler(stdout_handler)
+
+    if log_dir is not None:
+        log_dir.mkdir(parents=True, exist_ok=True)
+        file_handler = RotatingFileHandler(
+            log_dir / "bot.log",
+            maxBytes=10 * 1024 * 1024,  # 10 MB
+            backupCount=5,
+            encoding="utf-8",
+        )
+        file_handler.setFormatter(formatter)
+        root.addHandler(file_handler)
 
     # Tame the chattiest libs
     logging.getLogger("httpx").setLevel(logging.WARNING)

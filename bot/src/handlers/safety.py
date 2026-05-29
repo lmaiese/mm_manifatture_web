@@ -1,6 +1,7 @@
 """Whitelist gate and small safety helpers."""
 
 import logging
+import os
 
 from telegram import Update
 from telegram.ext import ContextTypes
@@ -9,11 +10,16 @@ from ..config import SETTINGS
 
 logger = logging.getLogger("safety")
 
+# Set DEV_OPEN_MODE=1 in .env to bypass whitelist during local development only.
+_DEV_OPEN_MODE = os.environ.get("DEV_OPEN_MODE", "0") == "1"
+
 
 def is_allowed(chat_id: int) -> bool:
-    # Empty whitelist = open mode (useful for local dev). In prod set the env var.
-    if not SETTINGS.allowed_chat_ids:
+    if _DEV_OPEN_MODE:
+        logger.warning("dev_open_mode_active", extra={"chat_id": chat_id})
         return True
+    if not SETTINGS.allowed_chat_ids:
+        return False
     return chat_id in SETTINGS.allowed_chat_ids
 
 

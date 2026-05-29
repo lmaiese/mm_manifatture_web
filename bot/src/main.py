@@ -19,7 +19,7 @@ from telegram.ext import (
 
 # Support both `python -m src.main` and `python src/main.py`
 try:
-    from .config import SETTINGS
+    from .config import BOT_ROOT, SETTINGS
     from .db import init_db
     from .logging_setup import setup_logging
     from .handlers import commands as cmd
@@ -29,7 +29,7 @@ except ImportError:  # pragma: no cover - script-mode fallback
     from pathlib import Path
 
     sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-    from src.config import SETTINGS  # type: ignore[no-redef]
+    from src.config import BOT_ROOT, SETTINGS  # type: ignore[no-redef]
     from src.db import init_db  # type: ignore[no-redef]
     from src.logging_setup import setup_logging  # type: ignore[no-redef]
     from src.handlers import commands as cmd  # type: ignore[no-redef]
@@ -51,14 +51,24 @@ async def _post_init(app: Application) -> None:
     )
 
 
+async def _post_shutdown(_app: Application) -> None:
+    logger.info("bot_stopping")
+
+
 def build_app() -> Application:
-    setup_logging()
+    setup_logging(log_dir=BOT_ROOT / "logs")
     init_db()
 
     if not SETTINGS.telegram_token:
         raise RuntimeError("TELEGRAM_TOKEN missing in env")
 
-    app = Application.builder().token(SETTINGS.telegram_token).post_init(_post_init).build()
+    app = (
+        Application.builder()
+        .token(SETTINGS.telegram_token)
+        .post_init(_post_init)
+        .post_shutdown(_post_shutdown)
+        .build()
+    )
 
     app.add_handler(CommandHandler("nuovo", cmd.cmd_nuovo))
     app.add_handler(CommandHandler("annulla", cmd.cmd_annulla))

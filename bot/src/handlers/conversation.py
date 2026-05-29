@@ -99,18 +99,27 @@ def _format_preview(data: dict[str, Any]) -> str:
 
 
 async def _inactivity_ping(context: ContextTypes.DEFAULT_TYPE) -> None:
-    chat_id = context.job.chat_id if context.job else None  # type: ignore[union-attr]
+    job = context.job
+    chat_id = job.chat_id if job else None  # type: ignore[union-attr]
     if chat_id is None:
         return
     state = db.load_state(chat_id)
     if state is None:
         return
-    # Only ping if no fresher update was saved since the job was scheduled
+    _, _, updated_at = state
+    scheduled_at = job.data.get("scheduled_at") if job and job.data else None  # type: ignore[union-attr]
+    if scheduled_at is not None and updated_at > scheduled_at:
+        # A newer user interaction already re-scheduled the job; skip stale ping.
+        logger.info("inactivity_ping_skipped_stale", extra={"chat_id": chat_id})
+        return
     try:
         await context.bot.send_message(chat_id=chat_id, text=MESSAGES["inactivity_ping"])
         logger.info("inactivity_ping_sent", extra={"chat_id": chat_id})
     except Exception as exc:  # noqa: BLE001
         logger.error("inactivity_ping_failed", extra={"chat_id": chat_id, "error": str(exc)})
+        return
+    # Re-schedule so the user keeps getting nudges until they act or cancel.
+    _schedule_inactivity(context, chat_id)
 
 
 def _schedule_inactivity(context: ContextTypes.DEFAULT_TYPE, chat_id: int) -> None:
@@ -125,6 +134,7 @@ def _schedule_inactivity(context: ContextTypes.DEFAULT_TYPE, chat_id: int) -> No
         when=timedelta(minutes=SETTINGS.inactivity_minutes),
         chat_id=chat_id,
         name=name,
+        data={"scheduled_at": time.time()},
     )
 
 
@@ -271,17 +281,41 @@ def _parse_price(raw: str) -> float | None:
     if not raw:
         return None
     stripped = raw.strip()
-    # Reject explicit negatives before they get cleaned to a positive number
     if stripped.startswith("-"):
         return None
     cleaned = _PRICE_RE.sub("", stripped)
     if not cleaned:
         return None
-    # If both . and , present, assume . is thousands sep (Italian style)
-    if "." in cleaned and "," in cleaned:
-        cleaned = cleaned.replace(".", "").replace(",", ".")
-    else:
+
+    dot_count = cleaned.count(".")
+    comma_count = cleaned.count(",")
+
+    if dot_count > 0 and comma_count > 0:
+        # Both present: last separator is decimal (e.g. "1.234,56" or "1,234.56")
+        last_dot = cleaned.rfind(".")
+        last_comma = cleaned.rfind(",")
+        if last_comma > last_dot:
+            # Italian style: "1.234,56" → dot=thousands, comma=decimal
+            cleaned = cleaned.replace(".", "").replace(",", ".")
+        else:
+            # English style: "1,234.56" → comma=thousands, dot=decimal
+            cleaned = cleaned.replace(",", "")
+    elif comma_count == 1:
+        # Single comma: treat as decimal separator ("12,50")
         cleaned = cleaned.replace(",", ".")
+    elif dot_count == 1:
+        # Single dot: decimal separator only if it looks like one (≤2 digits after it)
+        dot_pos = cleaned.index(".")
+        after = cleaned[dot_pos + 1:]
+        if len(after) <= 2:
+            pass  # already valid float string
+        else:
+            # 3+ digits after dot → thousands separator ("1.234" → 1234)
+            cleaned = cleaned.replace(".", "")
+    # Multiple dots with no comma: strip all dots (e.g. "1.234.567" → thousands only)
+    elif dot_count > 1:
+        cleaned = cleaned.replace(".", "")
+
     try:
         value = float(cleaned)
     except ValueError:
@@ -432,6 +466,7 @@ async def on_text(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     if step == PRICE:
         price = _parse_price(text)
         if price is None:
+            logger.warning("price_parse_failed", extra={"chat_id": chat_id, "raw": text})
             await context.bot.send_message(chat_id, MESSAGES["error_invalid_price"])
             return
         data["price"] = price
@@ -549,6 +584,7 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
     # --- PHOTO ---
     if data_token == CB_PHOTO_DONE:
         if step != PHOTO:
+            logger.warning("callback_ignored", extra={"chat_id": chat_id, "token": data_token, "step": step})
             return
         if not data.get("photos"):
             await context.bot.send_message(chat_id, MESSAGES["error_no_photos_yet"])
@@ -643,6 +679,11 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
             return
         data["_edit_return"] = True
         if target == PHOTO:
+            for p in data.get("photos") or []:
+                try:
+                    Path(p).unlink(missing_ok=True)
+                except Exception:  # noqa: BLE001
+                    pass
             data["photos"] = []
             data["_seen_media_groups"] = []
         _persist(chat_id, target, data)
