@@ -1,0 +1,780 @@
+"""Conversation flow: PHOTO -> PRICE -> SIZE -> DESCRIPTION -> WHEN -> SLOT -> CATEGORY -> PREVIEW.
+
+State is persisted to SQLite after every step so /riprendi works across
+restarts and the inactivity job can ping idle conversations.
+"""
+
+import logging
+import re
+import time
+from datetime import datetime, timedelta
+from pathlib import Path
+from typing import Any
+
+from telegram import (
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    Update,
+)
+from telegram.ext import ContextTypes
+
+from .. import catalog as catalog_io
+from .. import db
+from ..config import SETTINGS
+from ..messages import HELP_BY_STEP, MESSAGES, STEP_LABELS
+from ..publisher import publish
+from .safety import notify_admin, whitelist_guard
+
+logger = logging.getLogger("conversation")
+
+# Step constants
+PHOTO, PRICE, SIZE, DESCRIPTION, WHEN, SLOT, CATEGORY, PREVIEW = range(8)
+
+INACTIVITY_JOB_PREFIX = "inactivity_ping_"
+MEDIA_GROUP_FLUSH_SECONDS = 1.5  # wait for the rest of an album before acking
+
+# Callback data tokens
+CB_PHOTO_DONE = "photo_done"
+CB_SKIP = "skip"
+CB_WHEN_NOW = "when_now"
+CB_WHEN_SLOT = "when_slot"
+CB_WHEN_AUTO = "when_auto"
+CB_SLOT_PREFIX = "slot:"
+CB_CAT_PREFIX = "cat:"
+CB_CAT_NEW = "cat_new"
+CB_PREVIEW_CONFIRM = "pv_confirm"
+CB_PREVIEW_EDIT = "pv_edit"
+CB_PREVIEW_CANCEL = "pv_cancel"
+CB_EDIT_PREFIX = "edit:"
+
+
+# ---------- state helpers ----------
+
+
+def _empty_state() -> dict[str, Any]:
+    return {
+        "photos": [],          # list of local file paths
+        "price": None,         # float
+        "size": None,          # str | None
+        "description": None,   # str | None
+        "when": None,          # "now" | "auto" | "slot"
+        "slot": None,          # ISO datetime string when chosen
+        "category": None,      # str
+        "_edit_return": False, # if True, after current step go back to PREVIEW
+        "_seen_media_groups": [],
+    }
+
+
+def _persist(chat_id: int, step: int, data: dict[str, Any]) -> None:
+    db.save_state(chat_id, step, data)
+
+
+def _format_when(data: dict[str, Any]) -> str:
+    if data.get("when") == "now":
+        return "Adesso"
+    if data.get("when") == "auto":
+        return "Automatico"
+    slot = data.get("slot")
+    if slot:
+        try:
+            dt = datetime.fromisoformat(slot)
+            return _slot_label(dt)
+        except ValueError:
+            return slot
+    return "-"
+
+
+def _format_preview(data: dict[str, Any]) -> str:
+    return MESSAGES["step_preview"].format(
+        photos_count=len(data.get("photos") or []),
+        price=float(data.get("price") or 0.0),
+        size=data.get("size") or "-",
+        description=data.get("description") or "-",
+        when=_format_when(data),
+        category=data.get("category") or "-",
+    )
+
+
+# ---------- inactivity job ----------
+
+
+async def _inactivity_ping(context: ContextTypes.DEFAULT_TYPE) -> None:
+    chat_id = context.job.chat_id if context.job else None  # type: ignore[union-attr]
+    if chat_id is None:
+        return
+    state = db.load_state(chat_id)
+    if state is None:
+        return
+    # Only ping if no fresher update was saved since the job was scheduled
+    try:
+        await context.bot.send_message(chat_id=chat_id, text=MESSAGES["inactivity_ping"])
+        logger.info("inactivity_ping_sent", extra={"chat_id": chat_id})
+    except Exception as exc:  # noqa: BLE001
+        logger.error("inactivity_ping_failed", extra={"chat_id": chat_id, "error": str(exc)})
+
+
+def _schedule_inactivity(context: ContextTypes.DEFAULT_TYPE, chat_id: int) -> None:
+    jq = context.application.job_queue
+    if jq is None:
+        return
+    name = f"{INACTIVITY_JOB_PREFIX}{chat_id}"
+    for job in jq.get_jobs_by_name(name):
+        job.schedule_removal()
+    jq.run_once(
+        _inactivity_ping,
+        when=timedelta(minutes=SETTINGS.inactivity_minutes),
+        chat_id=chat_id,
+        name=name,
+    )
+
+
+def _cancel_inactivity(context: ContextTypes.DEFAULT_TYPE, chat_id: int) -> None:
+    jq = context.application.job_queue
+    if jq is None:
+        return
+    name = f"{INACTIVITY_JOB_PREFIX}{chat_id}"
+    for job in jq.get_jobs_by_name(name):
+        job.schedule_removal()
+
+
+# ---------- step rendering ----------
+
+
+def _photo_keyboard() -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup(
+        [[InlineKeyboardButton(MESSAGES["photo_finish_button"], callback_data=CB_PHOTO_DONE)]]
+    )
+
+
+def _skip_keyboard() -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup(
+        [[InlineKeyboardButton(MESSAGES["skip_button"], callback_data=CB_SKIP)]]
+    )
+
+
+def _when_keyboard() -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup(
+        [
+            [InlineKeyboardButton(MESSAGES["when_now_button"], callback_data=CB_WHEN_NOW)],
+            [InlineKeyboardButton(MESSAGES["when_slot_button"], callback_data=CB_WHEN_SLOT)],
+            [InlineKeyboardButton(MESSAGES["when_auto_button"], callback_data=CB_WHEN_AUTO)],
+        ]
+    )
+
+
+def _generate_slots(now: datetime | None = None) -> list[datetime]:
+    """Today 18:00, tomorrow 10:00, 18:00, 21:00. If today 18:00 already past, drop it."""
+    now = now or datetime.now()
+    today_18 = now.replace(hour=18, minute=0, second=0, microsecond=0)
+    tomorrow = (now + timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0)
+    slots: list[datetime] = []
+    if today_18 > now:
+        slots.append(today_18)
+    slots.append(tomorrow.replace(hour=10))
+    slots.append(tomorrow.replace(hour=18))
+    slots.append(tomorrow.replace(hour=21))
+    return slots
+
+
+def _slot_label(dt: datetime, ref: datetime | None = None) -> str:
+    ref = ref or datetime.now()
+    today = ref.date()
+    if dt.date() == today:
+        prefix = "Oggi"
+    elif dt.date() == (today + timedelta(days=1)):
+        prefix = "Domani"
+    else:
+        prefix = dt.strftime("%d/%m")
+    return f"{prefix} {dt.strftime('%H:%M')}"
+
+
+def _slot_keyboard() -> InlineKeyboardMarkup:
+    rows = []
+    for dt in _generate_slots():
+        rows.append([InlineKeyboardButton(_slot_label(dt), callback_data=f"{CB_SLOT_PREFIX}{dt.isoformat()}")])
+    return InlineKeyboardMarkup(rows)
+
+
+def _category_keyboard() -> InlineKeyboardMarkup:
+    cats = catalog_io.list_categories()
+    rows = []
+    for c in cats:
+        rows.append([InlineKeyboardButton(c, callback_data=f"{CB_CAT_PREFIX}{c}")])
+    rows.append([InlineKeyboardButton(MESSAGES["category_new_button"], callback_data=CB_CAT_NEW)])
+    return InlineKeyboardMarkup(rows)
+
+
+def _preview_keyboard() -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup(
+        [
+            [
+                InlineKeyboardButton(MESSAGES["preview_confirm_button"], callback_data=CB_PREVIEW_CONFIRM),
+                InlineKeyboardButton(MESSAGES["preview_edit_button"], callback_data=CB_PREVIEW_EDIT),
+            ],
+            [InlineKeyboardButton(MESSAGES["preview_cancel_button"], callback_data=CB_PREVIEW_CANCEL)],
+        ]
+    )
+
+
+def _edit_menu_keyboard() -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup(
+        [
+            [
+                InlineKeyboardButton(MESSAGES["edit_photo_button"], callback_data=f"{CB_EDIT_PREFIX}photo"),
+                InlineKeyboardButton(MESSAGES["edit_price_button"], callback_data=f"{CB_EDIT_PREFIX}price"),
+            ],
+            [
+                InlineKeyboardButton(MESSAGES["edit_size_button"], callback_data=f"{CB_EDIT_PREFIX}size"),
+                InlineKeyboardButton(MESSAGES["edit_description_button"], callback_data=f"{CB_EDIT_PREFIX}description"),
+            ],
+            [
+                InlineKeyboardButton(MESSAGES["edit_when_button"], callback_data=f"{CB_EDIT_PREFIX}when"),
+                InlineKeyboardButton(MESSAGES["edit_category_button"], callback_data=f"{CB_EDIT_PREFIX}category"),
+            ],
+        ]
+    )
+
+
+async def _ask_for_step(
+    chat_id: int,
+    step: int,
+    context: ContextTypes.DEFAULT_TYPE,
+    data: dict[str, Any] | None = None,
+) -> None:
+    """Send the prompt + keyboard for `step`. Idempotent."""
+    bot = context.bot
+    if step == PHOTO:
+        await bot.send_message(chat_id, MESSAGES["step_photo_request"], reply_markup=_photo_keyboard())
+    elif step == PRICE:
+        await bot.send_message(chat_id, MESSAGES["step_price_request"])
+    elif step == SIZE:
+        await bot.send_message(chat_id, MESSAGES["step_size_request"], reply_markup=_skip_keyboard())
+    elif step == DESCRIPTION:
+        await bot.send_message(chat_id, MESSAGES["step_description_request"], reply_markup=_skip_keyboard())
+    elif step == WHEN:
+        await bot.send_message(chat_id, MESSAGES["step_when_request"], reply_markup=_when_keyboard())
+    elif step == SLOT:
+        await bot.send_message(chat_id, MESSAGES["step_slot_request"], reply_markup=_slot_keyboard())
+    elif step == CATEGORY:
+        await bot.send_message(chat_id, MESSAGES["step_category_request"], reply_markup=_category_keyboard())
+    elif step == PREVIEW:
+        data = data or {}
+        await bot.send_message(chat_id, _format_preview(data), reply_markup=_preview_keyboard())
+
+
+# ---------- price parsing ----------
+
+_PRICE_RE = re.compile(r"[^\d,\.]")
+
+
+def _parse_price(raw: str) -> float | None:
+    if not raw:
+        return None
+    stripped = raw.strip()
+    # Reject explicit negatives before they get cleaned to a positive number
+    if stripped.startswith("-"):
+        return None
+    cleaned = _PRICE_RE.sub("", stripped)
+    if not cleaned:
+        return None
+    # If both . and , present, assume . is thousands sep (Italian style)
+    if "." in cleaned and "," in cleaned:
+        cleaned = cleaned.replace(".", "").replace(",", ".")
+    else:
+        cleaned = cleaned.replace(",", ".")
+    try:
+        value = float(cleaned)
+    except ValueError:
+        return None
+    if value < 0:
+        return None
+    return value
+
+
+# ---------- entry helpers ----------
+
+
+async def start_new_flow(chat_id: int, context: ContextTypes.DEFAULT_TYPE) -> None:
+    data = _empty_state()
+    _persist(chat_id, PHOTO, data)
+    _schedule_inactivity(context, chat_id)
+    await _ask_for_step(chat_id, PHOTO, context)
+
+
+# ---------- photo handling (media groups) ----------
+
+
+async def _flush_media_group(context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Called once per media group after MEDIA_GROUP_FLUSH_SECONDS of quiet."""
+    job = context.job
+    if job is None:
+        return
+    chat_id = job.chat_id  # type: ignore[union-attr]
+    payload = job.data or {}
+    group_id = payload.get("group_id")
+    state = db.load_state(chat_id)
+    if state is None:
+        return
+    step, data, _ = state
+    if step != PHOTO:
+        return
+    count = len(data.get("photos") or [])
+    if count == 0:
+        return
+    try:
+        await context.bot.send_message(
+            chat_id=chat_id,
+            text=MESSAGES["photo_received"].format(count=count),
+            reply_markup=_photo_keyboard(),
+        )
+        logger.info(
+            "media_group_flushed",
+            extra={"chat_id": chat_id, "group_id": group_id, "photos": count},
+        )
+    except Exception as exc:  # noqa: BLE001
+        logger.error("media_group_flush_failed", extra={"chat_id": chat_id, "error": str(exc)})
+
+
+async def on_photo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    if not await whitelist_guard(update, context):
+        return
+    chat = update.effective_chat
+    message = update.effective_message
+    if chat is None or message is None or not message.photo:
+        return
+    chat_id = chat.id
+
+    state = db.load_state(chat_id)
+    if state is None:
+        # User sent a photo without /nuovo — auto-start the flow on PHOTO
+        data = _empty_state()
+        step = PHOTO
+    else:
+        step, data, _ = state
+        if step != PHOTO:
+            await context.bot.send_message(chat_id, MESSAGES["unexpected_input"])
+            return
+
+    # Largest photo
+    photo = message.photo[-1]
+    SETTINGS.photos_dir.mkdir(parents=True, exist_ok=True)
+    index = len(data.get("photos") or [])
+    timestamp = int(time.time() * 1000)
+    file_path = SETTINGS.photos_dir / f"{chat_id}_{timestamp}_{index}.jpg"
+    try:
+        tg_file = await photo.get_file()
+        await tg_file.download_to_drive(custom_path=str(file_path))
+    except Exception as exc:  # noqa: BLE001
+        logger.error("photo_download_failed", extra={"chat_id": chat_id, "error": str(exc)})
+        await context.bot.send_message(chat_id, MESSAGES["internal_error"])
+        return
+
+    data.setdefault("photos", []).append(str(file_path))
+    _persist(chat_id, PHOTO, data)
+    _schedule_inactivity(context, chat_id)
+
+    logger.info(
+        "photo_saved",
+        extra={"chat_id": chat_id, "path": str(file_path), "count": len(data["photos"])},
+    )
+
+    group_id = message.media_group_id
+    jq = context.application.job_queue
+    if group_id and jq is not None:
+        # Collapse a whole album into one ack instead of one per photo
+        seen = data.setdefault("_seen_media_groups", [])
+        job_name = f"mg_flush_{chat_id}_{group_id}"
+        for job in jq.get_jobs_by_name(job_name):
+            job.schedule_removal()
+        jq.run_once(
+            _flush_media_group,
+            when=MEDIA_GROUP_FLUSH_SECONDS,
+            chat_id=chat_id,
+            name=job_name,
+            data={"group_id": group_id},
+        )
+        if group_id not in seen:
+            seen.append(group_id)
+            _persist(chat_id, PHOTO, data)
+        return
+
+    await context.bot.send_message(
+        chat_id,
+        MESSAGES["photo_received"].format(count=len(data["photos"])),
+        reply_markup=_photo_keyboard(),
+    )
+
+
+# ---------- text router (per step) ----------
+
+
+async def on_text(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    if not await whitelist_guard(update, context):
+        return
+    chat = update.effective_chat
+    message = update.effective_message
+    if chat is None or message is None or message.text is None:
+        return
+    chat_id = chat.id
+    text = message.text.strip()
+
+    state = db.load_state(chat_id)
+    if state is None:
+        await context.bot.send_message(chat_id, MESSAGES["help_idle"])
+        return
+    step, data, _ = state
+    _schedule_inactivity(context, chat_id)
+
+    if step == PHOTO:
+        await context.bot.send_message(chat_id, MESSAGES["error_not_a_photo"])
+        return
+
+    if step == PRICE:
+        price = _parse_price(text)
+        if price is None:
+            await context.bot.send_message(chat_id, MESSAGES["error_invalid_price"])
+            return
+        data["price"] = price
+        await _advance_after(chat_id, PRICE, data, context)
+        return
+
+    if step == SIZE:
+        data["size"] = text
+        await _advance_after(chat_id, SIZE, data, context)
+        return
+
+    if step == DESCRIPTION:
+        data["description"] = text
+        await _advance_after(chat_id, DESCRIPTION, data, context)
+        return
+
+    if step == CATEGORY:
+        # Only reached when user is typing a NEW category name
+        if not data.get("_awaiting_new_category"):
+            await context.bot.send_message(chat_id, MESSAGES["unexpected_input"])
+            return
+        cats = catalog_io.add_category(text)
+        data["_awaiting_new_category"] = False
+        data["category"] = text.strip()
+        logger.info("category_added", extra={"chat_id": chat_id, "name": text, "total": len(cats)})
+        await context.bot.send_message(chat_id, MESSAGES["category_added"].format(name=text.strip()))
+        await _advance_after(chat_id, CATEGORY, data, context)
+        return
+
+    if step in (WHEN, SLOT, PREVIEW):
+        await context.bot.send_message(chat_id, MESSAGES["unexpected_input"])
+        return
+
+
+# ---------- step transition ----------
+
+
+async def _advance_after(
+    chat_id: int,
+    completed: int,
+    data: dict[str, Any],
+    context: ContextTypes.DEFAULT_TYPE,
+) -> None:
+    """Persist completed step's data, then move to next state and prompt."""
+    logger.info(
+        "step_completed",
+        extra={
+            "chat_id": chat_id,
+            "step": STEP_LABELS.get(completed, str(completed)),
+            "data": {
+                k: v for k, v in data.items() if not k.startswith("_")
+            },
+        },
+    )
+
+    # If user is editing a single field, jump back to PREVIEW
+    if data.get("_edit_return"):
+        data["_edit_return"] = False
+        _persist(chat_id, PREVIEW, data)
+        await _ask_for_step(chat_id, PREVIEW, context, data)
+        return
+
+    next_step = _next_step(completed, data)
+    _persist(chat_id, next_step, data)
+    if next_step == PREVIEW:
+        await _ask_for_step(chat_id, PREVIEW, context, data)
+    else:
+        await _ask_for_step(chat_id, next_step, context)
+
+
+def _next_step(current: int, data: dict[str, Any]) -> int:
+    if current == PHOTO:
+        return PRICE
+    if current == PRICE:
+        return SIZE
+    if current == SIZE:
+        return DESCRIPTION
+    if current == DESCRIPTION:
+        return WHEN
+    if current == WHEN:
+        # If user chose slot, SLOT step handled by callback. Now/auto skip to CATEGORY.
+        if data.get("when") in ("now", "auto"):
+            return CATEGORY
+        return SLOT
+    if current == SLOT:
+        return CATEGORY
+    if current == CATEGORY:
+        return PREVIEW
+    return PREVIEW
+
+
+# ---------- callback router ----------
+
+
+async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    if not await whitelist_guard(update, context):
+        return
+    query = update.callback_query
+    if query is None or query.data is None:
+        return
+    chat = update.effective_chat
+    if chat is None:
+        return
+    chat_id = chat.id
+    data_token = query.data
+    await query.answer()
+
+    state = db.load_state(chat_id)
+    if state is None:
+        await context.bot.send_message(chat_id, MESSAGES["help_idle"])
+        return
+    step, data, _ = state
+    _schedule_inactivity(context, chat_id)
+
+    # --- PHOTO ---
+    if data_token == CB_PHOTO_DONE:
+        if step != PHOTO:
+            return
+        if not data.get("photos"):
+            await context.bot.send_message(chat_id, MESSAGES["error_no_photos_yet"])
+            return
+        await _advance_after(chat_id, PHOTO, data, context)
+        return
+
+    # --- SKIP (used by SIZE and DESCRIPTION) ---
+    if data_token == CB_SKIP:
+        if step == SIZE:
+            data["size"] = None
+            await _advance_after(chat_id, SIZE, data, context)
+            return
+        if step == DESCRIPTION:
+            data["description"] = None
+            await _advance_after(chat_id, DESCRIPTION, data, context)
+            return
+        return
+
+    # --- WHEN ---
+    if data_token in (CB_WHEN_NOW, CB_WHEN_SLOT, CB_WHEN_AUTO):
+        if step != WHEN:
+            return
+        if data_token == CB_WHEN_NOW:
+            data["when"] = "now"
+            data["slot"] = None
+        elif data_token == CB_WHEN_AUTO:
+            data["when"] = "auto"
+            data["slot"] = None
+        else:
+            data["when"] = "slot"
+        await _advance_after(chat_id, WHEN, data, context)
+        return
+
+    # --- SLOT ---
+    if data_token.startswith(CB_SLOT_PREFIX):
+        if step != SLOT:
+            return
+        data["slot"] = data_token[len(CB_SLOT_PREFIX) :]
+        await _advance_after(chat_id, SLOT, data, context)
+        return
+
+    # --- CATEGORY ---
+    if data_token == CB_CAT_NEW:
+        if step != CATEGORY:
+            return
+        data["_awaiting_new_category"] = True
+        _persist(chat_id, CATEGORY, data)
+        await context.bot.send_message(chat_id, MESSAGES["step_category_new_request"])
+        return
+
+    if data_token.startswith(CB_CAT_PREFIX):
+        if step != CATEGORY:
+            return
+        data["category"] = data_token[len(CB_CAT_PREFIX) :]
+        data["_awaiting_new_category"] = False
+        await _advance_after(chat_id, CATEGORY, data, context)
+        return
+
+    # --- PREVIEW ---
+    if data_token == CB_PREVIEW_CONFIRM:
+        if step != PREVIEW:
+            return
+        await _confirm_publish(chat_id, data, context)
+        return
+
+    if data_token == CB_PREVIEW_EDIT:
+        if step != PREVIEW:
+            return
+        await context.bot.send_message(chat_id, MESSAGES["edit_menu"], reply_markup=_edit_menu_keyboard())
+        return
+
+    if data_token == CB_PREVIEW_CANCEL:
+        if step != PREVIEW:
+            return
+        await cancel_flow(chat_id, context)
+        return
+
+    if data_token.startswith(CB_EDIT_PREFIX):
+        if step != PREVIEW:
+            return
+        field = data_token[len(CB_EDIT_PREFIX) :]
+        target = {
+            "photo": PHOTO,
+            "price": PRICE,
+            "size": SIZE,
+            "description": DESCRIPTION,
+            "when": WHEN,
+            "category": CATEGORY,
+        }.get(field)
+        if target is None:
+            return
+        data["_edit_return"] = True
+        if target == PHOTO:
+            data["photos"] = []
+            data["_seen_media_groups"] = []
+        _persist(chat_id, target, data)
+        await _ask_for_step(chat_id, target, context, data)
+        return
+
+
+# ---------- confirm / cancel ----------
+
+
+async def _confirm_publish(
+    chat_id: int,
+    data: dict[str, Any],
+    context: ContextTypes.DEFAULT_TYPE,
+) -> None:
+    await context.bot.send_message(chat_id, MESSAGES["publishing"])
+    product = {
+        "photos": data.get("photos") or [],
+        "price": data.get("price"),
+        "size": data.get("size"),
+        "description": data.get("description"),
+        "when": data.get("when"),
+        "slot": data.get("slot"),
+        "category": data.get("category"),
+    }
+    try:
+        result = await publish(product)
+    except Exception as exc:  # noqa: BLE001
+        logger.error("publish_failed", extra={"chat_id": chat_id, "error": str(exc)})
+        await context.bot.send_message(chat_id, MESSAGES["internal_error"])
+        await notify_admin(context, f"publish_failed chat={chat_id} error={exc}")
+        return
+
+    scheduled_for = data.get("slot") if data.get("when") == "slot" else None
+    db.save_product(chat_id, product, result, scheduled_for=scheduled_for)
+    db.clear_state(chat_id)
+    _cancel_inactivity(context, chat_id)
+
+    await context.bot.send_message(
+        chat_id,
+        MESSAGES["publish_ok"].format(
+            site="OK" if result.get("site") else "KO",
+            instagram="OK" if result.get("instagram") else "KO",
+            facebook="OK" if result.get("facebook") else "KO",
+        ),
+    )
+
+    if not all(result.values()):
+        await notify_admin(
+            context,
+            MESSAGES["publish_partial_alert"].format(chat_id=chat_id, result=result),
+        )
+
+
+async def cancel_flow(chat_id: int, context: ContextTypes.DEFAULT_TYPE) -> None:
+    state = db.load_state(chat_id)
+    if state is not None:
+        # Clean up half-downloaded photos to keep the dir tidy
+        _, data, _ = state
+        for p in data.get("photos") or []:
+            try:
+                Path(p).unlink(missing_ok=True)
+            except Exception:  # noqa: BLE001
+                pass
+    db.clear_state(chat_id)
+    _cancel_inactivity(context, chat_id)
+    await context.bot.send_message(chat_id, MESSAGES["cmd_cancelled"])
+    logger.info("flow_cancelled", extra={"chat_id": chat_id})
+
+
+# ---------- resume / state / help ----------
+
+
+async def resume_flow(chat_id: int, context: ContextTypes.DEFAULT_TYPE) -> bool:
+    state = db.load_state(chat_id)
+    if state is None:
+        await context.bot.send_message(chat_id, MESSAGES["cmd_nothing_to_resume"])
+        return False
+    step, data, _ = state
+    _schedule_inactivity(context, chat_id)
+    await context.bot.send_message(chat_id, MESSAGES["cmd_resumed"])
+    if step == PREVIEW:
+        await _ask_for_step(chat_id, PREVIEW, context, data)
+    else:
+        await _ask_for_step(chat_id, step, context, data)
+    return True
+
+
+def help_for_current_step(chat_id: int) -> str:
+    state = db.load_state(chat_id)
+    if state is None:
+        return MESSAGES["help_idle"]
+    step, _, _ = state
+    return HELP_BY_STEP.get(step, MESSAGES["help_idle"])
+
+
+def status_for(chat_id: int) -> str:
+    state = db.load_state(chat_id)
+    if state is None:
+        return MESSAGES["cmd_state_empty"]
+    step, data, _ = state
+    label = STEP_LABELS.get(step, str(step))
+    summary_lines = []
+    summary_lines.append(f"- foto: {len(data.get('photos') or [])}")
+    price = data.get("price")
+    summary_lines.append(f"- prezzo: {f'EUR {price:.2f}' if price is not None else '-'}")
+    summary_lines.append(f"- taglia: {data.get('size') or '-'}")
+    summary_lines.append(f"- descrizione: {data.get('description') or '-'}")
+    summary_lines.append(f"- quando: {_format_when(data)}")
+    summary_lines.append(f"- categoria: {data.get('category') or '-'}")
+    return MESSAGES["cmd_state_header"].format(step=label, data="\n".join(summary_lines))
+
+
+def has_active_flow(chat_id: int) -> bool:
+    return db.load_state(chat_id) is not None
+
+
+# ---------- startup: reschedule inactivity for existing chats ----------
+
+
+def reschedule_all_inactivity(application) -> None:
+    """Called at startup so persistent state still triggers timeouts."""
+    jq = application.job_queue
+    if jq is None:
+        return
+    for chat_id, _updated_at in db.all_active_chats():
+        name = f"{INACTIVITY_JOB_PREFIX}{chat_id}"
+        for job in jq.get_jobs_by_name(name):
+            job.schedule_removal()
+        jq.run_once(
+            _inactivity_ping,
+            when=timedelta(minutes=SETTINGS.inactivity_minutes),
+            chat_id=chat_id,
+            name=name,
+        )
