@@ -8,12 +8,14 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: '#f6f7f9',
-        foreground: '#1b1b1b',
-        accent: '#d27684',
-        'accent-hover': '#c4606e',
-        muted: '#919191',
-        border: '#e6e6e6',
+        background: 'var(--background)',
+        foreground: 'var(--foreground)',
+        accent: 'var(--accent)',
+        'accent-hover': 'var(--accent-hover)',
+        muted: 'var(--muted)',
+        border: 'var(--border)',
+        'footer-bg': 'var(--footer-bg)',
+        'footer-text': 'var(--footer-text)',
         white: '#ffffff',
       },
       fontFamily: {

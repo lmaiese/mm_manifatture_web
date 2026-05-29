@@ -5,7 +5,7 @@ export default function ProductCard({ product }: { product: Product }) {
   const photo = product.photos?.[0]
 
   return (
-    <article className="bg-white rounded-lg border border-border overflow-hidden hover:shadow-md transition-shadow flex flex-col">
+    <article className="bg-white rounded-lg border border-border overflow-hidden flex flex-col product-card">
       <div className="aspect-square relative bg-background overflow-hidden">
         {photo ? (
           <Image

@@ -1,15 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@400;500;600&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@400;500;600&display=swap');
-
 :root {
-  --background: #f6f7f9;
+  --background: #fdf9f4;
   --foreground: #1b1b1b;
   --accent: #d27684;
-  --muted: #919191;
-  --border: #e6e6e6;
+  --accent-hover: #c4606e;
+  --muted: #8a8279;
+  --border: #e8e0d8;
+  --footer-bg: #1b1b1b;
+  --footer-text: #c8bfb8;
+  --footer-link-hover: #d27684;
 }
 
 html {
@@ -25,4 +29,32 @@ body {
 
 h1, h2, h3 {
   font-family: 'Source Serif 4', Georgia, serif;
+}
+
+.hero-section {
+  background: linear-gradient(160deg, #fdf9f4 0%, #f9ede8 60%, #fdf9f4 100%);
+}
+
+.product-card {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.product-card:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.footer-dark {
+  background-color: var(--footer-bg);
+  color: var(--footer-text);
+}
+
+.footer-link {
+  color: var(--footer-text);
+  transition: color 0.15s;
+}
+
+.footer-link:hover {
+  color: var(--footer-link-hover);
 }

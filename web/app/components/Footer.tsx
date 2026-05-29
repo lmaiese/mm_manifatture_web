@@ -1,17 +1,25 @@
 import Link from 'next/link'
 
+const FOOTER_LINKS = [
+  { href: '/note-legali', label: 'Note legali' },
+  { href: '/note-legali#privacy', label: 'Privacy' },
+  { href: '/note-legali#cookie', label: 'Cookie' },
+  { href: '/contatti', label: 'Contatti' },
+]
+
 export default function Footer() {
   const year = new Date().getFullYear()
   return (
-    <footer className="border-t border-border mt-16">
-      <div className="max-w-5xl mx-auto px-4 py-8 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted">
-        <p>© {year} M&M Manifatture di Scarpa Monica</p>
-        <div className="flex gap-6">
-          <Link href="/note-legali" className="hover:text-accent transition-colors">Note legali</Link>
-          <Link href="/note-legali#privacy" className="hover:text-accent transition-colors">Privacy</Link>
-          <Link href="/note-legali#cookie" className="hover:text-accent transition-colors">Cookie</Link>
-          <Link href="/contatti" className="hover:text-accent transition-colors">Contatti</Link>
-        </div>
+    <footer className="mt-16 footer-dark">
+      <div className="max-w-5xl mx-auto px-4 py-8 flex flex-col md:flex-row items-center justify-between gap-4 text-sm">
+        <p>© {year} M&amp;M Manifatture di Scarpa Monica</p>
+        <nav className="flex gap-6">
+          {FOOTER_LINKS.map(({ href, label }) => (
+            <Link key={href} href={href} className="footer-link">
+              {label}
+            </Link>
+          ))}
+        </nav>
       </div>
     </footer>
   )

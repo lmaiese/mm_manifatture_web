@@ -10,19 +10,21 @@ export default function HomePage() {
   return (
     <>
       {/* Hero */}
-      <section className="max-w-5xl mx-auto px-4 pt-16 pb-12 text-center">
-        <h1 className="font-serif text-4xl md:text-5xl font-semibold text-foreground leading-tight mb-4">
-          Artigianato fatto a mano,<br className="hidden md:block" /> con cura
-        </h1>
-        <p className="text-muted text-lg max-w-xl mx-auto mb-8">
-          Ogni pezzo è unico. Realizzato personalmente da Monica Scarpa con materiali scelti e attenzione al dettaglio.
-        </p>
-        <Link
-          href="/prodotti"
-          className="inline-block px-8 py-3 bg-accent text-white font-medium rounded hover:bg-accent-hover transition-colors"
-        >
-          Sfoglia i prodotti
-        </Link>
+      <section className="hero-section">
+        <div className="max-w-5xl mx-auto px-4 pt-16 pb-12 text-center relative z-10">
+          <h1 className="font-serif text-4xl md:text-5xl font-semibold text-foreground leading-tight mb-4">
+            Artigianato fatto a mano,<br className="hidden md:block" /> con cura
+          </h1>
+          <p className="text-lg max-w-xl mx-auto mb-8" style={{color: 'var(--muted)'}}>
+            Ogni pezzo è unico. Realizzato personalmente da Monica Scarpa con materiali scelti e attenzione al dettaglio.
+          </p>
+          <Link
+            href="/prodotti"
+            className="inline-block px-8 py-3 bg-accent text-white font-medium rounded hover:bg-accent-hover transition-colors"
+          >
+            Sfoglia i prodotti
+          </Link>
+        </div>
       </section>
 
       {/* Divider */}
