@@ -1,0 +1,91 @@
+[
+  {
+    "id": "meta_instagram_token",
+    "type": "expiry",
+    "label": "Token Meta Instagram",
+    "expiry_date": null,
+    "warn_days_before": 7,
+    "email": "maieseluigi@gmail.com",
+    "note": "Rinnova via script refresh_meta_token.py oppure manualmente da Meta for Developers"
+  },
+  {
+    "id": "meta_facebook_token",
+    "type": "expiry",
+    "label": "Token Meta Facebook",
+    "expiry_date": null,
+    "warn_days_before": 7,
+    "email": "maieseluigi@gmail.com",
+    "note": "Rinnova via script refresh_meta_token.py oppure manualmente da Meta for Developers"
+  },
+  {
+    "id": "meta_app_review",
+    "type": "once",
+    "label": "App review Meta — da completare prima di Sprint 4",
+    "due_date": null,
+    "email": "maieseluigi@gmail.com",
+    "note": "Richiede approvazione permessi instagram_content_publish e pages_manage_posts"
+  },
+  {
+    "id": "domain_renewal",
+    "type": "expiry",
+    "label": "Rinnovo dominio negozio",
+    "expiry_date": null,
+    "warn_days_before": 30,
+    "email": "maieseluigi@gmail.com",
+    "note": "Verifica su registrar"
+  },
+  {
+    "id": "hetzner_vps",
+    "type": "expiry",
+    "label": "Rinnovo VPS Hetzner (v2)",
+    "expiry_date": null,
+    "warn_days_before": 7,
+    "email": "maieseluigi@gmail.com",
+    "note": "Attivo da v2 — aggiorna expiry_date quando sottoscritto"
+  },
+  {
+    "id": "kill_criteria_check",
+    "type": "recurring",
+    "label": "Kill criteria check — verifica prodotti pubblicati",
+    "recurrence_days": 14,
+    "start_date": null,
+    "email": "maieseluigi@gmail.com",
+    "note": "Controlla: <8 prodotti totali in 8 settimane = archivio. Aggiorna start_date al go-live"
+  },
+  {
+    "id": "heatmap_quality_check",
+    "type": "recurring",
+    "label": "Verifica qualità heatmap follower",
+    "recurrence_days": 30,
+    "start_date": null,
+    "email": "maieseluigi@gmail.com",
+    "note": "I dati Instagram Insights sono rappresentativi? Base follower cresciuta? Aggiorna start_date al go-live Sprint 4"
+  },
+  {
+    "id": "anthropic_budget",
+    "type": "recurring",
+    "label": "Check budget Anthropic API",
+    "recurrence_days": 30,
+    "start_date": null,
+    "email": "maieseluigi@gmail.com",
+    "note": "Verifica consumo mensile su console.anthropic.com — soglia attesa <5€/mese"
+  },
+  {
+    "id": "cloudinary_storage",
+    "type": "recurring",
+    "label": "Check storage Cloudinary",
+    "recurrence_days": 30,
+    "start_date": null,
+    "email": "maieseluigi@gmail.com",
+    "note": "Free tier: 25GB. Verifica su cloudinary.com/console — se >20GB pianifica cleanup o upgrade"
+  },
+  {
+    "id": "icloud_backup_check",
+    "type": "recurring",
+    "label": "Verifica backup notturno iCloud (SQLite + .env + foto)",
+    "recurrence_days": 7,
+    "start_date": null,
+    "email": "maieseluigi@gmail.com",
+    "note": "Conferma che il backup è avvenuto negli ultimi 7 giorni. Aggiorna start_date quando backup attivo"
+  }
+]

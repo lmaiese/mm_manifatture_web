@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.mmbot.reminders</string>
+
+  <key>ProgramArguments</key>
+  <array>
+    <string>/Users/maiesel/Obsidian/mm_manifatture_web/bot/.venv/bin/python</string>
+    <string>/Users/maiesel/Obsidian/mm_manifatture_web/bot/src/reminders/send.py</string>
+  </array>
+
+  <!-- Ogni mattina alle 08:00 -->
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Hour</key>
+    <integer>8</integer>
+    <key>Minute</key>
+    <integer>0</integer>
+  </dict>
+
+  <key>WorkingDirectory</key>
+  <string>/Users/maiesel/Obsidian/mm_manifatture_web/bot</string>
+
+  <key>StandardOutPath</key>
+  <string>/Users/maiesel/Obsidian/mm_manifatture_web/bot/logs/reminders.log</string>
+
+  <key>StandardErrorPath</key>
+  <string>/Users/maiesel/Obsidian/mm_manifatture_web/bot/logs/reminders_error.log</string>
+
+  <key>RunAtLoad</key>
+  <false/>
+</dict>
+</plist>
