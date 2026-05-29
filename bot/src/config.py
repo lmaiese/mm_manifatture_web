@@ -58,6 +58,12 @@ class Settings:
     github_token: str = field(default="", repr=False)
     github_repo: str = "lmaiese/mm_manifatture_web"
     vercel_deploy_hook: str = field(default="", repr=False)
+    # Sprint 4 — Meta Graph API
+    instagram_user_id: str = field(default="", repr=False)
+    instagram_access_token: str = field(default="", repr=False)
+    facebook_page_id: str = field(default="", repr=False)
+    facebook_access_token: str = field(default="", repr=False)
+    meta_enabled: bool = False
 
 
 def load_settings() -> Settings:
@@ -97,6 +103,11 @@ def load_settings() -> Settings:
         github_token=os.environ.get("GITHUB_TOKEN", ""),
         github_repo=os.environ.get("GITHUB_REPO", "lmaiese/mm_manifatture_web"),
         vercel_deploy_hook=os.environ.get("VERCEL_DEPLOY_HOOK", ""),
+        instagram_user_id=os.environ.get("INSTAGRAM_USER_ID", ""),
+        instagram_access_token=os.environ.get("INSTAGRAM_ACCESS_TOKEN", ""),
+        facebook_page_id=os.environ.get("FACEBOOK_PAGE_ID", ""),
+        facebook_access_token=os.environ.get("FACEBOOK_ACCESS_TOKEN", ""),
+        meta_enabled=os.environ.get("META_ENABLED", "0") == "1",
     )
 
 

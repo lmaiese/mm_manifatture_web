@@ -890,12 +890,18 @@ async def _confirm_publish(
     db.clear_state(chat_id)
     _cancel_inactivity(context, chat_id)
 
+    def _status(ok: bool) -> str:
+        return "✅" if ok else "❌"
+
     await context.bot.send_message(
         chat_id,
         MESSAGES["publish_ok"].format(
-            site="OK" if result.get("site") else "KO",
-            instagram="OK" if result.get("instagram") else "KO",
-            facebook="OK" if result.get("facebook") else "KO",
+            site_icon="🌐",
+            ig_icon="📸",
+            fb_icon="👥",
+            site=_status(result.get("site", False)),
+            instagram=_status(result.get("instagram", False)),
+            facebook=_status(result.get("facebook", False)),
         ),
     )
 

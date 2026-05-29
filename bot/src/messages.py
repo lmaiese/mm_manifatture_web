@@ -80,12 +80,12 @@ MESSAGES: dict[str, str] = {
     # Publish outcome
     "publishing": "⏳ Sto pubblicando...",
     "publish_ok": (
-        "Pubblicato!\n"
-        "Sito: {site}\n"
-        "Instagram: {instagram}\n"
-        "Facebook: {facebook}"
+        "Pubblicato! 🎉\n\n"
+        "{site_icon} Sito: {site}\n"
+        "{ig_icon} Instagram: {instagram}\n"
+        "{fb_icon} Facebook: {facebook}"
     ),
-    "publish_partial_alert": "Attenzione: pubblicazione parziale per chat {chat_id}: {result}",
+    "publish_partial_alert": "⚠️ Pubblicazione parziale per chat {chat_id}: {result}",
     # Commands
     "cmd_already_in_progress": (
         "Hai gia' una pubblicazione in corso. /annulla per ricominciare."
