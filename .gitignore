@@ -1,10 +1,12 @@
 # Bot
+bot/.venv/
 bot/.env
 bot/__pycache__/
 bot/**/__pycache__/
 bot/*.pyc
 bot/bot.sqlite
 bot/logs/
+bot/data/reminders_state.json
 
 # Web
 web/node_modules/
