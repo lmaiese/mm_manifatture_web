@@ -7,6 +7,8 @@ MESSAGES: dict[str, str] = {
         "Con /nuovo pubblichi un prodotto su sito e social in pochi passi.\n\n"
         "Comandi disponibili:\n"
         "/nuovo — inizia una nuova pubblicazione\n"
+        "/rimuovi — nascondi un prodotto dal sito\n"
+        "/lista — ultimi 5 prodotti pubblicati\n"
         "/riprendi — riprendi una pubblicazione in corso\n"
         "/stato — vedi cosa hai inserito finora\n"
         "/annulla — annulla e ricomincia\n"
