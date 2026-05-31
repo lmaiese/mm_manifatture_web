@@ -1,0 +1,43 @@
+{
+  "examples": [
+    {
+      "input": {
+        "description": "Maglioncino in lana merinos avorio con colletto a barchetta, lavorato a maglia a punto arroz, rifinito a mano",
+        "price": 38.00,
+        "size": "3-4 anni",
+        "category": "maglioncino bambino"
+      },
+      "output": {
+        "site": "Maglioncino in lana merinos avorio, lavorato a mano con punto arroz e colletto a barchetta. Morbido sulla pelle delicata dei bambini, caldo nelle giornate fresche. Taglia 3-4 anni. Pezzo unico, prodotto artigianalmente a Napoli. €38,00.",
+        "instagram": "Quel punto arroz che Monica conosce a memoria da vent'anni. 🧶 Lana merinos, mani esperte, un bambino che ha caldo. ✨\n\n#artigianatomoderno #magliettabambino #fattaamano #lanamerinositaliano #madeinsud #manifatturanapoletana #regaloartigianale",
+        "facebook": "C'è qualcosa di speciale nel tenere in mano un maglioncino che sai essere unico. Questo avorio in lana merinos lo ha lavorato Monica punto per punto, con il colletto a barchetta che lei usa solo per i pezzi che ama di più. Taglia 3-4 anni, caldo senza pesare, morbido come dovrebbe essere tutto ciò che tocca la pelle dei bambini. Disponibile su ordinazione. €38,00 💛"
+      }
+    },
+    {
+      "input": {
+        "description": "Bambola di pezza con corpino rosa cipria, capelli in lana riccioluta color miele, viso dipinto a mano con espressione sognante",
+        "price": 42.00,
+        "size": null,
+        "category": "bambola artigianale"
+      },
+      "output": {
+        "site": "Bambola di pezza con corpino rosa cipria e capelli ricci in lana miele. Viso dipinto a mano da Monica, ogni espressione è diversa dall'altra. Altezza circa 32 cm. Ideale come regalo da conservare. Pezzo unico. €42,00.",
+        "instagram": "Ogni bambola ha un'espressione che Monica decide nell'ultimo momento. 🎨 Quella sognante è la preferita. Rosa cipria, riccioli miele, mani che sanno fare. 🌸\n\n#bambolartigianale #fattaamano #dolcezzaartigianale #regalospeciale #bamboledistracci #artigianatoitaliano #madewithlove",
+        "facebook": "Monica dipinge il viso di ogni bambola per ultima. Dice che è il momento in cui il giocattolo diventa un personaggio. Questa ha i capelli ricci in lana miele e un'espressione sognante che non si dimentica facilmente. Il corpino è rosa cipria, cucito a mano, con piccoli dettagli che si scoprono solo avvicinandosi. Non ne farà un'altra uguale. €42,00 🌸"
+      }
+    },
+    {
+      "input": {
+        "description": "Sciarpa in lana grossa a righe orizzontali tortora e cammello, lavorata a uncinetto con frange",
+        "price": 28.00,
+        "size": null,
+        "category": "accessorio"
+      },
+      "output": {
+        "site": "Sciarpa in lana grossa a righe tortora e cammello, lavorata a uncinetto con frange alle estremità. Lunghezza 170 cm, larghezza 20 cm. Calda e avvolgente, adatta a uomo e donna. Produzione artigianale. €28,00.",
+        "instagram": "Tortora e cammello, due colori che non stancano mai. 🤎 Uncinetto largo, frange, lana che scalda davvero. Inverno fatto a mano. 🧣\n\n#sciarpafattaamano #artigianatoitaliano #uncinetto #accessoriinvernali #modaartigianale #fattoaconnmore #regaloartigianale",
+        "facebook": "Ci sono colori neutri che durano vent'anni nel guardaroba. Tortora e cammello sono quelli. Monica ha fatto questa sciarpa a grandi maglie di uncinetto, con le frange che si muovono quando cammini. 170 cm di caldo artigianale che si abbina a tutto. €28,00 🤎"
+      }
+    }
+  ]
+}
