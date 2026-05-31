@@ -21,7 +21,8 @@ MESSAGES: dict[str, str] = {
     "error_not_a_photo": "Mandami una foto. Oppure /annulla per uscire.",
     "error_no_photos_yet": "Devi mandarmi almeno una foto prima di andare avanti.",
     # PRICE step
-    "step_price_request": "Quanto costa? (scrivi solo il numero, es: 25)",
+    "step_price_request": "Quanto costa? Scegli un prezzo o premi ✏️ per scriverne uno.",
+    "price_custom_request": "Scrivi il prezzo (es: 25 oppure 25,50):",
     "error_invalid_price": (
         "Non ho capito il prezzo. Scrivi solo il numero, es: 25 oppure 25,50"
     ),

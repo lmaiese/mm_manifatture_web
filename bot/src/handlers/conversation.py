@@ -54,6 +54,9 @@ CB_CANCEL_CONFIRM  = "cancel_yes"
 CB_CANCEL_ABORT    = "cancel_no"
 CB_PRICE_OK        = "price_ok"
 CB_PRICE_REDO      = "price_redo"
+CB_PRICE_PRESET    = "price_pre:"   # prefix + int amount
+CB_PRICE_CUSTOM    = "price_custom"
+_PRICE_PRESETS     = [15, 25, 35, 45]
 _PRICE_HIGH_THRESHOLD = 1_000.0
 CB_AI_USE = "ai_use"
 CB_AI_USE_MINE = "ai_use_mine"
@@ -270,6 +273,20 @@ def _price_confirm_keyboard() -> InlineKeyboardMarkup:
     ])
 
 
+def _price_quick_keyboard() -> InlineKeyboardMarkup:
+    rows: list[list[InlineKeyboardButton]] = []
+    row: list[InlineKeyboardButton] = []
+    for p in _PRICE_PRESETS:
+        row.append(InlineKeyboardButton(f"€{p}", callback_data=f"{CB_PRICE_PRESET}{p}"))
+        if len(row) == 2:
+            rows.append(row)
+            row = []
+    if row:
+        rows.append(row)
+    rows.append([InlineKeyboardButton("✏️ Personalizzato", callback_data=CB_PRICE_CUSTOM)])
+    return InlineKeyboardMarkup(rows)
+
+
 def _cancel_confirm_keyboard() -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup([
         [
@@ -426,7 +443,7 @@ async def _ask_for_step(
     if step == PHOTO:
         msg = await bot.send_message(chat_id, MESSAGES["step_photo_request"], reply_markup=_photo_keyboard())
     elif step == PRICE:
-        msg = await bot.send_message(chat_id, MESSAGES["step_price_request"])
+        msg = await bot.send_message(chat_id, MESSAGES["step_price_request"], reply_markup=_price_quick_keyboard())
     elif step == SIZE:
         msg = await bot.send_message(chat_id, MESSAGES["step_size_request"], reply_markup=_size_keyboard())
     elif step == DESCRIPTION:
@@ -794,6 +811,36 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
     step, data, _ = state
     _schedule_inactivity(context, chat_id)
 
+    # --- PRICE QUICK SELECT ---
+    if data_token.startswith(CB_PRICE_PRESET):
+        if step != PRICE:
+            return
+        try:
+            price = float(data_token[len(CB_PRICE_PRESET):])
+        except ValueError:
+            return
+        try:
+            await query.edit_message_reply_markup(reply_markup=None)
+        except Exception:  # noqa: BLE001
+            pass
+        data["price"] = price
+        data.pop("_price_high_pending", None)
+        data.pop("_price_confirmed", None)
+        await _advance_after(chat_id, PRICE, data, context)
+        return
+
+    if data_token == CB_PRICE_CUSTOM:
+        if step != PRICE:
+            return
+        try:
+            await query.edit_message_reply_markup(reply_markup=None)
+        except Exception:  # noqa: BLE001
+            pass
+        msg = await context.bot.send_message(chat_id, MESSAGES["price_custom_request"])
+        data.setdefault("_bot_msg_ids", []).append(msg.message_id)
+        _persist(chat_id, PRICE, data)
+        return
+
     # --- PRICE HIGH CONFIRM ---
     if data_token == CB_PRICE_OK:
         if step != PRICE:
@@ -807,7 +854,11 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
             return
         data.pop("price", None)
         data.pop("_price_high_pending", None)
-        msg = await context.bot.send_message(chat_id, MESSAGES["step_price_request"])
+        try:
+            await query.edit_message_reply_markup(reply_markup=None)
+        except Exception:  # noqa: BLE001
+            pass
+        msg = await context.bot.send_message(chat_id, MESSAGES["step_price_request"], reply_markup=_price_quick_keyboard())
         data.setdefault("_bot_msg_ids", []).append(msg.message_id)
         _persist(chat_id, PRICE, data)
         return
