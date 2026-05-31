@@ -95,51 +95,6 @@
         "/products/08.jpg"
       ],
       "published": true
-    },
-    {
-      "id": "12057268-1616-4c9f-9ac3-2dd66b9bd26e",
-      "created_at": "2026-05-31T22:23:40.124652+00:00",
-      "category": "Altro",
-      "price": 25.0,
-      "size": "XL",
-      "description_site": "Speaker in legno artigianale per riprodurre musica — design XL, realizzato con cura e materiali naturali. Suono caldo e autentico. €25,00.",
-      "description_instagram": "🎵 Musica con stile artigianale! Speaker in legno, XL, perfetto per ogni ambiente 🤍\n\n€25 · Disponibile ora\n\n#artigianato #speaker #musica #legno #fattoadamano",
-      "description_facebook": "🎶 Nuovo speaker artigianale disponibile!\n\nRiproduce musica con la bellezza del legno lavorato a mano. Misura XL, ideale per stanze grandi o spazi comuni.\n\nDesign semplice e naturale, che si abbina a qualsiasi ambiente — perché la vera bellezza sta nella semplicità.\n\nPrezzo: €25,00 · Contattaci per ordinare il tuo!",
-      "photos": [
-        "https://res.cloudinary.com/djke3vkmd/image/upload/v1780266218/mm_manifatture/uryzuolc5rwdcwtqdx6h.jpg"
-      ],
-      "published": true,
-      "scheduled_for": null
-    },
-    {
-      "id": "1f70190f-9cbf-42a5-b2c6-e0a6654be933",
-      "created_at": "2026-05-31T22:33:42.521544+00:00",
-      "category": "Altro",
-      "price": 1000.0,
-      "size": "XXL",
-      "description_site": "Scultura in legno 'Il parente con il nipotino' — un'opera artigianale che cattura la tenerezza dei legami familiari. Dimensione XXL. €1.000,00.",
-      "description_instagram": "💛 'Il parente con il nipotino' — scultura in legno che racconta amore e famiglia.\n\nXXL · Pezzo unico artigianale\n\n#sculturainlegno #artigianato #fattoadamano #familiaartistica #operartigianale",
-      "description_facebook": "Una nuova scultura speciale è arrivata in negozio: 'Il parente con il nipotino'.\n\nUn'opera in legno che cattura con delicatezza i momenti più importanti della vita — i legami familiari, la tenerezza, il passaggio di amore tra generazioni.\n\nDimensione XXL · Prezzo: €1.000,00\n\nOgni dettaglio è stato lavorato a mano con dedizione. Perfetta come opera d'arte per la casa o come regalo significativo.\n\nVieni a vederla in negozio o scrivici per informazioni!",
-      "photos": [
-        "https://res.cloudinary.com/djke3vkmd/image/upload/v1780266821/mm_manifatture/skiw8xkwg1gfiqvaebxq.jpg"
-      ],
-      "published": true,
-      "scheduled_for": null
-    },
-    {
-      "id": "84a4799d-07ee-4191-ac17-f01185e712aa",
-      "created_at": "2026-05-31T22:42:46.712763+00:00",
-      "category": "Altro",
-      "price": 35.0,
-      "size": "XXL",
-      "description_site": "T-shirt XXL con stampa originale 'Gigi che si fa un selfie' — un capo divertente e ironico, realizzato con qualità artigianale. €35,00.",
-      "description_instagram": "📸 Gigi si fa un selfie... e tu? T-shirt XXL con stampa divertente e originale 😄\n\n€35 · Disponibile ora\n\n#tshirtartigianale #stampaoriginale #abbigliamento #fattaconpassione #vintage",
-      "description_facebook": "Nuovo capo in collezione! 🎨\n\nT-shirt XXL con una stampa che strappa un sorriso: 'Gigi che si fa un selfie'.\n\nPerfetta per chi ama l'ironia e i pezzi unici. Ogni stampa è realizzata con cura, proprio come tutti i nostri prodotti.\n\nPrezzo: €35,00 · Taglia XXL\n\nScrivici per avere il tuo! 😊",
-      "photos": [
-        "https://res.cloudinary.com/djke3vkmd/image/upload/v1780267366/mm_manifatture/vbrhytz9f0ks7fhafmcg.jpg"
-      ],
-      "published": true,
-      "scheduled_for": null
     }
   ],
   "categories": [
