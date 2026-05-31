@@ -5,7 +5,7 @@ import ProductCard from './components/ProductCard'
 import about from '@/content/about.json'
 
 export const metadata: Metadata = {
-  description: 'Maglioncini in lana merinos, bambole di pezza e accessori artigianali realizzati a mano da Monica Scarpa a Gioi, nel Cilento. Ogni pezzo nasce da una conversazione.',
+  description: 'Maglioncini in lana merinos e capi in maglia fatti a mano da Monica Scarpa a Gioi, nel Cilento. Ogni pezzo è unico e nasce da una conversazione.',
 }
 
 export default function HomePage() {
@@ -22,7 +22,7 @@ export default function HomePage() {
             Artigianato fatto a mano,<br className="hidden md:block" /> a Gioi, nel Cilento
           </h1>
           <p className="text-lg max-w-xl mx-auto mb-4" style={{ color: 'var(--muted)' }}>
-            Monica realizza a mano maglioncini in lana merinos, bambole di pezza e accessori artigianali. Ogni pezzo richiede ore di lavoro. Nessuno è identico a un altro.
+            Monica realizza a mano maglioncini in lana merinos, cardigan e cappellini. Ogni pezzo richiede ore di lavoro. Nessuno è identico a un altro.
           </p>
           {about.hero_trust && (
             <p className="hero-trust-stat">

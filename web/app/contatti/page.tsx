@@ -8,7 +8,10 @@ export const metadata = {
 
 export default function ContattiPage() {
   const waPhone = contact.phone.replace(/\s/g, '')
-  const waLink = `https://wa.me/39${waPhone}`
+  const waMessage = encodeURIComponent(
+    'Ciao Monica, ho visto il tuo sito e vorrei fare un ordine o avere informazioni sui tuoi pezzi artigianali.'
+  )
+  const waLink = `https://wa.me/39${waPhone}?text=${waMessage}`
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-12">
@@ -145,7 +148,7 @@ export default function ContattiPage() {
           </div>
         </div>
         <p className="mt-6 text-sm" style={{ color: 'var(--muted)' }}>
-          <strong className="text-foreground">Tempi indicativi:</strong> accessori 3–5 giorni · bambole di pezza 7–10 giorni · maglioncini 10–15 giorni. I tempi dipendono dal carico di lavoro corrente — Monica lo comunica sempre in anticipo.
+          <strong className="text-foreground">Tempi indicativi:</strong> accessori e cappellini 3–5 giorni · cardigan e maglioncini 7–15 giorni. I tempi dipendono dal carico di lavoro corrente — Monica lo comunica sempre in anticipo.
         </p>
       </section>
     </div>

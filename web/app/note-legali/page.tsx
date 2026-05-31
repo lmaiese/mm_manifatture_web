@@ -52,13 +52,12 @@ export default function NoteLegaliPage() {
         <h3 className="font-semibold text-foreground mt-6">Dati raccolti</h3>
         <ul className="list-disc pl-5 space-y-1 text-muted">
           <li><span className="text-foreground">Dati di navigazione (Google Analytics 4)</span>: pagine visitate, durata sessione, dispositivo, paese. IP anonimizzato. Raccolti solo previo consenso esplicito.</li>
-          <li><span className="text-foreground">Dati del form contatti</span>: nome e messaggio, trasmessi direttamente via client email dell'utente. Il sito non archivia né trasmette questi dati a server propri.</li>
+          <li><span className="text-foreground">Dati di contatto</span>: il sito non dispone di form di contatto. I contatti avvengono direttamente via email, telefono o WhatsApp — il sito non archivia né trasmette dati personali a server propri.</li>
         </ul>
 
         <h3 className="font-semibold text-foreground mt-6">Base giuridica</h3>
         <ul className="list-disc pl-5 space-y-1 text-muted">
           <li>Analytics: <span className="text-foreground">consenso</span> (art. 6.1.a GDPR) — raccolta avviene solo dopo opt-in esplicito nel banner cookie.</li>
-          <li>Form contatti: <span className="text-foreground">esecuzione di misure precontrattuali</span> (art. 6.1.b GDPR).</li>
         </ul>
 
         <h3 className="font-semibold text-foreground mt-6">Periodo di conservazione</h3>
