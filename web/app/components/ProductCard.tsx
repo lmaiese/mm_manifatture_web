@@ -47,10 +47,10 @@ export default function ProductCard({ product }: { product: Product }) {
         </div>
 
         <a
-          href="/contatti"
+          href={`/contatti?prodotto=${encodeURIComponent(product.category)}${product.size ? `&taglia=${encodeURIComponent(product.size)}` : ''}`}
           className="block text-center text-sm py-2 px-4 rounded border border-accent text-accent hover:bg-accent hover:text-white transition-colors"
         >
-          Contattaci per acquistare
+          Ordina questo pezzo →
         </a>
       </div>
     </article>

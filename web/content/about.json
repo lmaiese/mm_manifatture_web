@@ -9,16 +9,16 @@
   ],
   "values": [
     {
-      "label": "Filati naturali selezionati",
+      "label": "Scelgo ogni filo a mano",
       "description": "Lana merinos, cotone e fibre naturali scelti per morbidezza, durata e rispetto per la pelle. Niente sintetico nei pezzi per bambini."
     },
     {
-      "label": "Tecniche tramandate",
-      "description": "Maglia a due ferri, uncinetto, pezzotto. Tecniche manuali che non si automatizzano: richiedono attenzione, pazienza e anni di pratica."
+      "label": "Le mie tecniche non si automatizzano",
+      "description": "Maglia a due ferri, uncinetto, pezzotto. Richiedono attenzione, pazienza e anni di pratica. Non esiste una macchina che le sostituisce."
     },
     {
-      "label": "Ogni pezzo è una commissione",
-      "description": "Non tengo magazzino. Se lo vuoi, lo faccio per te. Puoi scegliere colore, misura, personalizzazioni. Questo richiede tempo — e vale ogni ora."
+      "label": "Se lo vuoi, lo faccio per te",
+      "description": "Non tengo magazzino. Ogni pezzo nasce da una richiesta. Puoi scegliere colore, misura, personalizzazioni — e io ci metto il tempo che serve."
     }
   ],
   "materials": [
@@ -35,6 +35,8 @@
       "description": "Lana e alpaca, lana e seta, cotone e lino. Scelgo blend in base alla resa visiva e alla mano del tessuto finito."
     }
   ],
+  "hero_trust": "8–15 ore di lavoro per ogni pezzo. Nessuno uguale all'altro.",
+  "pull_quote": "Non compro mai in base al prezzo: compro in base a come si comporta il filo tra le mani.",
   "process_steps": [
     {
       "step": "01",

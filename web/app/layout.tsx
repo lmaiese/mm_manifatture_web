@@ -5,13 +5,15 @@ import Footer from './components/Footer'
 import AnalyticsProvider from './components/AnalyticsProvider'
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://mmmanifatture.it'),
   title: 'M&M Manifatture di Scarpa Monica — Artigianato fatto a mano',
-  description: 'Prodotti artigianali unici realizzati a mano da Monica Scarpa. Borse, gioielli, oggetti per la casa e molto altro.',
+  description: 'Maglioncini in lana merinos, bambole di pezza e accessori artigianali fatti a mano da Monica Scarpa a Gioi, nel Cilento. Ogni pezzo è unico.',
   openGraph: {
-    title: 'M&M Manifatture di Scarpa Monica',
-    description: 'Prodotti artigianali unici realizzati a mano.',
+    title: 'M&M Manifatture di Scarpa Monica — Artigianato fatto a mano',
+    description: 'Maglioncini in lana merinos, bambole di pezza e accessori artigianali fatti a mano da Monica Scarpa a Gioi, nel Cilento.',
     type: 'website',
-    images: [{ url: '/logo-en.jpeg', width: 1080, height: 1080, alt: 'M&M Manifatture' }],
+    locale: 'it_IT',
+    images: [{ url: '/logo-en.jpeg', width: 1080, height: 1080, alt: 'M&M Manifatture — Artigianato fatto a mano' }],
   },
 }
 

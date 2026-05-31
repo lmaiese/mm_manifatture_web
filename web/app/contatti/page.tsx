@@ -2,119 +2,117 @@ import contact from '@/content/contact.json'
 
 export const metadata = {
   title: 'Contatti — M&M Manifatture',
+  description: 'Contatta Monica Scarpa per ordini personalizzati o informazioni sui prodotti artigianali M&M Manifatture a Gioi (SA).',
 }
 
 export default function ContattiPage() {
+  const waPhone = contact.phone.replace(/\s/g, '')
+  const waLink = `https://wa.me/39${waPhone}`
+
   return (
     <div className="max-w-3xl mx-auto px-4 py-12">
       <h1 className="font-serif text-3xl font-semibold text-foreground mb-2">Contatti</h1>
-      <p className="mb-10" style={{ color: 'var(--muted)' }}>Scrivici o vieni a trovarci in negozio.</p>
+      <p className="mb-10" style={{ color: 'var(--muted)' }}>
+        Il modo più rapido per ordinare o fare una domanda è scrivere o chiamare direttamente Monica.
+      </p>
 
       <div className="grid md:grid-cols-2 gap-8">
         {/* Info */}
         <div className="space-y-5">
           <div>
-            <h2 className="font-serif text-lg font-semibold text-foreground mb-1">Dove siamo</h2>
+            <p className="contact-info-label">Dove siamo</p>
             <p className="text-foreground">{contact.address}</p>
             <p className="text-foreground">{contact.city}</p>
           </div>
 
           <div>
-            <h2 className="font-serif text-lg font-semibold text-foreground mb-1">Telefono</h2>
+            <p className="contact-info-label">Telefono</p>
             <a href={`tel:${contact.phone}`} className="text-accent hover:underline">
               {contact.phone}
             </a>
           </div>
 
           <div>
-            <h2 className="font-serif text-lg font-semibold text-foreground mb-1">Email</h2>
+            <p className="contact-info-label">Email</p>
             <a href={`mailto:${contact.email}`} className="text-accent hover:underline">
               {contact.email}
             </a>
           </div>
 
           <div>
-            <h2 className="font-serif text-lg font-semibold text-foreground mb-2">Orari</h2>
+            <p className="contact-info-label">Orari negozio</p>
             <ul className="space-y-1">
               {contact.hours.map((h) => (
                 <li key={h.days} className="flex gap-4 text-sm">
-                  <span className="w-32 shrink-0" style={{ color: 'var(--muted)' }}>{h.days}</span>
+                  <span className="w-36 shrink-0" style={{ color: 'var(--muted)' }}>{h.days}</span>
                   <span className="text-foreground">{h.time}</span>
                 </li>
               ))}
             </ul>
           </div>
 
-          <div className="flex gap-4 pt-2">
-            {contact.social.instagram && (
-              <a
-                href={contact.social.instagram}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm text-accent hover:underline"
-              >
-                Instagram →
-              </a>
-            )}
-            {contact.social.facebook && (
-              <a
-                href={contact.social.facebook}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm text-accent hover:underline"
-              >
-                Facebook →
-              </a>
-            )}
-          </div>
+          {(contact.social.instagram || contact.social.facebook) && (
+            <div className="flex gap-4 pt-2">
+              {contact.social.instagram && (
+                <a
+                  href={contact.social.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-accent hover:underline"
+                >
+                  Instagram →
+                </a>
+              )}
+              {contact.social.facebook && (
+                <a
+                  href={contact.social.facebook}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-accent hover:underline"
+                >
+                  Facebook →
+                </a>
+              )}
+            </div>
+          )}
         </div>
 
-        {/* Form */}
-        <div className="bg-white rounded-lg border border-border p-6">
-          <h2 className="font-serif text-lg font-semibold text-foreground mb-4">Mandaci un messaggio</h2>
-          <form
-            action={`mailto:${contact.email}`}
-            method="GET"
-            className="space-y-4"
-          >
-            <div>
-              <label className="block text-sm mb-1" style={{ color: 'var(--muted)' }} htmlFor="nome">Nome</label>
-              <input
-                id="nome"
-                name="from"
-                type="text"
-                className="w-full border border-border rounded px-3 py-2 text-sm focus:outline-none focus:border-accent"
-                placeholder="Il tuo nome"
-              />
-            </div>
-            <div>
-              <label className="block text-sm mb-1" style={{ color: 'var(--muted)' }} htmlFor="msg">Messaggio</label>
-              <textarea
-                id="msg"
-                name="body"
-                rows={4}
-                className="w-full border border-border rounded px-3 py-2 text-sm focus:outline-none focus:border-accent resize-none"
-                placeholder="Come possiamo aiutarti?"
-              />
-            </div>
-            <button
-              type="submit"
-              className="w-full py-2 bg-accent text-white text-sm rounded hover:bg-accent-hover transition-colors"
+        {/* CTA dirette */}
+        <div className="contact-cta-box">
+          <h2 className="font-serif text-lg font-semibold text-foreground mb-2">Come contattarci</h2>
+          <p className="text-sm mb-6" style={{ color: 'var(--muted)' }}>
+            Monica risponde personalmente. Puoi scrivere su WhatsApp, chiamare o mandare un&apos;email — usa il canale che preferisci.
+          </p>
+          <div className="space-y-3">
+            <a
+              href={waLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="contact-cta-primary"
             >
-              Apri client email
-            </button>
-            <p className="text-xs text-center" style={{ color: 'var(--muted)' }}>
-              Il tuo client email si aprirà con il messaggio già compilato.
-            </p>
-          </form>
+              Scrivi su WhatsApp →
+            </a>
+            <a
+              href={`tel:${contact.phone}`}
+              className="contact-cta-secondary"
+            >
+              Chiama Monica
+            </a>
+            <a
+              href={`mailto:${contact.email}`}
+              className="contact-cta-secondary"
+            >
+              Manda un&apos;email
+            </a>
+          </div>
         </div>
       </div>
 
       {/* Ordini personalizzati */}
       <section className="mt-14 p-8 bg-white rounded-lg border border-border">
-        <h2 className="font-serif text-2xl font-semibold text-foreground mb-2">Ordini personalizzati</h2>
+        <h2 className="font-serif text-2xl font-semibold text-foreground mb-2">Vuoi qualcosa di specifico?</h2>
         <p className="mb-8" style={{ color: 'var(--muted)' }}>
-          Non trovi quello che cerchi tra i prodotti disponibili? Monica può realizzarlo apposta per te — colore, misura e materiale a tua scelta.
+          Monica lo fa su misura per te — colore, taglia e materiale a tua scelta. Non c&apos;è niente che non puoi chiedere.
         </p>
         <div className="grid md:grid-cols-3 gap-6">
           <div className="custom-order-step">

@@ -5,7 +5,7 @@ import ProdottiClient from './ProdottiClient'
 
 export const metadata = {
   title: 'Prodotti — M&M Manifatture',
-  description: 'Tutti i prodotti artigianali realizzati a mano da Monica Scarpa.',
+  description: 'Maglioncini in lana merinos, bambole di pezza e accessori artigianali. Pezzi pronti o su commissione — realizzati a mano da Monica Scarpa a Gioi (SA).',
 }
 
 export default function ProdottiPage() {

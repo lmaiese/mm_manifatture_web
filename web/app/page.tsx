@@ -1,7 +1,12 @@
 import Link from 'next/link'
+import type { Metadata } from 'next'
 import { getPublishedProducts, getCategories } from '@/lib/catalog'
 import ProductCard from './components/ProductCard'
 import about from '@/content/about.json'
+
+export const metadata: Metadata = {
+  description: 'Maglioncini in lana merinos, bambole di pezza e accessori artigianali realizzati a mano da Monica Scarpa a Gioi, nel Cilento. Ogni pezzo nasce da una conversazione.',
+}
 
 export default function HomePage() {
   const products = getPublishedProducts()
@@ -16,9 +21,14 @@ export default function HomePage() {
           <h1 className="font-serif text-4xl md:text-5xl font-semibold text-foreground leading-tight mb-4">
             Artigianato fatto a mano,<br className="hidden md:block" /> a Gioi, nel Cilento
           </h1>
-          <p className="text-lg max-w-xl mx-auto mb-8" style={{ color: 'var(--muted)' }}>
+          <p className="text-lg max-w-xl mx-auto mb-4" style={{ color: 'var(--muted)' }}>
             Monica realizza a mano maglioncini in lana merinos, bambole di pezza e accessori artigianali. Ogni pezzo richiede ore di lavoro. Nessuno è identico a un altro.
           </p>
+          {about.hero_trust && (
+            <p className="hero-trust-stat">
+              {about.hero_trust}
+            </p>
+          )}
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link
               href="/prodotti"
@@ -43,7 +53,7 @@ export default function HomePage() {
       {about.process_steps && about.process_steps.length > 0 && (
         <section className="max-w-5xl mx-auto px-4 py-14">
           <div className="text-center mb-10">
-            <h2 className="font-serif text-2xl font-semibold text-foreground mb-2">Come nascono i nostri pezzi</h2>
+            <h2 className="font-serif text-2xl font-semibold text-foreground mb-2">Come nascono i miei pezzi</h2>
             <p style={{ color: 'var(--muted)' }}>Nessun carrello automatico. Ogni ordine è una conversazione.</p>
           </div>
           <div className="grid md:grid-cols-3 gap-6">
@@ -71,12 +81,15 @@ export default function HomePage() {
       {/* Latest products */}
       {latest.length > 0 && (
         <section className="max-w-5xl mx-auto px-4 py-12">
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="font-serif text-2xl font-semibold text-foreground">Ultimi arrivi</h2>
-            <Link href="/prodotti" className="text-sm text-accent hover:underline">
+          <div className="flex items-start justify-between mb-2 gap-4">
+            <h2 className="font-serif text-2xl font-semibold text-foreground">Ultimi pezzi disponibili</h2>
+            <Link href="/prodotti" className="text-sm text-accent hover:underline shrink-0 mt-1">
               Vedi tutti →
             </Link>
           </div>
+          <p className="text-sm mb-8" style={{ color: 'var(--muted)' }}>
+            Monica lavora su commissione: questi pezzi sono pronti adesso — gli altri li fa su misura.
+          </p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {latest.map((p) => (
               <ProductCard key={p.id} product={p} />
@@ -88,7 +101,8 @@ export default function HomePage() {
       {/* Categories */}
       {categories.length > 0 && (
         <section className="max-w-5xl mx-auto px-4 pb-16">
-          <h2 className="font-serif text-2xl font-semibold text-foreground mb-6">Categorie</h2>
+          <h2 className="font-serif text-2xl font-semibold text-foreground mb-2">Sfoglia per tipo</h2>
+          <p className="text-sm mb-5" style={{ color: 'var(--muted)' }}>Maglioncini, bambole, accessori — scegli cosa stai cercando.</p>
           <div className="flex flex-wrap gap-3">
             {categories.map((cat) => (
               <Link
@@ -106,11 +120,17 @@ export default function HomePage() {
       {/* Empty state */}
       {products.length === 0 && (
         <section className="max-w-5xl mx-auto px-4 py-16 text-center">
-          <p className="text-lg" style={{ color: 'var(--muted)' }}>
-            I prodotti arrivano presto. Torna a trovarci!
+          <p className="font-serif text-xl text-foreground mb-3">
+            Nessun pezzo disponibile in questo momento.
           </p>
-          <Link href="/contatti" className="mt-4 inline-block text-accent hover:underline">
-            Contattaci intanto →
+          <p className="mb-6" style={{ color: 'var(--muted)' }}>
+            Monica lavora su commissione — scrivile e realizza qualcosa su misura per te.
+          </p>
+          <Link
+            href="/contatti"
+            className="inline-block px-7 py-3 bg-accent text-white font-medium rounded hover:bg-accent-hover transition-colors"
+          >
+            Chiedi un pezzo personalizzato →
           </Link>
         </section>
       )}

@@ -3,6 +3,7 @@ import about from '@/content/about.json'
 
 export const metadata = {
   title: 'Chi siamo — M&M Manifatture',
+  description: 'Monica Scarpa realizza a mano ogni pezzo a Gioi, nel Cilento. Scopri la storia, i materiali e le tecniche dietro M&M Manifatture.',
 }
 
 export default function ChiSiamoPage() {
@@ -13,8 +14,21 @@ export default function ChiSiamoPage() {
 
       {/* Storia */}
       <div className="space-y-5 text-foreground leading-relaxed">
-        {about.body.map((para, i) => (
+        {about.body.slice(0, 2).map((para, i) => (
           <p key={i}>{para}</p>
+        ))}
+      </div>
+
+      {/* Pull quote */}
+      {about.pull_quote && (
+        <blockquote className="about-pull-quote">
+          <p>{about.pull_quote}</p>
+        </blockquote>
+      )}
+
+      <div className="space-y-5 text-foreground leading-relaxed">
+        {about.body.slice(2).map((para, i) => (
+          <p key={i + 2}>{para}</p>
         ))}
       </div>
 
