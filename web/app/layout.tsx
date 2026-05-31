@@ -3,6 +3,7 @@ import './globals.css'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import AnalyticsProvider from './components/AnalyticsProvider'
+import WhatsAppButton from './components/WhatsAppButton'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://mmmanifatture.it'),
@@ -25,6 +26,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main className="flex-1">{children}</main>
         <Footer />
         <AnalyticsProvider />
+        <WhatsAppButton />
       </body>
     </html>
   )

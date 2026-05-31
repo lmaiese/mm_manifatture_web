@@ -47,10 +47,10 @@ export default function ProductCard({ product }: { product: Product }) {
         </div>
 
         <a
-          href={`/contatti?prodotto=${encodeURIComponent(product.category)}${product.size ? `&taglia=${encodeURIComponent(product.size)}` : ''}`}
+          href={`/prodotti/${product.id}`}
           className="block text-center text-sm py-2 px-4 rounded border border-accent text-accent hover:bg-accent hover:text-white transition-colors"
         >
-          Ordina questo pezzo →
+          Vedi il pezzo →
         </a>
       </div>
     </article>

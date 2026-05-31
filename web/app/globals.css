@@ -211,6 +211,194 @@ h1, h2, h3 {
   color: var(--accent);
 }
 
+/* Product detail page */
+.product-detail-page {
+  padding: 2rem 1rem 4rem;
+}
+
+.product-detail-container {
+  max-width: 48rem;
+  margin: 0 auto;
+}
+
+.product-detail-back {
+  display: inline-block;
+  font-size: 0.875rem;
+  color: var(--muted);
+  margin-bottom: 1.5rem;
+  transition: color 0.15s;
+}
+
+.product-detail-back:hover {
+  color: var(--accent);
+}
+
+.product-detail-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 640px) {
+  .product-detail-layout {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+}
+
+.product-detail-image-wrap {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  background-color: var(--background);
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.product-detail-no-photo {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+.product-detail-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.product-detail-category {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.product-detail-price {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--foreground);
+  line-height: 1.2;
+  margin: 0;
+}
+
+.product-detail-size {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  margin: 0;
+  font-size: 0.9375rem;
+  color: var(--foreground);
+}
+
+.product-detail-description {
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: var(--foreground);
+  margin: 0;
+}
+
+.product-detail-cta-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  margin-top: 0.5rem;
+}
+
+/* WhatsApp sticky button */
+.whatsapp-button {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: #25D366;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+  transition: background-color 0.15s, box-shadow 0.15s;
+  text-decoration: none;
+}
+
+.whatsapp-button:hover {
+  background-color: #1ebe5d;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.24);
+}
+
+.whatsapp-button:focus-visible {
+  outline: 3px solid #25D366;
+  outline-offset: 3px;
+}
+
+/* Contatti — Google Maps embed */
+.maps-embed-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.maps-embed-wrapper iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+
+.maps-placeholder {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 0.5rem;
+  border: 1px solid var(--border);
+  background-color: #f5f0eb;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.maps-placeholder-address {
+  font-size: 0.9375rem;
+  color: var(--foreground);
+  font-weight: 500;
+}
+
+.maps-placeholder-btn {
+  padding: 0.625rem 1.25rem;
+  background-color: var(--accent);
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: 0.375rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.maps-placeholder-btn:hover {
+  background-color: var(--accent-hover);
+}
+
+.maps-placeholder-note {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
 /* Chi siamo — pull quote */
 .about-pull-quote {
   border-left: 3px solid var(--accent);

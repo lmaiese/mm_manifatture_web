@@ -1,4 +1,5 @@
 import contact from '@/content/contact.json'
+import MapsEmbed from '@/app/components/MapsEmbed'
 
 export const metadata = {
   title: 'Contatti — M&M Manifatture',
@@ -107,6 +108,12 @@ export default function ContattiPage() {
           </div>
         </div>
       </div>
+
+      {/* Dove siamo — mappa */}
+      <section className="mt-12">
+        <h2 className="font-serif text-xl font-semibold text-foreground mb-4">Dove siamo</h2>
+        <MapsEmbed />
+      </section>
 
       {/* Ordini personalizzati */}
       <section className="mt-14 p-8 bg-white rounded-lg border border-border">
