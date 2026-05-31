@@ -5,7 +5,10 @@ bot/__pycache__/
 bot/**/__pycache__/
 bot/*.pyc
 bot/bot.sqlite
+bot/bot.sqlite-shm
+bot/bot.sqlite-wal
 bot/logs/
+bot/photos/
 bot/data/reminders_state.json
 
 # Web

@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 
@@ -18,11 +19,14 @@ export default function Header() {
     <header className="sticky top-0 z-40 bg-background/95 backdrop-blur border-b border-border">
       <div className="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
         <Link href="/" aria-label="M&M Manifatture — Home">
-          <svg width="180" height="40" viewBox="0 0 180 40" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
-            <text x="0" y="26" fontFamily="'Source Serif 4', Georgia, serif" fontSize="22" fontWeight="600" fill="currentColor" className="text-foreground">M&amp;M</text>
-            <text x="52" y="26" fontFamily="'Source Serif 4', Georgia, serif" fontSize="22" fontWeight="400" fill="currentColor" className="text-foreground">Manifatture</text>
-            <text x="0" y="38" fontFamily="'Inter', system-ui, sans-serif" fontSize="9" fontWeight="400" letterSpacing="0.12em" fill="#d27684" style={{textTransform: 'uppercase'}}>di Scarpa Monica</text>
-          </svg>
+          <Image
+            src="/logo-en.jpeg"
+            alt="M&M Manifatture"
+            width={44}
+            height={44}
+            className="rounded"
+            priority
+          />
         </Link>
 
         {/* Desktop nav */}

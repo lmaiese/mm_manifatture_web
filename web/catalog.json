@@ -1,4 +1,92 @@
 {
-  "products": [],
-  "categories": []
+  "products": [
+    {
+      "id": "demo-001",
+      "created_at": "2026-05-20T10:00:00Z",
+      "category": "Abbigliamento",
+      "price": 35,
+      "size": "4 anni",
+      "description_site": "Maglione a righe navy e azzurro, lavorazione maglia rasata, collo alto rib. Filato misto lana, caldo e resistente.",
+      "photos": ["/products/01.jpg"],
+      "published": true
+    },
+    {
+      "id": "demo-002",
+      "created_at": "2026-05-20T11:00:00Z",
+      "category": "Abbigliamento",
+      "price": 42,
+      "size": "5 anni",
+      "description_site": "Cardigan bicolore grigio e blu con chiusura a bottoni. Maniche raglan, polsini e fondo a coste. Ideale per la mezza stagione.",
+      "photos": ["/products/02.jpg"],
+      "published": true
+    },
+    {
+      "id": "demo-003",
+      "created_at": "2026-05-21T09:00:00Z",
+      "category": "Abbigliamento",
+      "price": 35,
+      "size": "4 anni",
+      "description_site": "Maglione blu petrolio con righe verdi sulle maniche e al centro. Filato morbido, punto maglia jersey.",
+      "photos": ["/products/03.jpg"],
+      "published": true
+    },
+    {
+      "id": "demo-004",
+      "created_at": "2026-05-21T10:00:00Z",
+      "category": "Abbigliamento",
+      "price": 38,
+      "size": "3 anni",
+      "description_site": "Maglione azzurro tinta unita con lavorazione a trecce verticali sul davanti. Morbido e leggero, perfetto per l'autunno.",
+      "photos": ["/products/04.jpg"],
+      "published": true
+    },
+    {
+      "id": "demo-005",
+      "created_at": "2026-05-22T09:00:00Z",
+      "category": "Abbigliamento",
+      "price": 38,
+      "size": "6 anni",
+      "description_site": "Maglione raglan blu navy con maniche e collo grigio. Punto treccia sul collo, fondo e polsini a coste doppie.",
+      "photos": ["/products/05.jpg"],
+      "published": true
+    },
+    {
+      "id": "demo-006",
+      "created_at": "2026-05-22T10:00:00Z",
+      "category": "Abbigliamento",
+      "price": 35,
+      "size": "3 anni",
+      "description_site": "Maglione a righe teal e azzurro con stelline in rilievo sulle spalle. Collo alto rib, filato misto lana.",
+      "photos": ["/products/06.jpg"],
+      "published": true
+    },
+    {
+      "id": "demo-007",
+      "created_at": "2026-05-23T10:00:00Z",
+      "category": "Altro",
+      "price": 45,
+      "size": null,
+      "description_site": "Bambola di pezza a mano — bambino con maglione a righe blu e bianche. Viso dipinto a mano, imbottitura in fibra naturale. Circa 35 cm.",
+      "photos": ["/products/07.jpg"],
+      "published": true
+    },
+    {
+      "id": "demo-008",
+      "created_at": "2026-05-23T11:00:00Z",
+      "category": "Altro",
+      "price": 45,
+      "size": null,
+      "description_site": "Bambola di pezza a mano — bambina con top e pantaloni a righe rosa. Viso dipinto a mano, capelli in lana gialla. Circa 35 cm.",
+      "photos": ["/products/08.jpg"],
+      "published": true
+    }
+  ],
+  "categories": [
+    "Abbigliamento",
+    "Accessori",
+    "Borse",
+    "Gioielli",
+    "Casa",
+    "Altro"
+  ]
 }

@@ -330,3 +330,27 @@ def save_product(
         raise
     finally:
         conn.close()
+
+
+def recent_products(chat_id: int, limit: int = 5) -> list[dict[str, Any]]:
+    conn = _connect()
+    try:
+        rows = conn.execute(
+            """
+            SELECT product_data, channels, published_at
+            FROM published_products
+            WHERE chat_id = ?
+            ORDER BY published_at DESC
+            LIMIT ?
+            """,
+            (chat_id, limit),
+        ).fetchall()
+        out = []
+        for product_json, channels_json, published_at in rows:
+            p = json.loads(product_json)
+            p["_channels"] = json.loads(channels_json)
+            p["_published_at"] = published_at
+            out.append(p)
+        return out
+    finally:
+        conn.close()

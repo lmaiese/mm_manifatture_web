@@ -43,9 +43,19 @@ logger = logging.getLogger("main")
 
 
 async def _post_init(app: Application) -> None:
+    from telegram import BotCommand
     from .db import reset_stale_processing
     reset_stale_processing()
     conv.reschedule_all_inactivity(app)
+
+    await app.bot.set_my_commands([
+        BotCommand("nuovo",   "Pubblica un nuovo prodotto"),
+        BotCommand("riprendi","Riprendi una pubblicazione in corso"),
+        BotCommand("lista",   "Ultimi 5 prodotti pubblicati"),
+        BotCommand("stato",   "Vedi cosa hai inserito finora"),
+        BotCommand("annulla", "Annulla e ricomincia"),
+        BotCommand("aiuto",   "Aiuto sul passo corrente"),
+    ])
 
     jq = app.job_queue
     if jq is not None:
@@ -85,7 +95,9 @@ def build_app() -> Application:
         .build()
     )
 
-    app.add_handler(CommandHandler("nuovo", cmd.cmd_nuovo))
+    app.add_handler(CommandHandler("start",   cmd.cmd_start))
+    app.add_handler(CommandHandler("nuovo",   cmd.cmd_nuovo))
+    app.add_handler(CommandHandler("lista",   cmd.cmd_lista))
     app.add_handler(CommandHandler("annulla", cmd.cmd_annulla))
     app.add_handler(CommandHandler("riprendi", cmd.cmd_riprendi))
     app.add_handler(CommandHandler("aiuto", cmd.cmd_aiuto))

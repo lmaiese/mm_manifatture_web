@@ -49,15 +49,15 @@ def list_categories() -> list[str]:
 
 
 def add_category(name: str) -> list[str]:
-    name = name.strip()
+    name = name.strip().title()
     if not name:
         return list_categories()
     path = SETTINGS.catalog_path
     data = _read(path)
     cats = [str(c) for c in (data.get("categories") or []) if c]
-    if name not in cats:
+    if name.lower() not in [c.lower() for c in cats]:
         cats.append(name)
         data["categories"] = cats
         _write(path, data)
-        logger.info("category_written", extra={"name": name, "total": len(cats)})
+        logger.info("category_written", extra={"cat_name": name, "total": len(cats)})
     return cats

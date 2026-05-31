@@ -7,13 +7,13 @@
 :root {
   --background: #fdf9f4;
   --foreground: #1b1b1b;
-  --accent: #d27684;
-  --accent-hover: #c4606e;
+  --accent: #d4607a;
+  --accent-hover: #bf5068;
   --muted: #8a8279;
   --border: #e8e0d8;
   --footer-bg: #1b1b1b;
   --footer-text: #c8bfb8;
-  --footer-link-hover: #d27684;
+  --footer-link-hover: #d4607a;
 }
 
 html {

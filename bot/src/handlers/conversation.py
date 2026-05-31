@@ -16,6 +16,7 @@ from telegram import (
     InlineKeyboardMarkup,
     Update,
 )
+from telegram.error import BadRequest as TgBadRequest
 from telegram.ext import ContextTypes
 
 from .. import catalog as catalog_io
@@ -48,6 +49,12 @@ CB_PREVIEW_CONFIRM = "pv_confirm"
 CB_PREVIEW_EDIT = "pv_edit"
 CB_PREVIEW_CANCEL = "pv_cancel"
 CB_EDIT_PREFIX = "edit:"
+CB_SIZE_PREFIX = "size:"
+CB_CANCEL_CONFIRM  = "cancel_yes"
+CB_CANCEL_ABORT    = "cancel_no"
+CB_PRICE_OK        = "price_ok"
+CB_PRICE_REDO      = "price_redo"
+_PRICE_HIGH_THRESHOLD = 1_000.0
 CB_AI_USE = "ai_use"
 CB_AI_USE_MINE = "ai_use_mine"
 CB_AI_FALLBACK_CONFIRM = "ai_fb_confirm"
@@ -90,10 +97,16 @@ def _format_when(data: dict[str, Any]) -> str:
     return "-"
 
 
+def _format_price(price: float | None) -> str:
+    if price is None:
+        return "-"
+    return f"EUR {price:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+
+
 def _format_preview(data: dict[str, Any]) -> str:
     return MESSAGES["step_preview"].format(
         photos_count=len(data.get("photos") or []),
-        price=float(data.get("price") or 0.0),
+        price=_format_price(data.get("price")),
         size=data.get("size") or "-",
         description=data.get("description") or "-",
         when=_format_when(data),
@@ -168,6 +181,24 @@ def _skip_keyboard() -> InlineKeyboardMarkup:
     )
 
 
+_SIZE_OPTIONS = ["XS", "S", "M", "L", "XL", "XXL", "Unica"]
+
+
+def _size_keyboard() -> InlineKeyboardMarkup:
+    rows = [
+        [
+            InlineKeyboardButton(s, callback_data=f"{CB_SIZE_PREFIX}{s}")
+            for s in _SIZE_OPTIONS[:4]
+        ],
+        [
+            InlineKeyboardButton(s, callback_data=f"{CB_SIZE_PREFIX}{s}")
+            for s in _SIZE_OPTIONS[4:]
+        ],
+        [InlineKeyboardButton(MESSAGES["skip_button"], callback_data=CB_SKIP)],
+    ]
+    return InlineKeyboardMarkup(rows)
+
+
 def _when_keyboard() -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(
         [
@@ -218,6 +249,24 @@ def _category_keyboard() -> InlineKeyboardMarkup:
         rows.append([InlineKeyboardButton(c, callback_data=f"{CB_CAT_PREFIX}{c}")])
     rows.append([InlineKeyboardButton(MESSAGES["category_new_button"], callback_data=CB_CAT_NEW)])
     return InlineKeyboardMarkup(rows)
+
+
+def _price_confirm_keyboard() -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup([
+        [
+            InlineKeyboardButton(MESSAGES["price_confirm_yes"], callback_data=CB_PRICE_OK),
+            InlineKeyboardButton(MESSAGES["price_confirm_no"],  callback_data=CB_PRICE_REDO),
+        ]
+    ])
+
+
+def _cancel_confirm_keyboard() -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup([
+        [
+            InlineKeyboardButton(MESSAGES["cmd_cancel_yes"], callback_data=CB_CANCEL_CONFIRM),
+            InlineKeyboardButton(MESSAGES["cmd_cancel_no"],  callback_data=CB_CANCEL_ABORT),
+        ]
+    ])
 
 
 def _preview_keyboard() -> InlineKeyboardMarkup:
@@ -287,7 +336,7 @@ async def _send_preview(
         captions = data["_ai_captions"]
         text = MESSAGES["step_preview_ai"].format(
             photos_count=len(data.get("photos") or []),
-            price=float(data.get("price") or 0.0),
+            price=_format_price(data.get("price")),
             size=data.get("size") or "-",
             when=_format_when(data),
             category=data.get("category") or "-",
@@ -324,7 +373,7 @@ async def _send_preview(
                 pass
             text = MESSAGES["step_preview_ai"].format(
                 photos_count=len(data.get("photos") or []),
-                price=float(data.get("price") or 0.0),
+                price=_format_price(data.get("price")),
                 size=data.get("size") or "-",
                 when=_format_when(data),
                 category=data.get("category") or "-",
@@ -362,7 +411,7 @@ async def _ask_for_step(
     elif step == PRICE:
         await bot.send_message(chat_id, MESSAGES["step_price_request"])
     elif step == SIZE:
-        await bot.send_message(chat_id, MESSAGES["step_size_request"], reply_markup=_skip_keyboard())
+        await bot.send_message(chat_id, MESSAGES["step_size_request"], reply_markup=_size_keyboard())
     elif step == DESCRIPTION:
         await bot.send_message(chat_id, MESSAGES["step_description_request"], reply_markup=_skip_keyboard())
     elif step == WHEN:
@@ -483,7 +532,8 @@ async def on_photo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     chat_id = chat.id
 
     state = db.load_state(chat_id)
-    if state is None:
+    _is_new_flow = state is None
+    if _is_new_flow:
         # User sent a photo without /nuovo — auto-start the flow on PHOTO
         data = _empty_state()
         step = PHOTO
@@ -536,6 +586,8 @@ async def on_photo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
             _persist(chat_id, PHOTO, data)
         return
 
+    if _is_new_flow:
+        await context.bot.send_message(chat_id, MESSAGES["photo_flow_autostart"])
     await context.bot.send_message(
         chat_id,
         MESSAGES["photo_received"].format(count=len(data["photos"])),
@@ -574,16 +626,41 @@ async def on_text(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
             await context.bot.send_message(chat_id, MESSAGES["error_invalid_price"])
             return
         data["price"] = price
+        if price >= _PRICE_HIGH_THRESHOLD and not data.get("_price_confirmed"):
+            data["_price_high_pending"] = True
+            _persist(chat_id, PRICE, data)
+            await context.bot.send_message(
+                chat_id,
+                MESSAGES["price_confirm"].format(price=_format_price(price)),
+                reply_markup=_price_confirm_keyboard(),
+            )
+            return
+        data.pop("_price_high_pending", None)
         await _advance_after(chat_id, PRICE, data, context)
         return
 
     if step == SIZE:
-        data["size"] = text
+        size_val = text.strip()
+        data["size"] = size_val if size_val else None
         await _advance_after(chat_id, SIZE, data, context)
         return
 
     if step == DESCRIPTION:
-        data["description"] = text
+        stripped = text.strip()
+        if len(stripped) > 800:
+            await context.bot.send_message(chat_id, MESSAGES["error_description_long"])
+            return
+        if len(stripped) < 10 and not data.get("_desc_short_warned"):
+            data["_desc_short_warned"] = True
+            _persist(chat_id, DESCRIPTION, data)
+            await context.bot.send_message(
+                chat_id,
+                MESSAGES["error_description_short"],
+                reply_markup=_skip_keyboard(),
+            )
+            return
+        data["description"] = stripped
+        data.pop("_desc_short_warned", None)
         await _advance_after(chat_id, DESCRIPTION, data, context)
         return
 
@@ -594,14 +671,14 @@ async def on_text(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
             return
         cats = catalog_io.add_category(text)
         data["_awaiting_new_category"] = False
-        data["category"] = text.strip()
-        logger.info("category_added", extra={"chat_id": chat_id, "name": text, "total": len(cats)})
-        await context.bot.send_message(chat_id, MESSAGES["category_added"].format(name=text.strip()))
+        data["category"] = text.strip().title()
+        logger.info("category_added", extra={"chat_id": chat_id, "cat_name": text, "total": len(cats)})
+        await context.bot.send_message(chat_id, MESSAGES["category_added"].format(name=text.strip().title()))
         await _advance_after(chat_id, CATEGORY, data, context)
         return
 
     if step in (WHEN, SLOT, PREVIEW):
-        await context.bot.send_message(chat_id, MESSAGES["unexpected_input"])
+        await context.bot.send_message(chat_id, MESSAGES["use_buttons"])
         return
 
 
@@ -679,7 +756,10 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
         return
     chat_id = chat.id
     data_token = query.data
-    await query.answer()
+    try:
+        await query.answer()
+    except TgBadRequest:
+        return
 
     state = db.load_state(chat_id)
     if state is None:
@@ -687,6 +767,31 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
         return
     step, data, _ = state
     _schedule_inactivity(context, chat_id)
+
+    # --- PRICE HIGH CONFIRM ---
+    if data_token == CB_PRICE_OK:
+        if step != PRICE:
+            return
+        data["_price_confirmed"] = True
+        data.pop("_price_high_pending", None)
+        await _advance_after(chat_id, PRICE, data, context)
+        return
+    if data_token == CB_PRICE_REDO:
+        if step != PRICE:
+            return
+        data.pop("price", None)
+        data.pop("_price_high_pending", None)
+        _persist(chat_id, PRICE, data)
+        await context.bot.send_message(chat_id, MESSAGES["step_price_request"])
+        return
+
+    # --- CANCEL CONFIRM ---
+    if data_token == CB_CANCEL_CONFIRM:
+        await cancel_flow(chat_id, context)
+        return
+    if data_token == CB_CANCEL_ABORT:
+        await context.bot.send_message(chat_id, MESSAGES["cmd_cancel_no_msg"])
+        return
 
     # --- PHOTO ---
     if data_token == CB_PHOTO_DONE:
@@ -709,6 +814,14 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
             data["description"] = None
             await _advance_after(chat_id, DESCRIPTION, data, context)
             return
+        return
+
+    # --- SIZE predefined choice ---
+    if data_token.startswith(CB_SIZE_PREFIX):
+        if step != SIZE:
+            return
+        data["size"] = data_token[len(CB_SIZE_PREFIX):]
+        await _advance_after(chat_id, SIZE, data, context)
         return
 
     # --- WHEN ---
@@ -884,15 +997,22 @@ async def _confirm_publish(
 
     # "Automatico": find best upcoming slot and enqueue — queue_worker handles publishing.
     if when == "auto":
+        from zoneinfo import ZoneInfo
+        _italy = ZoneInfo("Europe/Rome")
         now_iso = datetime.now(_tz.utc).isoformat()
         publish_at = db.best_upcoming_slot(now_iso, SETTINGS.publication_slots)
         db.enqueue_product(chat_id, product, publish_at=publish_at)
         db.clear_state(chat_id)
         _cancel_inactivity(context, chat_id)
-        slot_label = publish_at[:16].replace("T", " ") if publish_at else "prossimo slot"
+        if publish_at:
+            dt_utc = datetime.fromisoformat(publish_at).replace(tzinfo=_tz.utc)
+            dt_local = dt_utc.astimezone(_italy)
+            slot_label = dt_local.strftime("%d/%m alle %H:%M")
+        else:
+            slot_label = "prossimo slot disponibile"
         await context.bot.send_message(
             chat_id,
-            f"✅ In coda! Pubblicherò il {slot_label} UTC.",
+            f"✅ In coda! Pubblicherò il {slot_label}.",
         )
         return
 
@@ -916,6 +1036,7 @@ async def _confirm_publish(
     await context.bot.send_message(
         chat_id,
         MESSAGES["publish_ok"].format(
+            category=data.get("category") or "-",
             site_icon="🌐",
             ig_icon="📸",
             fb_icon="👥",
@@ -925,7 +1046,7 @@ async def _confirm_publish(
         ),
     )
 
-    if not all(result.values()):
+    if not result or not all(result.values()):
         await notify_admin(
             context,
             MESSAGES["publish_partial_alert"].format(chat_id=chat_id, result=result),

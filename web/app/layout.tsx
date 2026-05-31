@@ -11,6 +11,7 @@ export const metadata: Metadata = {
     title: 'M&M Manifatture di Scarpa Monica',
     description: 'Prodotti artigianali unici realizzati a mano.',
     type: 'website',
+    images: [{ url: '/logo-en.jpeg', width: 1080, height: 1080, alt: 'M&M Manifatture' }],
   },
 }
 

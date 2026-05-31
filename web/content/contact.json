@@ -1,17 +1,16 @@
 {
-  "_note": "TASK APERTO — compilare con dati reali prima del go-live",
   "name": "M&M Manifatture di Scarpa Monica",
-  "address": "TODO — indirizzo da fornire",
-  "city": "TODO — città da fornire",
-  "phone": "TODO — telefono da fornire",
-  "email": "TODO — email da fornire",
+  "address": "Via Garibaldi 17",
+  "city": "Gioi (SA) 84056",
+  "country": "Italia",
+  "phone": "333 127 6332",
+  "email": "mm.manifatture@gmail.com",
   "hours": [
-    { "days": "Lunedì – Venerdì", "time": "09:00 – 13:00 / 15:00 – 19:00" },
-    { "days": "Sabato", "time": "09:00 – 13:00" },
-    { "days": "Domenica", "time": "Chiuso" }
+    { "days": "Lunedì – Venerdì", "time": "11:00 – 20:00" },
+    { "days": "Sabato – Domenica", "time": "Chiuso" }
   ],
   "social": {
-    "instagram": "https://www.instagram.com/",
-    "facebook": "https://www.facebook.com/"
+    "instagram": "",
+    "facebook": ""
   }
 }

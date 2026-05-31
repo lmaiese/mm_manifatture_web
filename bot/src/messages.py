@@ -1,6 +1,17 @@
 """All user-facing bot strings live here. No hardcoded text in handlers."""
 
 MESSAGES: dict[str, str] = {
+    # START / welcome
+    "welcome": (
+        "Ciao! Sono il bot di M&M Manifatture 🧵\n\n"
+        "Con /nuovo pubblichi un prodotto su sito e social in pochi passi.\n\n"
+        "Comandi disponibili:\n"
+        "/nuovo — inizia una nuova pubblicazione\n"
+        "/riprendi — riprendi una pubblicazione in corso\n"
+        "/stato — vedi cosa hai inserito finora\n"
+        "/annulla — annulla e ricomincia\n"
+        "/aiuto — aiuto sul passo corrente"
+    ),
     # PHOTO step
     "step_photo_request": (
         "Mandami le foto del prodotto. Quando hai finito premi il bottone."
@@ -12,18 +23,30 @@ MESSAGES: dict[str, str] = {
     # PRICE step
     "step_price_request": "Quanto costa? (scrivi solo il numero, es: 25)",
     "error_invalid_price": (
-        "Non ho capito il prezzo. Scrivi solo il numero, es: 25"
+        "Non ho capito il prezzo. Scrivi solo il numero, es: 25 oppure 25,50"
+    ),
+    "error_description_short": (
+        "La descrizione e' molto corta — l'AI avra' meno informazioni per creare le caption.\n"
+        "Vuoi aggiungere qualcosa? Oppure premi Salta per procedere lo stesso."
+    ),
+    "error_description_long": (
+        "La descrizione e' troppo lunga (max 800 caratteri).\n"
+        "Accorciala un po' e riprova."
     ),
     # SIZE step
-    "step_size_request": "Che taglia e'?",
+    "step_size_request": "Che taglia e'? Scegli dal menu' o scrivi la taglia libera.",
     "skip_button": "Salta",
     # DESCRIPTION step
-    "step_description_request": "Vuoi aggiungere una descrizione?",
+    "step_description_request": (
+        "Descrivi il prodotto: materiale, colori, lavorazione.\n"
+        "Es: \"Sciarpa in lana merinos rossa, lavorata a mano\"\n\n"
+        "Una buona descrizione migliora le caption AI. Puoi anche saltare."
+    ),
     # WHEN step
     "step_when_request": "Quando lo pubblico?",
     "when_now_button": "Adesso",
     "when_slot_button": "Scegli orario",
-    "when_auto_button": "Automatico",
+    "when_auto_button": "Automatico (prossimo slot)",
     # SLOT step
     "step_slot_request": "Scegli quando pubblicare:",
     # CATEGORY step
@@ -37,7 +60,7 @@ MESSAGES: dict[str, str] = {
     "step_preview": (
         "Riepilogo prodotto\n\n"
         "Foto: {photos_count} foto\n"
-        "Prezzo: EUR {price:.2f}\n"
+        "Prezzo: {price}\n"
         "Taglia: {size}\n"
         "Descrizione: {description}\n"
         "Pubblicazione: {when}\n"
@@ -63,7 +86,7 @@ MESSAGES: dict[str, str] = {
     "step_preview_ai": (
         "Riepilogo prodotto\n\n"
         "Foto: {photos_count} foto\n"
-        "Prezzo: EUR {price:.2f}\n"
+        "Prezzo: {price}\n"
         "Taglia: {size}\n"
         "Pubblicazione: {when}\n"
         "Categoria: {category}\n\n"
@@ -79,20 +102,34 @@ MESSAGES: dict[str, str] = {
     "upload_failed": "Errore nel caricamento delle foto. Riprova o /annulla.",
     # Publish outcome
     "publishing": "⏳ Sto pubblicando...",
+    "price_confirm": "Prezzo: {price}. E' corretto?",
+    "price_confirm_yes": "Sì, corretto",
+    "price_confirm_no": "No, correggo",
     "publish_ok": (
-        "Pubblicato! 🎉\n\n"
+        "Pubblicato! 🎉\n"
+        "Prodotto: {category}\n\n"
         "{site_icon} Sito: {site}\n"
         "{ig_icon} Instagram: {instagram}\n"
         "{fb_icon} Facebook: {facebook}"
     ),
+    "cmd_lista_empty": "Nessun prodotto pubblicato ancora.",
+    "cmd_lista_header": "Ultimi prodotti pubblicati:\n\n",
+    "cmd_lista_item": "• {category} — {price} ({when})\n",
+    "cmd_resumed": "Riprendi da dove eri:",
     "publish_partial_alert": "⚠️ Pubblicazione parziale per chat {chat_id}: {result}",
     # Commands
     "cmd_already_in_progress": (
         "Hai gia' una pubblicazione in corso. /annulla per ricominciare."
     ),
+    "cmd_cancel_confirm": (
+        "Sei sicura di voler annullare?\n"
+        "Perderai tutto quello che hai inserito finora."
+    ),
+    "cmd_cancel_yes": "Sì, annulla tutto",
+    "cmd_cancel_no": "No, continua",
+    "cmd_cancel_no_msg": "Ok, riprendi da dove eri.",
     "cmd_cancelled": "Annullato. Quando vuoi ripartire scrivi /nuovo.",
     "cmd_nothing_to_resume": "Non c'e' nessuna conversazione da riprendere. /nuovo per iniziare.",
-    "cmd_resumed": "Bentornata! Riprendi da qui:",
     "cmd_state_header": "Stato corrente: {step}\n\nDati inseriti finora:\n{data}",
     "cmd_state_empty": "Nessuna pubblicazione in corso. /nuovo per iniziare.",
     # Help (per step)
@@ -102,7 +139,7 @@ MESSAGES: dict[str, str] = {
         "/annulla per uscire."
     ),
     "help_price": "Scrivi solo il numero del prezzo (es: 25 oppure 25,50).",
-    "help_size": "Scrivi la taglia oppure premi \"Salta\".",
+    "help_size": "Scegli una taglia dal menu' (XS/S/M/L/XL/XXL/TU) oppure scrivi una taglia personalizzata. \"Salta\" se non applicabile.",
     "help_description": "Scrivi una descrizione oppure premi \"Salta\".",
     "help_when": (
         "Scegli un bottone: Adesso, Scegli orario, oppure Automatico."
@@ -110,7 +147,10 @@ MESSAGES: dict[str, str] = {
     "help_slot": "Scegli uno degli slot proposti.",
     "help_category": "Scegli una categoria oppure crea una nuova.",
     "help_preview": "Premi Conferma, Modifica o Annulla.",
-    "help_idle": "Nessuna pubblicazione in corso. Scrivi /nuovo per iniziare.",
+    "help_idle": (
+        "Nessuna pubblicazione in corso.\n\n"
+        "Scrivi /nuovo per pubblicare un prodotto, oppure manda direttamente una foto."
+    ),
     # Inactivity
     "inactivity_ping": (
         "Sei ancora li'? Riprendi con /riprendi oppure /annulla per ricominciare."
@@ -118,6 +158,13 @@ MESSAGES: dict[str, str] = {
     # Generic
     "unexpected_input": (
         "Non ho capito. Segui le indicazioni qui sopra. /annulla per uscire."
+    ),
+    "use_buttons": (
+        "Usa i bottoni qui sopra per scegliere. /annulla per uscire."
+    ),
+    "photo_flow_autostart": (
+        "Perfetto, ho ricevuto la foto! Iniziamo la pubblicazione.\n"
+        "Puoi mandarne altre se vuoi, poi premi il bottone per andare avanti."
     ),
     "internal_error": "Qualcosa e' andato storto. Riprova o /annulla.",
 }
