@@ -75,6 +75,7 @@ def _empty_state() -> dict[str, Any]:
         "category": None,      # str
         "_edit_return": False, # if True, after current step go back to PREVIEW
         "_seen_media_groups": [],
+        "_bot_msg_ids": [],    # message_ids of bot messages to delete on step advance
     }
 
 
@@ -164,6 +165,15 @@ def _cancel_inactivity(context: ContextTypes.DEFAULT_TYPE, chat_id: int) -> None
     name = f"{INACTIVITY_JOB_PREFIX}{chat_id}"
     for job in jq.get_jobs_by_name(name):
         job.schedule_removal()
+
+
+async def _delete_bot_msgs(chat_id: int, data: dict[str, Any], bot) -> None:
+    """Delete all tracked bot messages for this flow. Fails silently per message."""
+    for mid in data.pop("_bot_msg_ids", []):
+        try:
+            await bot.delete_message(chat_id=chat_id, message_id=mid)
+        except Exception:
+            pass
 
 
 # ---------- step rendering ----------
@@ -345,7 +355,8 @@ async def _send_preview(
             ai_instagram=captions["instagram"],
             ai_facebook=captions["facebook"],
         )
-        await bot.send_message(chat_id, text, reply_markup=_ai_choice_keyboard())
+        msg = await bot.send_message(chat_id, text, reply_markup=_ai_choice_keyboard())
+        data.setdefault("_bot_msg_ids", []).append(msg.message_id)
         return
 
     # No cached captions — try to generate them.
@@ -382,7 +393,8 @@ async def _send_preview(
                 ai_instagram=result.instagram,
                 ai_facebook=result.facebook,
             )
-            await bot.send_message(chat_id, text, reply_markup=_ai_choice_keyboard())
+            msg = await bot.send_message(chat_id, text, reply_markup=_ai_choice_keyboard())
+            data.setdefault("_bot_msg_ids", []).append(msg.message_id)
             return
         except CaptionError as exc:
             logger.warning("caption_error_fallback", extra={"chat_id": chat_id, "error": str(exc)})
@@ -391,11 +403,13 @@ async def _send_preview(
             except Exception:  # noqa: BLE001
                 pass
             # Explicit fallback confirmation — never silent.
-            await bot.send_message(chat_id, MESSAGES["ai_unavailable_confirm"], reply_markup=_ai_fallback_keyboard())
+            msg = await bot.send_message(chat_id, MESSAGES["ai_unavailable_confirm"], reply_markup=_ai_fallback_keyboard())
+            data.setdefault("_bot_msg_ids", []).append(msg.message_id)
             return
 
     # No API key configured: show plain preview directly.
-    await bot.send_message(chat_id, _format_preview(data), reply_markup=_preview_keyboard())
+    msg = await bot.send_message(chat_id, _format_preview(data), reply_markup=_preview_keyboard())
+    data.setdefault("_bot_msg_ids", []).append(msg.message_id)
 
 
 async def _ask_for_step(
@@ -404,25 +418,30 @@ async def _ask_for_step(
     context: ContextTypes.DEFAULT_TYPE,
     data: dict[str, Any] | None = None,
 ) -> None:
-    """Send the prompt + keyboard for `step`. Idempotent."""
+    """Send the prompt + keyboard for `step`. Tracks message_id in data for later cleanup."""
+    if data is None:
+        data = {}
     bot = context.bot
+    msg = None
     if step == PHOTO:
-        await bot.send_message(chat_id, MESSAGES["step_photo_request"], reply_markup=_photo_keyboard())
+        msg = await bot.send_message(chat_id, MESSAGES["step_photo_request"], reply_markup=_photo_keyboard())
     elif step == PRICE:
-        await bot.send_message(chat_id, MESSAGES["step_price_request"])
+        msg = await bot.send_message(chat_id, MESSAGES["step_price_request"])
     elif step == SIZE:
-        await bot.send_message(chat_id, MESSAGES["step_size_request"], reply_markup=_size_keyboard())
+        msg = await bot.send_message(chat_id, MESSAGES["step_size_request"], reply_markup=_size_keyboard())
     elif step == DESCRIPTION:
-        await bot.send_message(chat_id, MESSAGES["step_description_request"], reply_markup=_skip_keyboard())
+        msg = await bot.send_message(chat_id, MESSAGES["step_description_request"], reply_markup=_skip_keyboard())
     elif step == WHEN:
-        await bot.send_message(chat_id, MESSAGES["step_when_request"], reply_markup=_when_keyboard())
+        msg = await bot.send_message(chat_id, MESSAGES["step_when_request"], reply_markup=_when_keyboard())
     elif step == SLOT:
-        await bot.send_message(chat_id, MESSAGES["step_slot_request"], reply_markup=_slot_keyboard())
+        msg = await bot.send_message(chat_id, MESSAGES["step_slot_request"], reply_markup=_slot_keyboard())
     elif step == CATEGORY:
-        await bot.send_message(chat_id, MESSAGES["step_category_request"], reply_markup=_category_keyboard())
+        msg = await bot.send_message(chat_id, MESSAGES["step_category_request"], reply_markup=_category_keyboard())
     elif step == PREVIEW:
-        data = data or {}
         await _send_preview(chat_id, data, context)
+        return  # _send_preview tracks its own message
+    if msg is not None:
+        data.setdefault("_bot_msg_ids", []).append(msg.message_id)
 
 
 # ---------- price parsing ----------
@@ -485,7 +504,8 @@ async def start_new_flow(chat_id: int, context: ContextTypes.DEFAULT_TYPE) -> No
     data = _empty_state()
     _persist(chat_id, PHOTO, data)
     _schedule_inactivity(context, chat_id)
-    await _ask_for_step(chat_id, PHOTO, context)
+    await _ask_for_step(chat_id, PHOTO, context, data)
+    _persist(chat_id, PHOTO, data)
 
 
 # ---------- photo handling (media groups) ----------
@@ -509,11 +529,13 @@ async def _flush_media_group(context: ContextTypes.DEFAULT_TYPE) -> None:
     if count == 0:
         return
     try:
-        await context.bot.send_message(
+        msg = await context.bot.send_message(
             chat_id=chat_id,
             text=MESSAGES["photo_received"].format(count=count),
             reply_markup=_photo_keyboard(),
         )
+        data.setdefault("_bot_msg_ids", []).append(msg.message_id)
+        _persist(chat_id, PHOTO, data)
         logger.info(
             "media_group_flushed",
             extra={"chat_id": chat_id, "group_id": group_id, "photos": count},
@@ -588,11 +610,13 @@ async def on_photo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
     if _is_new_flow:
         await context.bot.send_message(chat_id, MESSAGES["photo_flow_autostart"])
-    await context.bot.send_message(
+    msg = await context.bot.send_message(
         chat_id,
         MESSAGES["photo_received"].format(count=len(data["photos"])),
         reply_markup=_photo_keyboard(),
     )
+    data.setdefault("_bot_msg_ids", []).append(msg.message_id)
+    _persist(chat_id, PHOTO, data)
 
 
 # ---------- text router (per step) ----------
@@ -673,7 +697,8 @@ async def on_text(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         data["_awaiting_new_category"] = False
         data["category"] = text.strip().title()
         logger.info("category_added", extra={"chat_id": chat_id, "cat_name": text, "total": len(cats)})
-        await context.bot.send_message(chat_id, MESSAGES["category_added"].format(name=text.strip().title()))
+        msg = await context.bot.send_message(chat_id, MESSAGES["category_added"].format(name=text.strip().title()))
+        data.setdefault("_bot_msg_ids", []).append(msg.message_id)
         await _advance_after(chat_id, CATEGORY, data, context)
         return
 
@@ -709,16 +734,17 @@ async def _advance_after(
         # Invalidate cached AI captions if the completed step affects caption content.
         if completed in (DESCRIPTION, CATEGORY, PRICE, SIZE):
             data.pop("_ai_captions", None)
+        await _delete_bot_msgs(chat_id, data, context.bot)
         _persist(chat_id, PREVIEW, data)
         await _ask_for_step(chat_id, PREVIEW, context, data)
+        _persist(chat_id, PREVIEW, data)
         return
 
     next_step = _next_step(completed, data)
+    await _delete_bot_msgs(chat_id, data, context.bot)
     _persist(chat_id, next_step, data)
-    if next_step == PREVIEW:
-        await _ask_for_step(chat_id, PREVIEW, context, data)
-    else:
-        await _ask_for_step(chat_id, next_step, context)
+    await _ask_for_step(chat_id, next_step, context, data)
+    _persist(chat_id, next_step, data)
 
 
 def _next_step(current: int, data: dict[str, Any]) -> int:
@@ -781,8 +807,9 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
             return
         data.pop("price", None)
         data.pop("_price_high_pending", None)
+        msg = await context.bot.send_message(chat_id, MESSAGES["step_price_request"])
+        data.setdefault("_bot_msg_ids", []).append(msg.message_id)
         _persist(chat_id, PRICE, data)
-        await context.bot.send_message(chat_id, MESSAGES["step_price_request"])
         return
 
     # --- CANCEL CONFIRM ---
@@ -903,7 +930,9 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
     if data_token == CB_PREVIEW_EDIT:
         if step != PREVIEW:
             return
-        await context.bot.send_message(chat_id, MESSAGES["edit_menu"], reply_markup=_edit_menu_keyboard())
+        msg = await context.bot.send_message(chat_id, MESSAGES["edit_menu"], reply_markup=_edit_menu_keyboard())
+        data.setdefault("_bot_msg_ids", []).append(msg.message_id)
+        _persist(chat_id, PREVIEW, data)
         return
 
     if data_token == CB_PREVIEW_CANCEL:
@@ -1063,6 +1092,7 @@ async def cancel_flow(chat_id: int, context: ContextTypes.DEFAULT_TYPE) -> None:
                 Path(p).unlink(missing_ok=True)
             except Exception:  # noqa: BLE001
                 pass
+        await _delete_bot_msgs(chat_id, data, context.bot)
     db.clear_state(chat_id)
     _cancel_inactivity(context, chat_id)
     await context.bot.send_message(chat_id, MESSAGES["cmd_cancelled"])
@@ -1080,10 +1110,8 @@ async def resume_flow(chat_id: int, context: ContextTypes.DEFAULT_TYPE) -> bool:
     step, data, _ = state
     _schedule_inactivity(context, chat_id)
     await context.bot.send_message(chat_id, MESSAGES["cmd_resumed"])
-    if step == PREVIEW:
-        await _ask_for_step(chat_id, PREVIEW, context, data)
-    else:
-        await _ask_for_step(chat_id, step, context, data)
+    await _ask_for_step(chat_id, step, context, data)
+    _persist(chat_id, step, data)
     return True
 
 

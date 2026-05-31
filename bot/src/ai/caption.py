@@ -90,6 +90,8 @@ async def generate_captions(
 ) -> CaptionResult:
     if not SETTINGS.anthropic_api_key:
         raise CaptionError("ANTHROPIC_API_KEY not configured")
+    if not description or not description.strip():
+        raise CaptionError("description is required for caption generation")
 
     examples = _load_examples(SETTINGS.caption_examples_path)
     prompt = _build_prompt(description, price, size, category, examples)
