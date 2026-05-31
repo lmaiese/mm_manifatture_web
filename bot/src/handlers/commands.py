@@ -110,3 +110,56 @@ async def cmd_stato(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         return
     logger.info("cmd_invoked", extra={"cmd": "stato", "chat_id": chat.id})
     await context.bot.send_message(chat.id, conv.status_for(chat.id))
+
+
+async def cmd_rimuovi(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    if not await whitelist_guard(update, context):
+        return
+    chat = update.effective_chat
+    if chat is None:
+        return
+    chat_id = chat.id
+    logger.info("cmd_invoked", extra={"cmd": "rimuovi", "chat_id": chat_id})
+
+    from telegram import InlineKeyboardButton, InlineKeyboardMarkup
+    from ..publisher.site import read_published_from_github
+    from .conversation import CB_REMOVE_SEL
+
+    loading_msg = await context.bot.send_message(chat_id, MESSAGES["cmd_rimuovi_loading"])
+    products = await read_published_from_github()
+
+    try:
+        await loading_msg.delete()
+    except Exception:  # noqa: BLE001
+        pass
+
+    if products is None:
+        await context.bot.send_message(chat_id, MESSAGES["cmd_rimuovi_error"])
+        return
+
+    if not products:
+        await context.bot.send_message(chat_id, MESSAGES["cmd_rimuovi_empty"])
+        return
+
+    rows = []
+    for p in products:
+        pid = p.get("id") or ""
+        if not pid:
+            continue
+        cat = p.get("category") or "?"
+        price = f"€{float(p.get('price') or 0):.2f}".replace(".", ",")
+        created = (p.get("created_at") or "")[:10]
+        label = f"{cat} — {price} ({created})"
+        if len(label) > 50:
+            label = label[:47] + "..."
+        rows.append([InlineKeyboardButton(label, callback_data=f"{CB_REMOVE_SEL}{pid}")])
+
+    if not rows:
+        await context.bot.send_message(chat_id, MESSAGES["cmd_rimuovi_empty"])
+        return
+
+    await context.bot.send_message(
+        chat_id,
+        MESSAGES["cmd_rimuovi_list_header"],
+        reply_markup=InlineKeyboardMarkup(rows),
+    )

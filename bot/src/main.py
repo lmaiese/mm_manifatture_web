@@ -50,8 +50,9 @@ async def _post_init(app: Application) -> None:
 
     await app.bot.set_my_commands([
         BotCommand("nuovo",   "Pubblica un nuovo prodotto"),
-        BotCommand("riprendi","Riprendi una pubblicazione in corso"),
+        BotCommand("rimuovi", "Nascondi un prodotto dal sito"),
         BotCommand("lista",   "Ultimi 5 prodotti pubblicati"),
+        BotCommand("riprendi","Riprendi una pubblicazione in corso"),
         BotCommand("stato",   "Vedi cosa hai inserito finora"),
         BotCommand("annulla", "Annulla e ricomincia"),
         BotCommand("aiuto",   "Aiuto sul passo corrente"),
@@ -95,13 +96,14 @@ def build_app() -> Application:
         .build()
     )
 
-    app.add_handler(CommandHandler("start",   cmd.cmd_start))
-    app.add_handler(CommandHandler("nuovo",   cmd.cmd_nuovo))
-    app.add_handler(CommandHandler("lista",   cmd.cmd_lista))
-    app.add_handler(CommandHandler("annulla", cmd.cmd_annulla))
+    app.add_handler(CommandHandler("start",    cmd.cmd_start))
+    app.add_handler(CommandHandler("nuovo",    cmd.cmd_nuovo))
+    app.add_handler(CommandHandler("rimuovi",  cmd.cmd_rimuovi))
+    app.add_handler(CommandHandler("lista",    cmd.cmd_lista))
+    app.add_handler(CommandHandler("annulla",  cmd.cmd_annulla))
     app.add_handler(CommandHandler("riprendi", cmd.cmd_riprendi))
-    app.add_handler(CommandHandler("aiuto", cmd.cmd_aiuto))
-    app.add_handler(CommandHandler("stato", cmd.cmd_stato))
+    app.add_handler(CommandHandler("aiuto",    cmd.cmd_aiuto))
+    app.add_handler(CommandHandler("stato",    cmd.cmd_stato))
 
     app.add_handler(MessageHandler(filters.PHOTO, conv.on_photo))
     app.add_handler(

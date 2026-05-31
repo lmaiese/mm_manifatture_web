@@ -126,3 +126,80 @@ async def _trigger_deploy_hook(hook_url: str) -> bool:
     except Exception as exc:
         logger.error("deploy_hook_error", extra={"error": str(exc)})
         return False
+
+
+# ---------- read / hide ----------
+
+
+async def read_published_from_github() -> list[dict[str, Any]]:
+    """Return published products from GitHub catalog, newest first. [] on any error."""
+    token = SETTINGS.github_token
+    repo_name = SETTINGS.github_repo
+    if not token or not repo_name:
+        return []
+    return await asyncio.to_thread(_read_published_sync, token, repo_name)
+
+
+def _read_published_sync(token: str, repo_name: str) -> list[dict[str, Any]]:
+    from github import Github, GithubException
+
+    gh = Github(token)
+    try:
+        repo = gh.get_repo(repo_name)
+        file = repo.get_contents(CATALOG_PATH, ref="main")
+        catalog = json.loads(file.decoded_content.decode("utf-8"))  # type: ignore[union-attr]
+        products = [p for p in (catalog.get("products") or []) if p.get("published", True)]
+        products.sort(key=lambda p: p.get("created_at") or "", reverse=True)
+        return products
+    except GithubException as exc:
+        logger.warning("read_published_failed", extra={"error": str(exc)})
+        return []
+    except Exception as exc:
+        logger.warning("read_published_error", extra={"error": str(exc)})
+        return []
+
+
+async def hide_product(product_id: str) -> bool:
+    """Set published=False for product_id, commit to GitHub, and trigger deploy hook."""
+    token = SETTINGS.github_token
+    repo_name = SETTINGS.github_repo
+    if not token or not repo_name:
+        logger.error("hide_product_skipped", extra={"reason": "GITHUB_TOKEN or GITHUB_REPO missing"})
+        return False
+
+    ok = await asyncio.to_thread(_hide_product_sync, token, repo_name, product_id)
+    if ok and SETTINGS.vercel_deploy_hook:
+        await _trigger_deploy_hook(SETTINGS.vercel_deploy_hook)
+    return ok
+
+
+def _hide_product_sync(token: str, repo_name: str, product_id: str) -> bool:
+    from github import Github, GithubException
+
+    gh = Github(token)
+    try:
+        repo = gh.get_repo(repo_name)
+        file = repo.get_contents(CATALOG_PATH, ref="main")
+        raw = file.decoded_content.decode("utf-8")  # type: ignore[union-attr]
+        catalog = json.loads(raw)
+        products = catalog.get("products") or []
+        target = next((p for p in products if p.get("id") == product_id), None)
+        if target is None:
+            logger.warning("hide_product_not_found", extra={"product_id": product_id})
+            return False
+        target["published"] = False
+        repo.update_file(
+            path=CATALOG_PATH,
+            message=f"chore: hide product {product_id[:8]}",
+            content=json.dumps(catalog, ensure_ascii=False, indent=2),
+            sha=file.sha,  # type: ignore[union-attr]
+            branch="main",
+        )
+        logger.info("product_hidden", extra={"product_id": product_id})
+        return True
+    except GithubException as exc:
+        logger.error("hide_product_github_failed", extra={"error": str(exc)})
+        return False
+    except Exception as exc:
+        logger.error("hide_product_failed", extra={"error": str(exc)})
+        return False

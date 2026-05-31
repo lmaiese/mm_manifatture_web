@@ -168,6 +168,18 @@ MESSAGES: dict[str, str] = {
         "Puoi mandarne altre se vuoi, poi premi il bottone per andare avanti."
     ),
     "internal_error": "Qualcosa e' andato storto. Riprova o /annulla.",
+    # /rimuovi flow
+    "cmd_rimuovi_loading": "Carico la lista dei prodotti...",
+    "cmd_rimuovi_empty": "Nessun prodotto visibile sul sito al momento.",
+    "cmd_rimuovi_error": "Non riesco a leggere i prodotti dal sito. Riprova tra poco.",
+    "cmd_rimuovi_list_header": "Quale prodotto vuoi nascondere dal sito?\n\nToccane uno:",
+    "cmd_rimuovi_confirm": "Nascondi questo prodotto?\n\n{product_info}\n\nIl sito si aggiornerà in automatico.",
+    "rm_confirm_yes": "Sì, nascondi",
+    "rm_confirm_no": "No, annulla",
+    "cmd_rimuovi_ok": "✅ Fatto. Il prodotto non è più visibile sul sito entro ~1 minuto.",
+    "cmd_rimuovi_fail": "Qualcosa è andato storto. Il prodotto non è stato nascosto. Riprova o controlla la connessione.",
+    "cmd_rimuovi_not_found": "Prodotto non trovato. Potrebbe essere già stato nascosto.",
+    "cmd_rimuovi_cancelled": "Nessuna modifica effettuata.",
 }
 
 

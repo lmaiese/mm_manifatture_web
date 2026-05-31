@@ -62,6 +62,9 @@ CB_AI_USE = "ai_use"
 CB_AI_USE_MINE = "ai_use_mine"
 CB_AI_FALLBACK_CONFIRM = "ai_fb_confirm"
 CB_AI_FALLBACK_CANCEL = "ai_fb_cancel"
+CB_REMOVE_SEL = "rm_sel:"
+CB_REMOVE_YES = "rm_yes"
+CB_REMOVE_NO  = "rm_no"
 
 
 # ---------- state helpers ----------
@@ -785,6 +788,97 @@ def _next_step(current: int, data: dict[str, Any]) -> int:
     return PREVIEW
 
 
+# ---------- remove flow helpers ----------
+
+
+async def _on_remove_select(
+    chat_id: int,
+    product_id: str,
+    query,
+    context: ContextTypes.DEFAULT_TYPE,
+) -> None:
+    from ..publisher.site import read_published_from_github
+
+    products = await read_published_from_github()
+    product = next((p for p in products if p.get("id") == product_id), None)
+    if product is None:
+        await context.bot.send_message(chat_id, MESSAGES["cmd_rimuovi_not_found"])
+        return
+
+    cat = product.get("category") or "?"
+    price = f"€{float(product.get('price') or 0):.2f}".replace(".", ",")
+    size = product.get("size")
+    desc = (product.get("description_site") or "")[:100]
+    product_info = f"{cat} — {price}"
+    if size:
+        product_info += f" — taglia {size}"
+    if desc:
+        product_info += f"\n{desc}"
+
+    if context.user_data is not None:
+        context.user_data["rm_pending"] = product_id
+        context.user_data["rm_info"] = product_info
+
+    try:
+        await query.edit_message_reply_markup(reply_markup=None)
+    except Exception:  # noqa: BLE001
+        pass
+
+    await context.bot.send_message(
+        chat_id,
+        MESSAGES["cmd_rimuovi_confirm"].format(product_info=product_info),
+        reply_markup=InlineKeyboardMarkup([[
+            InlineKeyboardButton(MESSAGES["rm_confirm_yes"], callback_data=CB_REMOVE_YES),
+            InlineKeyboardButton(MESSAGES["rm_confirm_no"],  callback_data=CB_REMOVE_NO),
+        ]]),
+    )
+
+
+async def _on_remove_yes(
+    chat_id: int,
+    query,
+    context: ContextTypes.DEFAULT_TYPE,
+) -> None:
+    from ..publisher.site import hide_product
+
+    product_id = (context.user_data or {}).get("rm_pending")
+    if not product_id:
+        await context.bot.send_message(chat_id, MESSAGES["cmd_rimuovi_not_found"])
+        return
+
+    try:
+        await query.edit_message_reply_markup(reply_markup=None)
+    except Exception:  # noqa: BLE001
+        pass
+
+    ok = await hide_product(product_id)
+
+    if context.user_data:
+        context.user_data.pop("rm_pending", None)
+        context.user_data.pop("rm_info", None)
+
+    await context.bot.send_message(
+        chat_id,
+        MESSAGES["cmd_rimuovi_ok"] if ok else MESSAGES["cmd_rimuovi_fail"],
+    )
+    logger.info("remove_product_result", extra={"chat_id": chat_id, "product_id": product_id, "ok": ok})
+
+
+async def _on_remove_no(
+    chat_id: int,
+    query,
+    context: ContextTypes.DEFAULT_TYPE,
+) -> None:
+    if context.user_data:
+        context.user_data.pop("rm_pending", None)
+        context.user_data.pop("rm_info", None)
+    try:
+        await query.edit_message_reply_markup(reply_markup=None)
+    except Exception:  # noqa: BLE001
+        pass
+    await context.bot.send_message(chat_id, MESSAGES["cmd_rimuovi_cancelled"])
+
+
 # ---------- callback router ----------
 
 
@@ -802,6 +896,17 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
     try:
         await query.answer()
     except TgBadRequest:
+        return
+
+    # --- REMOVE FLOW (state-independent — must be before conversation state check) ---
+    if data_token.startswith(CB_REMOVE_SEL):
+        await _on_remove_select(chat_id, data_token[len(CB_REMOVE_SEL):], query, context)
+        return
+    if data_token == CB_REMOVE_YES:
+        await _on_remove_yes(chat_id, query, context)
+        return
+    if data_token == CB_REMOVE_NO:
+        await _on_remove_no(chat_id, query, context)
         return
 
     state = db.load_state(chat_id)
