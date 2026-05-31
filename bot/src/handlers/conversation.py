@@ -895,14 +895,20 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
     if data_token == CB_AI_USE:
         if step != PREVIEW:
             return
-        # User accepted AI captions — proceed to publish.
+        try:
+            await query.edit_message_reply_markup(reply_markup=None)
+        except Exception:  # noqa: BLE001
+            pass
         await _confirm_publish(chat_id, data, context)
         return
 
     if data_token == CB_AI_USE_MINE:
         if step != PREVIEW:
             return
-        # User rejected AI captions — clear cached captions and publish with original text.
+        try:
+            await query.edit_message_reply_markup(reply_markup=None)
+        except Exception:  # noqa: BLE001
+            pass
         data.pop("_ai_captions", None)
         await _confirm_publish(chat_id, data, context)
         return
@@ -910,7 +916,10 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
     if data_token == CB_AI_FALLBACK_CONFIRM:
         if step != PREVIEW:
             return
-        # AI was unavailable, user confirmed to publish with their own text.
+        try:
+            await query.edit_message_reply_markup(reply_markup=None)
+        except Exception:  # noqa: BLE001
+            pass
         await _confirm_publish(chat_id, data, context)
         return
 
@@ -924,6 +933,10 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
     if data_token == CB_PREVIEW_CONFIRM:
         if step != PREVIEW:
             return
+        try:
+            await query.edit_message_reply_markup(reply_markup=None)
+        except Exception:  # noqa: BLE001
+            pass
         await _confirm_publish(chat_id, data, context)
         return
 
@@ -993,6 +1006,10 @@ async def _confirm_publish(
         photo_urls = await upload_photos(local_paths, on_progress=_on_progress)
     except UploadError as exc:
         logger.error("upload_error", extra={"chat_id": chat_id, "error": str(exc)})
+        try:
+            await progress_msg.delete()
+        except Exception:  # noqa: BLE001
+            pass
         await context.bot.send_message(chat_id, MESSAGES["upload_failed"])
         await notify_admin(context, f"upload_failed chat={chat_id} error={exc}")
         return
@@ -1039,6 +1056,10 @@ async def _confirm_publish(
             slot_label = dt_local.strftime("%d/%m alle %H:%M")
         else:
             slot_label = "prossimo slot disponibile"
+        try:
+            await progress_msg.delete()
+        except Exception:  # noqa: BLE001
+            pass
         await context.bot.send_message(
             chat_id,
             f"✅ In coda! Pubblicherò il {slot_label}.",
@@ -1050,6 +1071,10 @@ async def _confirm_publish(
         result = await publish(product)
     except Exception as exc:  # noqa: BLE001
         logger.error("publish_failed", extra={"chat_id": chat_id, "error": str(exc)})
+        try:
+            await progress_msg.delete()
+        except Exception:  # noqa: BLE001
+            pass
         await context.bot.send_message(chat_id, MESSAGES["internal_error"])
         await notify_admin(context, f"publish_failed chat={chat_id} error={exc}")
         return
@@ -1062,6 +1087,10 @@ async def _confirm_publish(
     def _status(ok: bool) -> str:
         return "✅" if ok else "❌"
 
+    try:
+        await progress_msg.delete()
+    except Exception:  # noqa: BLE001
+        pass
     await context.bot.send_message(
         chat_id,
         MESSAGES["publish_ok"].format(
