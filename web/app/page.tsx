@@ -98,25 +98,6 @@ export default function HomePage() {
         </section>
       )}
 
-      {/* Categories */}
-      {categories.length > 0 && (
-        <section className="max-w-5xl mx-auto px-4 pb-16">
-          <h2 className="font-serif text-2xl font-semibold text-foreground mb-2">Sfoglia per tipo</h2>
-          <p className="text-sm mb-5" style={{ color: 'var(--muted)' }}>Maglioncini, bambole, accessori — scegli cosa stai cercando.</p>
-          <div className="flex flex-wrap gap-3">
-            {categories.map((cat) => (
-              <Link
-                key={cat}
-                href={`/prodotti?categoria=${encodeURIComponent(cat)}`}
-                className="px-5 py-2 border border-border rounded-full text-sm text-foreground hover:border-accent hover:text-accent transition-colors"
-              >
-                {cat}
-              </Link>
-            ))}
-          </div>
-        </section>
-      )}
-
       {/* Empty state */}
       {products.length === 0 && (
         <section className="max-w-5xl mx-auto px-4 py-16 text-center">
@@ -132,6 +113,24 @@ export default function HomePage() {
           >
             Chiedi un pezzo personalizzato →
           </Link>
+        </section>
+      )}
+
+      {/* Categories */}
+      {categories.length > 0 && (
+        <section className="max-w-5xl mx-auto px-4 py-10 border-t border-border">
+          <h2 className="font-serif text-xl font-semibold text-foreground mb-4">Sfoglia per tipo</h2>
+          <div className="flex flex-wrap gap-3">
+            {categories.map((cat) => (
+              <Link
+                key={cat}
+                href={`/prodotti?categoria=${encodeURIComponent(cat)}`}
+                className="px-5 py-2 border border-border rounded-full text-sm text-foreground hover:border-accent hover:text-accent transition-colors"
+              >
+                {cat}
+              </Link>
+            ))}
+          </div>
         </section>
       )}
     </>
