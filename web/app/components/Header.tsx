@@ -17,14 +17,14 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-40 bg-background/95 backdrop-blur border-b border-border">
-      <div className="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
+      <div className="max-w-5xl mx-auto px-4 h-20 flex items-center justify-between">
         <Link href="/" aria-label="M&M Manifatture — Home">
           <Image
             src="/logo-en.jpeg"
             alt="M&M Manifatture"
-            width={44}
-            height={44}
-            className="rounded"
+            width={220}
+            height={64}
+            style={{ height: '52px', width: 'auto', objectFit: 'contain' }}
             priority
           />
         </Link>

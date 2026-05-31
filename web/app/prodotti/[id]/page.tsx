@@ -1,7 +1,9 @@
 import { notFound } from 'next/navigation'
-import Image from 'next/image'
 import { getPublishedProducts } from '@/lib/catalog'
 import type { Metadata } from 'next'
+import PhotoGallery from '@/app/components/PhotoGallery'
+import CareAccordion from '@/app/components/CareAccordion'
+import ProductCard from '@/app/components/ProductCard'
 
 const WHATSAPP_PHONE = '393331276332'
 const BASE_URL = 'https://mm-manifatture-web.vercel.app'
@@ -34,10 +36,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default function ProductPage({ params }: Props) {
   const products = getPublishedProducts()
   const product = products.find((p) => p.id === params.id)
-
   if (!product) return notFound()
 
-  const photo = product.photos?.[0]
   const price = `€${product.price.toFixed(2).replace('.', ',')}`
   const productUrl = `${BASE_URL}/prodotti/${product.id}`
   const waMessage = encodeURIComponent(
@@ -45,44 +45,39 @@ export default function ProductPage({ params }: Props) {
   )
   const waHref = `https://wa.me/${WHATSAPP_PHONE}?text=${waMessage}`
 
+  const related = products
+    .filter((p) => p.category === product.category && p.id !== product.id)
+    .slice(0, 4)
+
   return (
     <main className="product-detail-page">
       <div className="product-detail-container">
 
-        {/* Back link */}
         <a href="/prodotti" className="product-detail-back">
           ← Tutti i prodotti
         </a>
 
         <div className="product-detail-layout">
 
-          {/* Foto */}
-          <div className="product-detail-image-wrap">
-            {photo ? (
-              <Image
-                src={photo}
-                alt={product.description_site || product.category}
-                fill
-                className="object-cover"
-                sizes="(max-width: 768px) 100vw, 50vw"
-                priority
-              />
-            ) : (
-              <div className="product-detail-no-photo">
-                Foto non disponibile
-              </div>
-            )}
-            <span className="handmade-badge">fatto a mano</span>
-          </div>
+          {/* Gallery */}
+          <PhotoGallery
+            photos={product.photos ?? []}
+            alt={product.description_site || product.category}
+          />
 
           {/* Info */}
           <div className="product-detail-info">
 
-            <span className="product-detail-category">
-              {product.category}
-            </span>
+            <span className="product-detail-category">{product.category}</span>
 
             <p className="product-detail-price">{price}</p>
+
+            <div className="product-detail-uniqueness">
+              <span className="product-detail-uniqueness-dot">✦</span>
+              <span>Pezzo unico</span>
+              <span className="product-detail-uniqueness-sep">·</span>
+              <span>Realizzazione: 3–5 giorni lavorativi</span>
+            </div>
 
             {product.size && (
               <p className="product-detail-size">
@@ -96,6 +91,35 @@ export default function ProductPage({ params }: Props) {
                 {product.description_site}
               </p>
             )}
+
+            <CareAccordion category={product.category} />
+
+            <div className="product-order-steps">
+              <p className="product-order-title">Come funziona l'ordine</p>
+              <div className="product-order-list">
+                <div className="product-order-step">
+                  <span className="product-order-number">1</span>
+                  <div>
+                    <p className="product-order-step-title">Scrivi su WhatsApp</p>
+                    <p className="product-order-step-desc">Monica risponde entro 24 ore e conferma disponibilità.</p>
+                  </div>
+                </div>
+                <div className="product-order-step">
+                  <span className="product-order-number">2</span>
+                  <div>
+                    <p className="product-order-step-title">Conferma e personalizzazione</p>
+                    <p className="product-order-step-desc">Taglia, colore, eventuali varianti. Ogni pezzo può essere adattato.</p>
+                  </div>
+                </div>
+                <div className="product-order-step">
+                  <span className="product-order-number">3</span>
+                  <div>
+                    <p className="product-order-step-title">Ritiro o spedizione</p>
+                    <p className="product-order-step-desc">Ritiro a Gioi (SA) o spedizione in tutta Italia.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
 
             <div className="product-detail-cta-group">
               <a
@@ -113,6 +137,18 @@ export default function ProductPage({ params }: Props) {
 
           </div>
         </div>
+
+        {related.length > 0 && (
+          <div className="related-products-section">
+            <h2 className="related-products-title">Altri pezzi di Monica</h2>
+            <div className="related-products-grid">
+              {related.map((p) => (
+                <ProductCard key={p.id} product={p} />
+              ))}
+            </div>
+          </div>
+        )}
+
       </div>
     </main>
   )

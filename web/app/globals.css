@@ -217,7 +217,7 @@ h1, h2, h3 {
 }
 
 .product-detail-container {
-  max-width: 48rem;
+  max-width: 64rem;
   margin: 0 auto;
 }
 
@@ -237,6 +237,8 @@ h1, h2, h3 {
   display: grid;
   grid-template-columns: 1fr;
   gap: 2rem;
+  max-width: 54rem;
+  margin: 0 auto;
 }
 
 @media (min-width: 640px) {
@@ -415,4 +417,214 @@ h1, h2, h3 {
   color: var(--foreground);
   line-height: 1.6;
   margin: 0;
+}
+
+/* Product detail — uniqueness badge */
+.product-detail-uniqueness {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8125rem;
+  color: var(--muted);
+  padding: 0.75rem 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.product-detail-uniqueness-dot {
+  color: var(--accent);
+  font-size: 0.6rem;
+  line-height: 1;
+}
+
+.product-detail-uniqueness-sep {
+  color: var(--border);
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0 0.1rem;
+}
+
+/* Photo gallery */
+.photo-gallery {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.photo-gallery-main {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  background-color: var(--background);
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.photo-gallery-thumbs {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding-bottom: 2px;
+}
+
+.photo-gallery-thumb {
+  position: relative;
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  border-radius: 0.25rem;
+  overflow: hidden;
+  border: 2px solid var(--border);
+  cursor: pointer;
+  transition: border-color 0.15s;
+  background-color: var(--background);
+}
+
+.photo-gallery-thumb.active {
+  border-color: var(--accent);
+}
+
+.photo-gallery-thumb:hover {
+  border-color: var(--accent);
+}
+
+/* Care accordion */
+.care-accordion {
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.care-accordion-trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.875rem 1.125rem;
+  background: #fff;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--foreground);
+  gap: 0.5rem;
+}
+
+.care-accordion-trigger:hover {
+  background-color: #faf6f2;
+}
+
+.care-accordion-body {
+  padding: 0.25rem 1.125rem 0.875rem;
+  background: #fff;
+  border-top: 1px solid var(--border);
+}
+
+.care-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.625rem;
+  padding: 0.5rem 0;
+  font-size: 0.8125rem;
+  color: var(--muted);
+  line-height: 1.5;
+  border-bottom: 1px solid var(--border);
+}
+
+.care-item:last-child {
+  border-bottom: none;
+}
+
+.care-item-dot {
+  color: var(--accent);
+  flex-shrink: 0;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  opacity: 0.6;
+}
+
+/* How to order steps */
+.product-order-steps {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  padding: 1.25rem;
+}
+
+.product-order-title {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin: 0 0 1rem;
+}
+
+.product-order-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+.product-order-step {
+  display: flex;
+  gap: 0.875rem;
+  align-items: flex-start;
+}
+
+.product-order-number {
+  width: 1.625rem;
+  height: 1.625rem;
+  border-radius: 50%;
+  background-color: rgba(212, 96, 122, 0.1);
+  color: var(--accent);
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+.product-order-step-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin: 0 0 0.15rem;
+}
+
+.product-order-step-desc {
+  font-size: 0.8125rem;
+  color: var(--muted);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Related products */
+.related-products-section {
+  margin-top: 3rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.related-products-title {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin: 0 0 1.25rem;
+}
+
+.related-products-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .related-products-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
