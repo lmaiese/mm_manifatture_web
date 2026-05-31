@@ -28,10 +28,14 @@ export default function NoteLegaliPage() {
         </p>
         <div className="bg-white border border-border rounded-lg p-5 space-y-2 text-sm">
           <div className="flex gap-4"><span className="text-muted w-32 shrink-0">Ragione sociale</span><span>{legal.company_name}</span></div>
+          <div className="flex gap-4"><span className="text-muted w-32 shrink-0">Forma giuridica</span><span>{legal.legal_form}</span></div>
           <div className="flex gap-4"><span className="text-muted w-32 shrink-0">P.IVA</span><span>{legal.vat_number}</span></div>
           <div className="flex gap-4"><span className="text-muted w-32 shrink-0">Sede legale</span><span>{legal.legal_address}</span></div>
           <div className="flex gap-4"><span className="text-muted w-32 shrink-0">Email</span>
             <a href={`mailto:${legal.email}`} className="text-accent hover:underline">{legal.email}</a>
+          </div>
+          <div className="flex gap-4"><span className="text-muted w-32 shrink-0">PEC</span>
+            <a href={`mailto:${legal.pec}`} className="text-accent hover:underline">{legal.pec}</a>
           </div>
         </div>
       </section>
@@ -43,7 +47,7 @@ export default function NoteLegaliPage() {
           Il presente documento descrive come {legal.company_name} (di seguito "Titolare") raccoglie e tratta i dati personali degli utenti che visitano questo sito web, ai sensi del Regolamento UE 2016/679 (GDPR).
         </p>
         <h3 className="font-semibold text-foreground mt-6">Titolare del trattamento</h3>
-        <p>{legal.company_name} — {legal.legal_address} — <a href={`mailto:${legal.email}`} className="text-accent hover:underline">{legal.email}</a></p>
+        <p>{legal.company_name} ({legal.legal_form}) — {legal.legal_address} — <a href={`mailto:${legal.email}`} className="text-accent hover:underline">{legal.email}</a></p>
 
         <h3 className="font-semibold text-foreground mt-6">Dati raccolti</h3>
         <ul className="list-disc pl-5 space-y-1 text-muted">
@@ -61,7 +65,10 @@ export default function NoteLegaliPage() {
         <p className="text-muted">Dati analytics: 14 mesi (impostazione predefinita GA4, configurabile). Dati form contatti: non archiviati dal sito.</p>
 
         <h3 className="font-semibold text-foreground mt-6">Trasferimenti extra-UE</h3>
-        <p className="text-muted">Google Analytics trasferisce dati verso server Google LLC (USA) sulla base delle Standard Contractual Clauses approvate dalla Commissione Europea.</p>
+        <ul className="list-disc pl-5 space-y-1 text-muted">
+          <li><span className="text-foreground">Google Analytics</span>: trasferisce dati verso server Google LLC (USA) sulla base delle Standard Contractual Clauses approvate dalla Commissione Europea.</li>
+          <li><span className="text-foreground">Vercel Inc.</span> (hosting del sito, USA): tratta dati tecnici di accesso (IP, log) come responsabile del trattamento ex art.28 GDPR, sulla base delle Standard Contractual Clauses. <a href="https://vercel.com/legal/privacy-policy" className="text-accent hover:underline" target="_blank" rel="noopener noreferrer">Privacy policy Vercel</a>.</li>
+        </ul>
 
         <h3 className="font-semibold text-foreground mt-6">Diritti dell'interessato</h3>
         <p className="text-muted">Hai diritto di accesso, rettifica, cancellazione, limitazione, portabilità e opposizione al trattamento. Per esercitarli scrivi a{' '}
@@ -88,8 +95,8 @@ export default function NoteLegaliPage() {
             <tbody className="divide-y divide-border">
               <tr>
                 <td className="py-2 pr-4">Tecnico</td>
-                <td className="py-2 pr-4 font-mono text-xs">mm_cookie_consent</td>
-                <td className="py-2 pr-4 text-muted">Salva la scelta cookie dell'utente</td>
+                <td className="py-2 pr-4 font-mono text-xs">localStorage:<br/>mm_cookie_consent</td>
+                <td className="py-2 pr-4 text-muted">Salva la scelta sulle preferenze cookie (localStorage, non cookie HTTP)</td>
                 <td className="py-2">No (necessario)</td>
               </tr>
               <tr>
@@ -106,7 +113,7 @@ export default function NoteLegaliPage() {
           Nessun cookie di profilazione, marketing o di terze parti al di fuori di Google Analytics (attivato solo con consenso).
         </p>
         <p className="text-muted">
-          Puoi revocare il consenso in qualsiasi momento svuotando il localStorage del browser o tramite le impostazioni del tuo browser.
+          Puoi revocare o modificare il consenso in qualsiasi momento tramite il link &ldquo;Gestisci preferenze cookie&rdquo; nel footer del sito.
         </p>
       </section>
 
