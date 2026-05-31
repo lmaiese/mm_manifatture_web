@@ -125,6 +125,21 @@
       ],
       "published": true,
       "scheduled_for": null
+    },
+    {
+      "id": "84a4799d-07ee-4191-ac17-f01185e712aa",
+      "created_at": "2026-05-31T22:42:46.712763+00:00",
+      "category": "Altro",
+      "price": 35.0,
+      "size": "XXL",
+      "description_site": "T-shirt XXL con stampa originale 'Gigi che si fa un selfie' — un capo divertente e ironico, realizzato con qualità artigianale. €35,00.",
+      "description_instagram": "📸 Gigi si fa un selfie... e tu? T-shirt XXL con stampa divertente e originale 😄\n\n€35 · Disponibile ora\n\n#tshirtartigianale #stampaoriginale #abbigliamento #fattaconpassione #vintage",
+      "description_facebook": "Nuovo capo in collezione! 🎨\n\nT-shirt XXL con una stampa che strappa un sorriso: 'Gigi che si fa un selfie'.\n\nPerfetta per chi ama l'ironia e i pezzi unici. Ogni stampa è realizzata con cura, proprio come tutti i nostri prodotti.\n\nPrezzo: €35,00 · Taglia XXL\n\nScrivici per avere il tuo! 😊",
+      "photos": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1780267366/mm_manifatture/vbrhytz9f0ks7fhafmcg.jpg"
+      ],
+      "published": true,
+      "scheduled_for": null
     }
   ],
   "categories": [
