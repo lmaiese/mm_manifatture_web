@@ -13,7 +13,10 @@ export default function Footer() {
   return (
     <footer className="mt-16 footer-dark">
       <div className="max-w-5xl mx-auto px-4 py-8 flex flex-col md:flex-row items-center justify-between gap-4 text-sm">
-        <p>© {year} M&amp;M Manifatture di Scarpa Monica</p>
+        <div>
+          <p>© {year} M&amp;M Manifatture di Scarpa Monica</p>
+          <p className="footer-tagline">Ogni pezzo è unico — fatto a mano, con ore di lavoro e materiali scelti.</p>
+        </div>
         <nav className="flex flex-wrap gap-6 justify-center">
           {FOOTER_LINKS.map(({ href, label }) => (
             <Link key={href} href={href} className="footer-link">

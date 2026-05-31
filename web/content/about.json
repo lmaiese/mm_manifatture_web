@@ -1,14 +1,55 @@
 {
-  "title": "Chi siamo",
-  "subtitle": "Artigianato fatto a mano, con cura",
+  "title": "Monica e il filo che tiene tutto insieme",
+  "subtitle": "Ogni pezzo nasce dalle mie mani, a Gioi, tra i monti del Cilento",
   "body": [
-    "M&M Manifatture di Scarpa Monica nasce dalla passione per l'artigianato e dalla volontà di creare oggetti unici, realizzati interamente a mano con materiali di qualità.",
-    "Ogni pezzo è pensato, lavorato e rifinito personalmente — nessun pezzo è identico a un altro. È questo che rende speciale il lavoro artigianale: il tempo, la cura, e la traccia di chi lo ha creato.",
-    "Trovate i nostri prodotti in negozio o contattateci direttamente per richieste personalizzate."
+    "Mi chiamo Monica Scarpa e da quando ricordo ho sempre avuto qualcosa tra le dita: un ferro da maglia, un uncinetto, un filo. Ho aperto M&M Manifatture perché volevo che quella passione diventasse qualcosa di reale — oggetti che durano, che si regalano, che si conservano.",
+    "Lavoro con lana merinos, cotone e filati naturali scelti uno per uno. La lana merinos è morbida anche sulla pelle dei bambini, non pizzica. Il cotone che uso è filato a freddo, resiste ai lavaggi. Non compro mai in base al prezzo: compro in base a come si comporta il filo tra le mani.",
+    "Le tecniche che uso sono quelle tradizionali: maglia a due ferri per i maglioncini, uncinetto per le bambole di pezza e gli accessori, pezzotto per alcuni tessuti. Ogni tecnica ha i suoi tempi. Un maglioncino taglia 2 anni richiede 8-12 ore di lavoro. Una bambola di pezza anche di più, perché ogni parte va cucita e imbottita a mano.",
+    "Non faccio serie. Se vuoi un pezzo uguale a quello in foto, lo realizzo apposta per te — potrebbe essere leggermente diverso nel colore o nei dettagli, perché è fatto a mano. Questa non è una limitazione: è la ragione per cui vale la pena averlo."
   ],
   "values": [
-    { "label": "Fatto a mano", "description": "Ogni prodotto è lavorato personalmente, dal materiale grezzo alla finitura finale." },
-    { "label": "Qualità", "description": "Usiamo solo materiali selezionati, scelti per durabilità e bellezza." },
-    { "label": "Unicità", "description": "Nessun pezzo è identico. Ogni oggetto porta con sé il segno di chi lo ha creato." }
+    {
+      "label": "Filati naturali selezionati",
+      "description": "Lana merinos, cotone e fibre naturali scelti per morbidezza, durata e rispetto per la pelle. Niente sintetico nei pezzi per bambini."
+    },
+    {
+      "label": "Tecniche tramandate",
+      "description": "Maglia a due ferri, uncinetto, pezzotto. Tecniche manuali che non si automatizzano: richiedono attenzione, pazienza e anni di pratica."
+    },
+    {
+      "label": "Ogni pezzo è una commissione",
+      "description": "Non tengo magazzino. Se lo vuoi, lo faccio per te. Puoi scegliere colore, misura, personalizzazioni. Questo richiede tempo — e vale ogni ora."
+    }
+  ],
+  "materials": [
+    {
+      "name": "Lana Merinos",
+      "description": "Morbida, termica, non pizzica. Ideale per maglioncini e capi bambino. La scelgo pettinata fine, trattata a bassa temperatura."
+    },
+    {
+      "name": "Cotone Naturale",
+      "description": "Fresco, resistente ai lavaggi ripetuti. Usato per accessori, amigurumi e pezzi per la stagione calda."
+    },
+    {
+      "name": "Filati Misti Naturali",
+      "description": "Lana e alpaca, lana e seta, cotone e lino. Scelgo blend in base alla resa visiva e alla mano del tessuto finito."
+    }
+  ],
+  "process_steps": [
+    {
+      "step": "01",
+      "title": "Mi scrivi",
+      "description": "Raccontami cosa vuoi: colore, misura, per chi è il regalo. Rispondo entro 24 ore con materiali disponibili e tempi realistici."
+    },
+    {
+      "step": "02",
+      "title": "Io creo",
+      "description": "Realizzo il pezzo a mano, con i materiali concordati. Dipende dalla complessità: da qualche giorno a qualche settimana."
+    },
+    {
+      "step": "03",
+      "title": "Tu ricevi",
+      "description": "Consegna in negozio a Gioi o spedizione in Italia. Ogni pezzo parte con cura, imbustato a mano."
+    }
   ]
 }

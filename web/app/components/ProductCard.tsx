@@ -16,10 +16,11 @@ export default function ProductCard({ product }: { product: Product }) {
             sizes="(max-width: 768px) 50vw, 33vw"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-muted text-sm">
+          <div className="w-full h-full flex items-center justify-center text-sm" style={{ color: 'var(--muted)' }}>
             Nessuna foto
           </div>
         )}
+        <span className="handmade-badge">fatto a mano</span>
       </div>
 
       <div className="p-4 flex flex-col gap-2 flex-1">
@@ -28,7 +29,7 @@ export default function ProductCard({ product }: { product: Product }) {
             {product.category}
           </span>
           {product.size && (
-            <span className="text-xs text-muted">Taglia: {product.size}</span>
+            <span className="text-xs" style={{ color: 'var(--muted)' }}>Taglia: {product.size}</span>
           )}
         </div>
 
@@ -42,7 +43,7 @@ export default function ProductCard({ product }: { product: Product }) {
           <span className="font-serif text-lg font-semibold text-foreground">
             €{product.price.toFixed(2)}
           </span>
-          <span className="text-xs text-muted">IVA inclusa</span>
+          <span className="text-xs" style={{ color: 'var(--muted)' }}>IVA inclusa</span>
         </div>
 
         <a
