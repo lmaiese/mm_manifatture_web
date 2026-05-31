@@ -110,6 +110,21 @@
       ],
       "published": true,
       "scheduled_for": null
+    },
+    {
+      "id": "1f70190f-9cbf-42a5-b2c6-e0a6654be933",
+      "created_at": "2026-05-31T22:33:42.521544+00:00",
+      "category": "Altro",
+      "price": 1000.0,
+      "size": "XXL",
+      "description_site": "Scultura in legno 'Il parente con il nipotino' — un'opera artigianale che cattura la tenerezza dei legami familiari. Dimensione XXL. €1.000,00.",
+      "description_instagram": "💛 'Il parente con il nipotino' — scultura in legno che racconta amore e famiglia.\n\nXXL · Pezzo unico artigianale\n\n#sculturainlegno #artigianato #fattoadamano #familiaartistica #operartigianale",
+      "description_facebook": "Una nuova scultura speciale è arrivata in negozio: 'Il parente con il nipotino'.\n\nUn'opera in legno che cattura con delicatezza i momenti più importanti della vita — i legami familiari, la tenerezza, il passaggio di amore tra generazioni.\n\nDimensione XXL · Prezzo: €1.000,00\n\nOgni dettaglio è stato lavorato a mano con dedizione. Perfetta come opera d'arte per la casa o come regalo significativo.\n\nVieni a vederla in negozio o scrivici per informazioni!",
+      "photos": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1780266821/mm_manifatture/skiw8xkwg1gfiqvaebxq.jpg"
+      ],
+      "published": true,
+      "scheduled_for": null
     }
   ],
   "categories": [
