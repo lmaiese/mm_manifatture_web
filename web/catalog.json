@@ -24,7 +24,7 @@
       "photos": [
         "/products/02.jpg"
       ],
-      "published": true
+      "published": false
     },
     {
       "id": "demo-003",
