@@ -131,7 +131,7 @@
       "photos": [
         "https://res.cloudinary.com/djke3vkmd/image/upload/v1780310942/mm_manifatture/n8sfaj4jazmwc6obs4ig.jpg"
       ],
-      "published": true,
+      "published": false,
       "scheduled_for": null
     }
   ],
