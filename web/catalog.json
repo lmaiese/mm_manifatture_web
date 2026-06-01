@@ -108,7 +108,7 @@
       "photos": [
         "https://res.cloudinary.com/djke3vkmd/image/upload/v1780304076/mm_manifatture/jyal2t4bevf4dpxozadt.jpg"
       ],
-      "published": true,
+      "published": false,
       "scheduled_for": null
     }
   ],
