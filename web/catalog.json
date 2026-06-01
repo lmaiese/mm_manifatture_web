@@ -133,6 +133,22 @@
       ],
       "published": false,
       "scheduled_for": null
+    },
+    {
+      "id": "287a957e-725e-4ca0-97ea-85fe4e6430b4",
+      "created_at": "2026-06-01T12:18:10.575415+00:00",
+      "title": "",
+      "category": "Abbigliamento",
+      "price": 35.0,
+      "size": "5/6 anni",
+      "description_site": "",
+      "description_instagram": "",
+      "description_facebook": "",
+      "photos": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1780316289/mm_manifatture/r0jwlfkv7kt1aa19pola.jpg"
+      ],
+      "published": true,
+      "scheduled_for": null
     }
   ],
   "categories": [
