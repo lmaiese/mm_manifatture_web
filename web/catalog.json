@@ -149,6 +149,23 @@
       ],
       "published": true,
       "scheduled_for": null
+    },
+    {
+      "id": "c98c60ca-4dff-469c-9156-2c3d1cf15314",
+      "created_at": "2026-06-01T12:31:48.150487+00:00",
+      "title": "Completo giacca e canotta viscosa taglia L",
+      "category": "Abbigliamento",
+      "price": 90.0,
+      "size": "L",
+      "description_site": "Completo in viscosa confort leggermente elasticizzata, composto da giacca e canotta con dettaglio al fondo punzonato. La viscosa garantisce morbidezza e traspirabilità, mentre l'elastico permette libertà di movimento. Un set versatile per la mezza stagione o da stratificare, taglia L. €90,00.",
+      "description_instagram": "Completo giacca + canotta in viscosa confort con fondo punzonato. Morbido e versatile 🤍\n\nTaglia L · €90\n\n#abbigliartigianalecilento #viscosaconfort #completoabbigliamento #fattaamano #mezzastagione",
+      "description_facebook": "Quando cerchi un capo che sia comodo ma non rinuncia al dettaglio — ecco quello che fa la differenza.\n\nMonica ha creato questo completo in viscosa confort, composto da giacca e canotta coordinati. Il materiale è morbido sulla pelle e leggermente elasticizzato, perfetto per chi vuole libertà di movimento senza rinunciare a una linea definita. Il lavoro al fondo punzonato aggiunge un tocco artigianale e rende il pezzo diverso da quello che troverai in negozio.\n\nTaglia L, ideale per la mezza stagione o da indossare a strati nei giorni più freschi.\n\nPrezzo: €90,00 · Scrivi per info o per ordinare.",
+      "photos": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1780317106/mm_manifatture/rx6hduxealxqtqmga1gw.jpg",
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1780317106/mm_manifatture/ybo4mdly0esgx2lzva9x.jpg"
+      ],
+      "published": true,
+      "scheduled_for": null
     }
   ],
   "categories": [
