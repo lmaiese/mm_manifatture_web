@@ -95,6 +95,21 @@
         "/products/08.jpg"
       ],
       "published": true
+    },
+    {
+      "id": "7f34d0da-99a6-413a-8bba-97575866fe95",
+      "created_at": "2026-06-01T08:54:36.972383+00:00",
+      "category": "Altro",
+      "price": 35.0,
+      "size": "XL",
+      "description_site": "Un pezzo che racconta affetto e tenerezza — lavorato a mano con la stessa cura che Monica dedica a ogni creazione. Taglia XL. Un regalo che sorride. €35,00.",
+      "description_instagram": "💚 Un gesto semplice, fatto con le mani. Taglia XL.\n\n€35 · Pezzo unico artigianale\n\n#artigianatoitaliano #fattoadamano #cilento #regalochesiamano",
+      "description_facebook": "A volte i regali più cari sono quelli che non ha senso spiegare — quelli che fanno sorridere chi li riceve perché raccontano una storia vera, fatta di tempo e attenzione.\n\nQuesto pezzo in taglia XL è lavorato interamente a mano da Monica nel suo laboratorio a Gioi. Non è prodotto in serie, non è industriale: è un oggetto che respira l'affetto di chi l'ha creato.\n\nPerfetto come regalo per chi sai che apprezzerà il gesto artigianale più della perfezione. Per chi capisce che un pezzo fatto a mano, anche semplice, vale più di mille cose uguali.\n\n€35,00 · Scrivi per ordinare il tuo.",
+      "photos": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1780304076/mm_manifatture/jyal2t4bevf4dpxozadt.jpg"
+      ],
+      "published": true,
+      "scheduled_for": null
     }
   ],
   "categories": [
