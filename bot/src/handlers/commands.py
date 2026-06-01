@@ -146,12 +146,10 @@ async def cmd_rimuovi(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
         pid = p.get("id") or ""
         if not pid:
             continue
-        cat = p.get("category") or "?"
+        desc = (p.get("description_site") or "").strip()
         price = f"€{float(p.get('price') or 0):.2f}".replace(".", ",")
-        created = (p.get("created_at") or "")[:10]
-        label = f"{cat} — {price} ({created})"
-        if len(label) > 50:
-            label = label[:47] + "..."
+        title = desc[:38] + "…" if len(desc) > 38 else desc or (p.get("category") or "?")
+        label = f"{title} — {price}"
         rows.append([InlineKeyboardButton(label, callback_data=f"{CB_REMOVE_SEL}{pid}")])
 
     if not rows:
