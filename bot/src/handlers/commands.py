@@ -93,11 +93,11 @@ async def cmd_lista(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         return
     lines = [MESSAGES["cmd_lista_header"]]
     for p in products:
-        cat = p.get("category") or "-"
+        title = (p.get("title") or p.get("category") or "-")
         price = conv._format_price(p.get("price"))
         published_at = (p.get("_published_at") or "")[:16].replace("T", " ")
         lines.append(MESSAGES["cmd_lista_item"].format(
-            category=cat, price=price, when=published_at
+            title=title, price=price, when=published_at
         ))
     await context.bot.send_message(chat_id, "".join(lines))
 
@@ -146,10 +146,14 @@ async def cmd_rimuovi(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
         pid = p.get("id") or ""
         if not pid:
             continue
-        desc = (p.get("description_site") or "").strip()
         price = f"€{float(p.get('price') or 0):.2f}".replace(".", ",")
-        title = desc[:38] + "…" if len(desc) > 38 else desc or (p.get("category") or "?")
-        label = f"{title} — {price}"
+        raw_title = (p.get("title") or "").strip()
+        if not raw_title:
+            desc = (p.get("description_site") or "").strip()
+            raw_title = (desc[:38] + "…") if len(desc) > 38 else desc
+        if not raw_title:
+            raw_title = p.get("category") or "?"
+        label = f"{raw_title} — {price}"
         rows.append([InlineKeyboardButton(label, callback_data=f"{CB_REMOVE_SEL}{pid}")])
 
     if not rows:

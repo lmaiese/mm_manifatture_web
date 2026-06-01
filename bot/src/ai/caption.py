@@ -34,6 +34,7 @@ class CaptionResult:
     site: str
     instagram: str
     facebook: str
+    title: str
 
 # Brand voice — kept in a constant so it can be reviewed and updated independently
 # from prompt logic without touching the function signatures.
@@ -67,12 +68,17 @@ ANTIPATTERN — non scrivere mai così:
 ✗ "#handmade #love #style" (hashtag anglofoni generici)
 
 OUTPUT
-Rispondi esclusivamente con un oggetto JSON valido con chiavi "site", "instagram", \
+Rispondi esclusivamente con un oggetto JSON valido con chiavi "title", "site", "instagram", \
 "facebook". Nessun testo prima o dopo il JSON. Nessun markdown fence.\
 """
 
 _FORMAT_SPEC = """\
 SPECIFICHE PER CANALE
+
+TITOLO (chiave "title")
+- 3-6 parole. Formato: tipo + materiale/colore + taglia se bambino/neonato.
+- Esempi corretti: "Maglioncino merinos avorio 3-4 anni", "Cardigan alpaca grigio 6-7 anni", "Sciarpa lana tortora con frange".
+- Non includere il prezzo. Non usare articoli (il/la/un). Non usare aggettivi valutativi.
 
 SITO (chiave "site")
 - 60-120 parole. Prosa descrittiva, due o tre frasi.
@@ -190,7 +196,7 @@ async def generate_captions(
         response = await asyncio.to_thread(
             client.messages.create,
             model=_MODEL,
-            max_tokens=800,
+            max_tokens=900,
             system=_SYSTEM_PROMPT,
             messages=[{"role": "user", "content": prompt}],
         )
@@ -210,13 +216,13 @@ async def generate_captions(
 
     try:
         parsed = json.loads(_strip_fences(raw))
-        # Validate all three keys are non-empty strings
+        title = str(parsed.get("title", "")).strip()
         site = str(parsed.get("site", "")).strip()
         instagram = str(parsed.get("instagram", "")).strip()
         facebook = str(parsed.get("facebook", "")).strip()
-        if not (site and instagram and facebook):
+        if not (title and site and instagram and facebook):
             raise ValueError(f"missing keys in response: {list(parsed.keys())}")
-        return CaptionResult(site=site, instagram=instagram, facebook=facebook)
+        return CaptionResult(title=title, site=site, instagram=instagram, facebook=facebook)
     except (json.JSONDecodeError, KeyError, ValueError) as exc:
         logger.error("caption_parse_failed", extra={"raw": raw[:300], "error": str(exc)})
         raise CaptionError(f"JSON parse failed: {exc}") from exc

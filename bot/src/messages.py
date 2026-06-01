@@ -82,9 +82,10 @@ MESSAGES: dict[str, str] = {
     # AI caption
     "ai_generating": "Genero suggerimento AI...",
     "ai_unavailable_confirm": (
-        "⚠️ Suggerimento AI non disponibile. Pubblico con la tua descrizione. Confermi?"
+        "⚠️ Suggerimento AI non disponibile. Vuoi riprovare o pubblicare con la tua descrizione?"
     ),
-    "ai_confirm_yes": "Sì, pubblica",
+    "ai_retry_button": "Riprova AI",
+    "ai_confirm_yes": "Pubblica senza AI",
     "ai_confirm_no": "Annulla",
     "step_preview_ai": (
         "Riepilogo prodotto\n\n"
@@ -94,6 +95,7 @@ MESSAGES: dict[str, str] = {
         "Pubblicazione: {when}\n"
         "Categoria: {category}\n\n"
         "📝 Tua descrizione:\n{description}\n\n"
+        "🏷️ Titolo AI: {ai_title}\n\n"
         "🤖 Suggerimento AI (sito):\n{ai_site}\n\n"
         "📸 Instagram:\n{ai_instagram}\n\n"
         "👥 Facebook:\n{ai_facebook}"
@@ -117,7 +119,7 @@ MESSAGES: dict[str, str] = {
     ),
     "cmd_lista_empty": "Nessun prodotto pubblicato ancora.",
     "cmd_lista_header": "Ultimi prodotti pubblicati:\n\n",
-    "cmd_lista_item": "• {category} — {price} ({when})\n",
+    "cmd_lista_item": "• {title} — {price} ({when})\n",
     "cmd_resumed": "Riprendi da dove eri:",
     "publish_partial_alert": "⚠️ Pubblicazione parziale per chat {chat_id}: {result}",
     # Commands

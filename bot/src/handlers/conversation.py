@@ -62,6 +62,7 @@ CB_AI_USE = "ai_use"
 CB_AI_USE_MINE = "ai_use_mine"
 CB_AI_FALLBACK_CONFIRM = "ai_fb_confirm"
 CB_AI_FALLBACK_CANCEL = "ai_fb_cancel"
+CB_AI_RETRY = "ai_retry"
 CB_REMOVE_SEL = "rm_sel:"
 CB_REMOVE_YES = "rm_yes"
 CB_REMOVE_NO  = "rm_no"
@@ -327,9 +328,10 @@ def _ai_fallback_keyboard() -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(
         [
             [
+                InlineKeyboardButton(MESSAGES["ai_retry_button"], callback_data=CB_AI_RETRY),
                 InlineKeyboardButton(MESSAGES["ai_confirm_yes"], callback_data=CB_AI_FALLBACK_CONFIRM),
-                InlineKeyboardButton(MESSAGES["ai_confirm_no"], callback_data=CB_AI_FALLBACK_CANCEL),
-            ]
+            ],
+            [InlineKeyboardButton(MESSAGES["ai_confirm_no"], callback_data=CB_AI_FALLBACK_CANCEL)],
         ]
     )
 
@@ -371,6 +373,7 @@ async def _send_preview(
             when=_format_when(data),
             category=data.get("category") or "-",
             description=data.get("description") or "-",
+            ai_title=captions.get("title", ""),
             ai_site=captions["site"],
             ai_instagram=captions["instagram"],
             ai_facebook=captions["facebook"],
@@ -390,6 +393,7 @@ async def _send_preview(
                 category=data.get("category") or "",
             )
             data["_ai_captions"] = {
+                "title": result.title,
                 "site": result.site,
                 "instagram": result.instagram,
                 "facebook": result.facebook,
@@ -409,6 +413,7 @@ async def _send_preview(
                 when=_format_when(data),
                 category=data.get("category") or "-",
                 description=data.get("description") or "-",
+                ai_title=result.title,
                 ai_site=result.site,
                 ai_instagram=result.instagram,
                 ai_facebook=result.facebook,
@@ -422,7 +427,7 @@ async def _send_preview(
                 await thinking_msg.delete()
             except Exception:  # noqa: BLE001
                 pass
-            # Explicit fallback confirmation — never silent.
+            # Explicit fallback with retry option — never silent.
             msg = await bot.send_message(chat_id, MESSAGES["ai_unavailable_confirm"], reply_markup=_ai_fallback_keyboard())
             data.setdefault("_bot_msg_ids", []).append(msg.message_id)
             return
@@ -1069,6 +1074,19 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
         await _confirm_publish(chat_id, data, context)
         return
 
+    if data_token == CB_AI_RETRY:
+        if step != PREVIEW:
+            return
+        try:
+            await query.edit_message_reply_markup(reply_markup=None)
+        except Exception:  # noqa: BLE001
+            pass
+        data.pop("_ai_captions", None)
+        _persist(chat_id, PREVIEW, data)
+        await _send_preview(chat_id, data, context)
+        _persist(chat_id, PREVIEW, data)
+        return
+
     if data_token == CB_AI_FALLBACK_CONFIRM:
         if step != PREVIEW:
             return
@@ -1175,8 +1193,9 @@ async def _confirm_publish(
     except Exception:  # noqa: BLE001
         pass
 
-    # Choose description: AI site caption if accepted, otherwise user text.
+    # Choose description/title: AI output if accepted, otherwise user text.
     captions = data.get("_ai_captions")
+    title = captions.get("title", "") if captions else ""
     description_site = captions["site"] if captions else (data.get("description") or "")
     description_instagram = captions["instagram"] if captions else (data.get("description") or "")
     description_facebook = captions["facebook"] if captions else (data.get("description") or "")
@@ -1187,6 +1206,7 @@ async def _confirm_publish(
         "photos": photo_urls,
         "price": data.get("price"),
         "size": data.get("size"),
+        "title": title,
         "description_site": description_site,
         "description_instagram": description_instagram,
         "description_facebook": description_facebook,

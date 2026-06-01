@@ -4,6 +4,7 @@ import path from 'path'
 export interface Product {
   id: string
   created_at: string
+  title?: string | null
   category: string
   price: number
   size?: string | null

@@ -31,6 +31,7 @@ def _make_product_entry(product: dict[str, Any]) -> dict[str, Any]:
     return {
         "id": str(uuid.uuid4()),
         "created_at": datetime.now(timezone.utc).isoformat(),
+        "title": product.get("title") or "",
         "category": product.get("category") or "",
         "price": float(product.get("price") or 0.0),
         "size": product.get("size"),

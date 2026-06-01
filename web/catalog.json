@@ -3,6 +3,7 @@
     {
       "id": "demo-001",
       "created_at": "2026-05-20T10:00:00Z",
+      "title": "Maglione righe navy 4 anni",
       "category": "Abbigliamento",
       "price": 35,
       "size": "4 anni",
@@ -15,6 +16,7 @@
     {
       "id": "demo-002",
       "created_at": "2026-05-20T11:00:00Z",
+      "title": "Cardigan grigio-blu 5 anni",
       "category": "Abbigliamento",
       "price": 42,
       "size": "5 anni",
@@ -27,6 +29,7 @@
     {
       "id": "demo-003",
       "created_at": "2026-05-21T09:00:00Z",
+      "title": "Maglione blu petrolio 4 anni",
       "category": "Abbigliamento",
       "price": 35,
       "size": "4 anni",
@@ -39,6 +42,7 @@
     {
       "id": "demo-004",
       "created_at": "2026-05-21T10:00:00Z",
+      "title": "Maglione trecce azzurro 3 anni",
       "category": "Abbigliamento",
       "price": 38,
       "size": "3 anni",
@@ -51,6 +55,7 @@
     {
       "id": "demo-005",
       "created_at": "2026-05-22T09:00:00Z",
+      "title": "Maglione raglan navy 6 anni",
       "category": "Abbigliamento",
       "price": 38,
       "size": "6 anni",
@@ -63,6 +68,7 @@
     {
       "id": "demo-006",
       "created_at": "2026-05-22T10:00:00Z",
+      "title": "Maglione righe teal 3 anni",
       "category": "Abbigliamento",
       "price": 35,
       "size": "3 anni",
@@ -75,10 +81,11 @@
     {
       "id": "demo-007",
       "created_at": "2026-05-23T10:00:00Z",
+      "title": "Bambolotto di pezza fatto a mano",
       "category": "Altro",
       "price": 45,
       "size": null,
-      "description_site": "Bambola di pezza a mano — bambino con maglione a righe blu e bianche. Viso dipinto a mano, imbottitura in fibra naturale. Circa 35 cm.",
+      "description_site": "Bambolotto artigianale — bambino con maglione a righe blu e bianche. Viso dipinto a mano, imbottitura in fibra naturale. Circa 35 cm.",
       "photos": [
         "/products/07.jpg"
       ],
@@ -87,10 +94,11 @@
     {
       "id": "demo-008",
       "created_at": "2026-05-23T11:00:00Z",
+      "title": "Bambolina di pezza fatta a mano",
       "category": "Altro",
       "price": 45,
       "size": null,
-      "description_site": "Bambola di pezza a mano — bambina con top e pantaloni a righe rosa. Viso dipinto a mano, capelli in lana gialla. Circa 35 cm.",
+      "description_site": "Bambolina artigianale — bambina con top e pantaloni a righe rosa. Viso dipinto a mano, capelli in lana gialla. Circa 35 cm.",
       "photos": [
         "/products/08.jpg"
       ],
