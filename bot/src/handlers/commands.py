@@ -112,6 +112,94 @@ async def cmd_stato(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await context.bot.send_message(chat.id, conv.status_for(chat.id))
 
 
+async def cmd_venduto(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """List available products and let the user mark one as sold."""
+    if not await whitelist_guard(update, context):
+        return
+    chat = update.effective_chat
+    if chat is None:
+        return
+    chat_id = chat.id
+    logger.info("cmd_invoked", extra={"cmd": "venduto", "chat_id": chat_id})
+
+    from telegram import InlineKeyboardButton, InlineKeyboardMarkup
+    from ..publisher.site import read_available_from_github
+    from .conversation import CB_AVAIL_SEL_SOLD
+
+    loading_msg = await context.bot.send_message(chat_id, MESSAGES["cmd_venduto_loading"])
+    products = await read_available_from_github()
+
+    try:
+        await loading_msg.delete()
+    except Exception:  # noqa: BLE001
+        pass
+
+    if not products:
+        await context.bot.send_message(chat_id, MESSAGES["cmd_venduto_empty"])
+        return
+
+    rows = []
+    for p in products:
+        pid = p.get("id") or ""
+        if not pid:
+            continue
+        rows.append([InlineKeyboardButton(conv._product_label(p), callback_data=f"{CB_AVAIL_SEL_SOLD}{pid}")])
+
+    if not rows:
+        await context.bot.send_message(chat_id, MESSAGES["cmd_venduto_empty"])
+        return
+
+    await context.bot.send_message(
+        chat_id,
+        MESSAGES["cmd_venduto_list_header"],
+        reply_markup=InlineKeyboardMarkup(rows),
+    )
+
+
+async def cmd_disponibile(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """List sold products and let the user mark one as available again."""
+    if not await whitelist_guard(update, context):
+        return
+    chat = update.effective_chat
+    if chat is None:
+        return
+    chat_id = chat.id
+    logger.info("cmd_invoked", extra={"cmd": "disponibile", "chat_id": chat_id})
+
+    from telegram import InlineKeyboardButton, InlineKeyboardMarkup
+    from ..publisher.site import read_sold_from_github
+    from .conversation import CB_AVAIL_SEL_AVAIL
+
+    loading_msg = await context.bot.send_message(chat_id, MESSAGES["cmd_disponibile_loading"])
+    products = await read_sold_from_github()
+
+    try:
+        await loading_msg.delete()
+    except Exception:  # noqa: BLE001
+        pass
+
+    if not products:
+        await context.bot.send_message(chat_id, MESSAGES["cmd_disponibile_empty"])
+        return
+
+    rows = []
+    for p in products:
+        pid = p.get("id") or ""
+        if not pid:
+            continue
+        rows.append([InlineKeyboardButton(conv._product_label(p), callback_data=f"{CB_AVAIL_SEL_AVAIL}{pid}")])
+
+    if not rows:
+        await context.bot.send_message(chat_id, MESSAGES["cmd_disponibile_empty"])
+        return
+
+    await context.bot.send_message(
+        chat_id,
+        MESSAGES["cmd_disponibile_list_header"],
+        reply_markup=InlineKeyboardMarkup(rows),
+    )
+
+
 async def cmd_rimuovi(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     if not await whitelist_guard(update, context):
         return

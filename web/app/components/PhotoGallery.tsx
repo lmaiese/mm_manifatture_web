@@ -6,9 +6,10 @@ import { useState } from 'react'
 interface Props {
   photos: string[]
   alt: string
+  isSold?: boolean
 }
 
-export default function PhotoGallery({ photos, alt }: Props) {
+export default function PhotoGallery({ photos, alt, isSold = false }: Props) {
   const [active, setActive] = useState(0)
   const current = photos[active] ?? null
 
@@ -20,7 +21,7 @@ export default function PhotoGallery({ photos, alt }: Props) {
             src={current}
             alt={alt}
             fill
-            className="object-cover"
+            className={`object-cover${isSold ? ' img-sold' : ''}`}
             sizes="(max-width: 768px) 100vw, 50vw"
             priority
           />
@@ -28,6 +29,7 @@ export default function PhotoGallery({ photos, alt }: Props) {
           <div className="product-detail-no-photo">Foto non disponibile</div>
         )}
         <span className="handmade-badge">fatto a mano</span>
+        {isSold && <span className="sold-badge">✓ Venduto</span>}
       </div>
 
       {photos.length > 1 && (

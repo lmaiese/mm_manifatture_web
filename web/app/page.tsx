@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
-import { getPublishedProducts, getCategories } from '@/lib/catalog'
+import { getAvailableProducts, getCategories } from '@/lib/catalog'
 import ProductCard from './components/ProductCard'
 import about from '@/content/about.json'
 
@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 }
 
 export default function HomePage() {
-  const products = getPublishedProducts()
+  const products = getAvailableProducts()
   const latest = products.slice(-4).reverse()
   const categories = getCategories()
 

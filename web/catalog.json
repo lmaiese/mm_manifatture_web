@@ -11,7 +11,8 @@
       "photos": [
         "/products/01.jpg"
       ],
-      "published": false
+      "published": true,
+      "available": true
     },
     {
       "id": "demo-002",
@@ -24,7 +25,8 @@
       "photos": [
         "/products/02.jpg"
       ],
-      "published": false
+      "published": true,
+      "available": false
     },
     {
       "id": "demo-003",
@@ -37,7 +39,8 @@
       "photos": [
         "/products/03.jpg"
       ],
-      "published": false
+      "published": true,
+      "available": false
     },
     {
       "id": "demo-004",
@@ -50,7 +53,8 @@
       "photos": [
         "/products/04.jpg"
       ],
-      "published": false
+      "published": true,
+      "available": true
     },
     {
       "id": "demo-005",
@@ -63,7 +67,8 @@
       "photos": [
         "/products/05.jpg"
       ],
-      "published": false
+      "published": true,
+      "available": false
     },
     {
       "id": "demo-006",
@@ -76,7 +81,8 @@
       "photos": [
         "/products/06.jpg"
       ],
-      "published": false
+      "published": true,
+      "available": false
     },
     {
       "id": "demo-007",
@@ -89,7 +95,8 @@
       "photos": [
         "/products/07.jpg"
       ],
-      "published": false
+      "published": true,
+      "available": false
     },
     {
       "id": "demo-008",
@@ -102,7 +109,8 @@
       "photos": [
         "/products/08.jpg"
       ],
-      "published": false
+      "published": true,
+      "available": false
     },
     {
       "id": "7f34d0da-99a6-413a-8bba-97575866fe95",
@@ -117,7 +125,8 @@
         "https://res.cloudinary.com/djke3vkmd/image/upload/v1780304076/mm_manifatture/jyal2t4bevf4dpxozadt.jpg"
       ],
       "published": false,
-      "scheduled_for": null
+      "scheduled_for": null,
+      "available": true
     },
     {
       "id": "d97cf7d1-1238-4271-a9f2-2e08c47fc457",
@@ -165,7 +174,8 @@
         "https://res.cloudinary.com/djke3vkmd/image/upload/v1780317106/mm_manifatture/ybo4mdly0esgx2lzva9x.jpg"
       ],
       "published": true,
-      "scheduled_for": null
+      "scheduled_for": null,
+      "available": true
     }
   ],
   "categories": [

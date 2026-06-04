@@ -17,33 +17,40 @@ from .meta import publish_instagram, publish_facebook
 logger = logging.getLogger("publisher")
 
 
-async def publish(product: dict[str, Any]) -> dict[str, bool]:
-    result: dict[str, bool] = {"site": False, "instagram": False, "facebook": False}
+async def publish(product: dict[str, Any]) -> dict[str, bool | None]:
+    destination = product.get("destination", "all")
+    publish_site = destination in ("site", "all")
+    publish_social = destination in ("social", "all")
 
-    # Site publisher: active when GitHub token is configured.
-    if SETTINGS.github_token:
-        result["site"] = await publish_to_site(product)
-    else:
-        mock_result = await mock_publish(product)
-        result["site"] = mock_result.get("site", False)
-        logger.info("site_publisher_mock", extra={"reason": "GITHUB_TOKEN not set"})
+    result: dict[str, bool | None] = {"site": None, "instagram": None, "facebook": None}
 
-    # Meta publishers: active when META_ENABLED=1 and credentials are set.
-    if SETTINGS.meta_enabled:
-        ig_result, fb_result = await asyncio.gather(
-            publish_instagram(product),
-            publish_facebook(product),
-            return_exceptions=True,
-        )
-        result["instagram"] = ig_result is True
-        result["facebook"] = fb_result is True
-        if isinstance(ig_result, Exception):
-            logger.error("ig_publish_exception", extra={"error": str(ig_result)})
-        if isinstance(fb_result, Exception):
-            logger.error("fb_publish_exception", extra={"error": str(fb_result)})
-    else:
-        logger.debug("meta_publisher_disabled", extra={"reason": "META_ENABLED not set"})
+    # Site publisher
+    if publish_site:
+        if SETTINGS.github_token:
+            result["site"] = await publish_to_site(product)
+        else:
+            mock_result = await mock_publish(product)
+            result["site"] = mock_result.get("site", False)
+            logger.info("site_publisher_mock", extra={"reason": "GITHUB_TOKEN not set"})
 
+    # Meta publishers
+    if publish_social:
+        if SETTINGS.meta_enabled:
+            ig_result, fb_result = await asyncio.gather(
+                publish_instagram(product),
+                publish_facebook(product),
+                return_exceptions=True,
+            )
+            result["instagram"] = ig_result is True
+            result["facebook"] = fb_result is True
+            if isinstance(ig_result, Exception):
+                logger.error("ig_publish_exception", extra={"error": str(ig_result)})
+            if isinstance(fb_result, Exception):
+                logger.error("fb_publish_exception", extra={"error": str(fb_result)})
+        else:
+            logger.debug("meta_publisher_disabled", extra={"reason": "META_ENABLED not set"})
+
+    logger.info("publish_dispatched", extra={"destination": destination})
     return result
 
 

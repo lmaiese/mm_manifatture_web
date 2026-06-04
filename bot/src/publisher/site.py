@@ -40,6 +40,7 @@ def _make_product_entry(product: dict[str, Any]) -> dict[str, Any]:
         "description_facebook": product.get("description_facebook") or "",
         "photos": product.get("photos") or [],
         "published": True,
+        "available": True,
         "scheduled_for": product.get("scheduled_for"),
     }
 
@@ -158,6 +159,102 @@ def _read_published_sync(token: str, repo_name: str) -> list[dict[str, Any]]:
     except Exception as exc:
         logger.warning("read_published_error", extra={"error": str(exc)})
         return []
+
+
+async def read_available_from_github() -> list[dict[str, Any]]:
+    """Return published + available (not sold) products, newest first."""
+    token = SETTINGS.github_token
+    repo_name = SETTINGS.github_repo
+    if not token or not repo_name:
+        return []
+    return await asyncio.to_thread(_read_available_sync, token, repo_name)
+
+
+def _read_available_sync(token: str, repo_name: str) -> list[dict[str, Any]]:
+    gh = Github(token)
+    try:
+        repo = gh.get_repo(repo_name)
+        file = repo.get_contents(CATALOG_PATH, ref="main")
+        catalog = json.loads(file.decoded_content.decode("utf-8"))  # type: ignore[union-attr]
+        products = [
+            p for p in (catalog.get("products") or [])
+            if p.get("published", True) and p.get("available", True)
+        ]
+        products.sort(key=lambda p: p.get("created_at") or "", reverse=True)
+        return products
+    except Exception as exc:
+        logger.warning("read_available_failed", extra={"error": str(exc)})
+        return []
+
+
+async def read_sold_from_github() -> list[dict[str, Any]]:
+    """Return published but sold (available=False) products, newest first."""
+    token = SETTINGS.github_token
+    repo_name = SETTINGS.github_repo
+    if not token or not repo_name:
+        return []
+    return await asyncio.to_thread(_read_sold_sync, token, repo_name)
+
+
+def _read_sold_sync(token: str, repo_name: str) -> list[dict[str, Any]]:
+    gh = Github(token)
+    try:
+        repo = gh.get_repo(repo_name)
+        file = repo.get_contents(CATALOG_PATH, ref="main")
+        catalog = json.loads(file.decoded_content.decode("utf-8"))  # type: ignore[union-attr]
+        products = [
+            p for p in (catalog.get("products") or [])
+            if p.get("published", True) and not p.get("available", True)
+        ]
+        products.sort(key=lambda p: p.get("created_at") or "", reverse=True)
+        return products
+    except Exception as exc:
+        logger.warning("read_sold_failed", extra={"error": str(exc)})
+        return []
+
+
+async def update_availability(product_id: str, available: bool) -> bool:
+    """Set available=True/False for product_id, commit to GitHub, trigger deploy."""
+    token = SETTINGS.github_token
+    repo_name = SETTINGS.github_repo
+    if not token or not repo_name:
+        logger.error("update_availability_skipped", extra={"reason": "missing config"})
+        return False
+    ok = await asyncio.to_thread(_update_availability_sync, token, repo_name, product_id, available)
+    if ok and SETTINGS.vercel_deploy_hook:
+        await _trigger_deploy_hook(SETTINGS.vercel_deploy_hook)
+    return ok
+
+
+def _update_availability_sync(token: str, repo_name: str, product_id: str, available: bool) -> bool:
+    gh = Github(token)
+    try:
+        repo = gh.get_repo(repo_name)
+        file = repo.get_contents(CATALOG_PATH, ref="main")
+        raw = file.decoded_content.decode("utf-8")  # type: ignore[union-attr]
+        catalog = json.loads(raw)
+        products = catalog.get("products") or []
+        target = next((p for p in products if p.get("id") == product_id), None)
+        if target is None:
+            logger.warning("update_availability_not_found", extra={"product_id": product_id})
+            return False
+        target["available"] = available
+        action = "sold" if not available else "available"
+        repo.update_file(
+            path=CATALOG_PATH,
+            message=f"chore: mark product {product_id[:8]} as {action}",
+            content=json.dumps(catalog, ensure_ascii=False, indent=2),
+            sha=file.sha,  # type: ignore[union-attr]
+            branch="main",
+        )
+        logger.info("availability_updated", extra={"product_id": product_id, "available": available})
+        return True
+    except GithubException as exc:
+        logger.error("update_availability_github_failed", extra={"error": str(exc)})
+        return False
+    except Exception as exc:
+        logger.error("update_availability_failed", extra={"error": str(exc)})
+        return False
 
 
 async def hide_product(product_id: str) -> bool:

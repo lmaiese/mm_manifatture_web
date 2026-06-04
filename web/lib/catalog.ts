@@ -13,6 +13,7 @@ export interface Product {
   description_facebook?: string | null
   photos: string[]
   published: boolean
+  available?: boolean   // undefined / true = available for purchase; false = sold / historical
   scheduled_for?: string | null
 }
 
@@ -21,6 +22,11 @@ export interface Catalog {
   categories: string[]
 }
 
+/**
+ * Returns all published products (both available and sold).
+ * Filters out hidden products (published === false) only.
+ * available=false items are still returned — they appear with a "sold" badge.
+ */
 export function getCatalog(): Catalog {
   const filePath = path.join(process.cwd(), 'catalog.json')
   const raw = fs.readFileSync(filePath, 'utf-8')
@@ -31,8 +37,19 @@ export function getCatalog(): Catalog {
   }
 }
 
+/** All published products regardless of availability (for /prodotti "Tutti" view). */
 export function getPublishedProducts(): Product[] {
   return getCatalog().products
+}
+
+/** Only published products that are available for purchase (available !== false). */
+export function getAvailableProducts(): Product[] {
+  return getCatalog().products.filter((p) => p.available !== false)
+}
+
+/** Published products that are sold / historical (available === false). */
+export function getSoldProducts(): Product[] {
+  return getCatalog().products.filter((p) => p.available === false)
 }
 
 export function getCategories(): string[] {

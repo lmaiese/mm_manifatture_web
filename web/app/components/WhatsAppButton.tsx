@@ -25,7 +25,7 @@ export default function WhatsAppButton() {
     const productUrl =
       typeof window !== 'undefined'
         ? window.location.origin + pathname
-        : `https://mm-manifatture-web.vercel.app${pathname}`
+        : `https://mmmanifatture.it${pathname}`
     const message = `Ciao Monica, sono interessata/o a questo pezzo: ${productUrl}`
     href = buildWhatsAppUrl(message)
     ariaLabel = 'Chiedi a Monica su WhatsApp per questo prodotto'

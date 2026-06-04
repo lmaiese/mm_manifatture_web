@@ -31,7 +31,7 @@ from .safety import notify_admin, whitelist_guard
 logger = logging.getLogger("conversation")
 
 # Step constants
-PHOTO, PRICE, SIZE, DESCRIPTION, WHEN, SLOT, CATEGORY, PREVIEW = range(8)
+PHOTO, PRICE, SIZE, DESCRIPTION, WHEN, SLOT, CATEGORY, DESTINATION, PREVIEW = range(9)
 
 INACTIVITY_JOB_PREFIX = "inactivity_ping_"
 MEDIA_GROUP_FLUSH_SECONDS = 1.5  # wait for the rest of an album before acking
@@ -66,6 +66,13 @@ CB_AI_RETRY = "ai_retry"
 CB_REMOVE_SEL = "rm_sel:"
 CB_REMOVE_YES = "rm_yes"
 CB_REMOVE_NO  = "rm_no"
+CB_AVAIL_SEL_SOLD  = "avail_sel_s:"   # selecting a product to mark as sold
+CB_AVAIL_SEL_AVAIL = "avail_sel_a:"   # selecting a product to mark as available
+CB_AVAIL_YES_SOLD  = "avail_yes_s"    # confirm → mark as sold
+CB_AVAIL_YES_AVAIL = "avail_yes_a"    # confirm → mark as available
+CB_AVAIL_NO        = "avail_no"       # cancel either flow
+CB_DEST_PREFIX = "dest:"
+_DEST_LABELS: dict[str, str] = {"site": "Solo Sito", "social": "Solo Social", "all": "Sito + Social"}
 
 
 # ---------- state helpers ----------
@@ -80,6 +87,7 @@ def _empty_state() -> dict[str, Any]:
         "when": None,          # "now" | "auto" | "slot"
         "slot": None,          # ISO datetime string when chosen
         "category": None,      # str
+        "destination": "all",  # "site" | "social" | "all"
         "_edit_return": False, # if True, after current step go back to PREVIEW
         "_seen_media_groups": [],
         "_bot_msg_ids": [],    # message_ids of bot messages to delete on step advance
@@ -111,6 +119,10 @@ def _format_price(price: float | None) -> str:
     return f"EUR {price:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
 
 
+def _format_destination(data: dict[str, Any]) -> str:
+    return _DEST_LABELS.get(data.get("destination", "all"), data.get("destination", "all"))
+
+
 def _format_preview(data: dict[str, Any]) -> str:
     return MESSAGES["step_preview"].format(
         photos_count=len(data.get("photos") or []),
@@ -119,6 +131,7 @@ def _format_preview(data: dict[str, Any]) -> str:
         description=data.get("description") or "-",
         when=_format_when(data),
         category=data.get("category") or "-",
+        destination=_format_destination(data),
     )
 
 
@@ -198,19 +211,27 @@ def _skip_keyboard() -> InlineKeyboardMarkup:
     )
 
 
-_SIZE_OPTIONS = ["XS", "S", "M", "L", "XL", "XXL", "Unica"]
+_SIZE_ADULT = ["XS", "S", "M", "L", "XL", "XXL", "Unica"]
+_SIZE_KIDS = [
+    "0/3 mesi", "3/6 mesi", "9/12 mesi",
+    "18 mesi", "2 anni", "3/4 anni",
+    "4/5 anni", "5/6 anni", "7/8 anni",
+    "9/10 anni", "11/12 anni",
+]
+_SIZE_OPTIONS = _SIZE_ADULT + _SIZE_KIDS
 
 
 def _size_keyboard() -> InlineKeyboardMarkup:
+    def _btn(s: str) -> InlineKeyboardButton:
+        return InlineKeyboardButton(s, callback_data=f"{CB_SIZE_PREFIX}{s}")
+
     rows = [
-        [
-            InlineKeyboardButton(s, callback_data=f"{CB_SIZE_PREFIX}{s}")
-            for s in _SIZE_OPTIONS[:4]
-        ],
-        [
-            InlineKeyboardButton(s, callback_data=f"{CB_SIZE_PREFIX}{s}")
-            for s in _SIZE_OPTIONS[4:]
-        ],
+        [_btn(s) for s in _SIZE_ADULT[:4]],
+        [_btn(s) for s in _SIZE_ADULT[4:]],
+    ] + [
+        [_btn(s) for s in _SIZE_KIDS[i:i+3]]
+        for i in range(0, len(_SIZE_KIDS), 3)
+    ] + [
         [InlineKeyboardButton(MESSAGES["skip_button"], callback_data=CB_SKIP)],
     ]
     return InlineKeyboardMarkup(rows)
@@ -266,6 +287,14 @@ def _category_keyboard() -> InlineKeyboardMarkup:
         rows.append([InlineKeyboardButton(c, callback_data=f"{CB_CAT_PREFIX}{c}")])
     rows.append([InlineKeyboardButton(MESSAGES["category_new_button"], callback_data=CB_CAT_NEW)])
     return InlineKeyboardMarkup(rows)
+
+
+def _destination_keyboard() -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup([
+        [InlineKeyboardButton(MESSAGES["dest_site_button"],   callback_data=f"{CB_DEST_PREFIX}site")],
+        [InlineKeyboardButton(MESSAGES["dest_social_button"], callback_data=f"{CB_DEST_PREFIX}social")],
+        [InlineKeyboardButton(MESSAGES["dest_all_button"],    callback_data=f"{CB_DEST_PREFIX}all")],
+    ])
 
 
 def _price_confirm_keyboard() -> InlineKeyboardMarkup:
@@ -351,6 +380,9 @@ def _edit_menu_keyboard() -> InlineKeyboardMarkup:
                 InlineKeyboardButton(MESSAGES["edit_when_button"], callback_data=f"{CB_EDIT_PREFIX}when"),
                 InlineKeyboardButton(MESSAGES["edit_category_button"], callback_data=f"{CB_EDIT_PREFIX}category"),
             ],
+            [
+                InlineKeyboardButton(MESSAGES["edit_destination_button"], callback_data=f"{CB_EDIT_PREFIX}destination"),
+            ],
         ]
     )
 
@@ -372,6 +404,7 @@ async def _send_preview(
             size=data.get("size") or "-",
             when=_format_when(data),
             category=data.get("category") or "-",
+            destination=_format_destination(data),
             description=data.get("description") or "-",
             ai_title=captions.get("title", ""),
             ai_site=captions["site"],
@@ -412,6 +445,7 @@ async def _send_preview(
                 size=data.get("size") or "-",
                 when=_format_when(data),
                 category=data.get("category") or "-",
+                destination=_format_destination(data),
                 description=data.get("description") or "-",
                 ai_title=result.title,
                 ai_site=result.site,
@@ -462,6 +496,8 @@ async def _ask_for_step(
         msg = await bot.send_message(chat_id, MESSAGES["step_slot_request"], reply_markup=_slot_keyboard())
     elif step == CATEGORY:
         msg = await bot.send_message(chat_id, MESSAGES["step_category_request"], reply_markup=_category_keyboard())
+    elif step == DESTINATION:
+        msg = await bot.send_message(chat_id, MESSAGES["step_destination_request"], reply_markup=_destination_keyboard())
     elif step == PREVIEW:
         await _send_preview(chat_id, data, context)
         return  # _send_preview tracks its own message
@@ -727,7 +763,7 @@ async def on_text(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         await _advance_after(chat_id, CATEGORY, data, context)
         return
 
-    if step in (WHEN, SLOT, PREVIEW):
+    if step in (WHEN, SLOT, DESTINATION, PREVIEW):
         await context.bot.send_message(chat_id, MESSAGES["use_buttons"])
         return
 
@@ -757,7 +793,7 @@ async def _advance_after(
     if data.get("_edit_return"):
         data["_edit_return"] = False
         # Invalidate cached AI captions if the completed step affects caption content.
-        if completed in (DESCRIPTION, CATEGORY, PRICE, SIZE):
+        if completed in (DESCRIPTION, CATEGORY, PRICE, SIZE, DESTINATION):
             data.pop("_ai_captions", None)
         await _delete_bot_msgs(chat_id, data, context.bot)
         _persist(chat_id, PREVIEW, data)
@@ -789,6 +825,8 @@ def _next_step(current: int, data: dict[str, Any]) -> int:
     if current == SLOT:
         return CATEGORY
     if current == CATEGORY:
+        return DESTINATION
+    if current == DESTINATION:
         return PREVIEW
     return PREVIEW
 
@@ -884,6 +922,150 @@ async def _on_remove_no(
     await context.bot.send_message(chat_id, MESSAGES["cmd_rimuovi_cancelled"])
 
 
+# ---------- availability flow handlers (state-independent) ----------
+
+
+def _product_label(p: dict) -> str:
+    """Short human-readable label for a product (title or category + price)."""
+    raw_title = (p.get("title") or "").strip()
+    if not raw_title:
+        desc = (p.get("description_site") or "").strip()
+        raw_title = (desc[:38] + "…") if len(desc) > 38 else desc
+    if not raw_title:
+        raw_title = p.get("category") or "?"
+    price = f"€{float(p.get('price') or 0):.2f}".replace(".", ",")
+    return f"{raw_title} — {price}"
+
+
+def _product_info_text(p: dict) -> str:
+    """Longer product description for confirm message."""
+    cat   = p.get("category") or "?"
+    price = f"€{float(p.get('price') or 0):.2f}".replace(".", ",")
+    size  = p.get("size")
+    title = (p.get("title") or "").strip()
+    desc  = (p.get("description_site") or "")[:80]
+    parts = [f"{cat} — {price}"]
+    if size:
+        parts.append(f"Taglia: {size}")
+    if title:
+        parts.append(title)
+    elif desc:
+        parts.append(desc)
+    return "\n".join(parts)
+
+
+async def _on_avail_select(
+    chat_id: int,
+    product_id: str,
+    action: str,        # "sold" | "avail"
+    query,
+    context: ContextTypes.DEFAULT_TYPE,
+) -> None:
+    """User tapped a product in the /venduto or /disponibile list."""
+    from ..publisher.site import read_available_from_github, read_sold_from_github
+
+    if action == "sold":
+        products = await read_available_from_github()
+        confirm_msg_key  = "cmd_venduto_confirm"
+        yes_cb           = CB_AVAIL_YES_SOLD
+        not_found_key    = "cmd_venduto_not_found"
+    else:
+        products = await read_sold_from_github()
+        confirm_msg_key  = "cmd_disponibile_confirm"
+        yes_cb           = CB_AVAIL_YES_AVAIL
+        not_found_key    = "cmd_disponibile_not_found"
+
+    product = next((p for p in products if p.get("id") == product_id), None)
+    if product is None:
+        await context.bot.send_message(chat_id, MESSAGES[not_found_key])
+        return
+
+    product_info = _product_info_text(product)
+
+    if context.user_data is not None:
+        context.user_data["avail_pending_id"]     = product_id
+        context.user_data["avail_pending_action"] = action
+        context.user_data["avail_pending_info"]   = product_info
+
+    try:
+        await query.edit_message_reply_markup(reply_markup=None)
+    except Exception:  # noqa: BLE001
+        pass
+
+    await context.bot.send_message(
+        chat_id,
+        MESSAGES[confirm_msg_key].format(product_info=product_info),
+        reply_markup=InlineKeyboardMarkup([[
+            InlineKeyboardButton(
+                MESSAGES["avail_confirm_yes_sold" if action == "sold" else "avail_confirm_yes_avail"],
+                callback_data=yes_cb,
+            ),
+            InlineKeyboardButton(MESSAGES["avail_confirm_no"], callback_data=CB_AVAIL_NO),
+        ]]),
+    )
+
+
+async def _on_avail_confirm(
+    chat_id: int,
+    available: bool,
+    query,
+    context: ContextTypes.DEFAULT_TYPE,
+) -> None:
+    """User confirmed the availability change."""
+    from ..publisher.site import update_availability
+
+    ud = context.user_data or {}
+    product_id = ud.get("avail_pending_id")
+    action     = ud.get("avail_pending_action")   # "sold" | "avail"
+
+    if not product_id:
+        await context.bot.send_message(chat_id, MESSAGES["cmd_venduto_not_found"])
+        return
+
+    try:
+        await query.edit_message_reply_markup(reply_markup=None)
+    except Exception:  # noqa: BLE001
+        pass
+
+    ok = await update_availability(product_id, available=available)
+
+    if context.user_data:
+        context.user_data.pop("avail_pending_id", None)
+        context.user_data.pop("avail_pending_action", None)
+        context.user_data.pop("avail_pending_info", None)
+
+    if action == "sold":
+        ok_key   = "cmd_venduto_ok"
+        fail_key = "cmd_venduto_fail"
+    else:
+        ok_key   = "cmd_disponibile_ok"
+        fail_key = "cmd_disponibile_fail"
+
+    await context.bot.send_message(chat_id, MESSAGES[ok_key] if ok else MESSAGES[fail_key])
+    logger.info(
+        "availability_change_result",
+        extra={"chat_id": chat_id, "product_id": product_id, "available": available, "ok": ok},
+    )
+
+
+async def _on_avail_no(
+    chat_id: int,
+    query,
+    context: ContextTypes.DEFAULT_TYPE,
+) -> None:
+    action = (context.user_data or {}).get("avail_pending_action", "sold")
+    if context.user_data:
+        context.user_data.pop("avail_pending_id", None)
+        context.user_data.pop("avail_pending_action", None)
+        context.user_data.pop("avail_pending_info", None)
+    try:
+        await query.edit_message_reply_markup(reply_markup=None)
+    except Exception:  # noqa: BLE001
+        pass
+    key = "cmd_venduto_cancelled" if action == "sold" else "cmd_disponibile_cancelled"
+    await context.bot.send_message(chat_id, MESSAGES[key])
+
+
 # ---------- callback router ----------
 
 
@@ -912,6 +1094,23 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
         return
     if data_token == CB_REMOVE_NO:
         await _on_remove_no(chat_id, query, context)
+        return
+
+    # --- AVAILABILITY FLOW (state-independent) ---
+    if data_token.startswith(CB_AVAIL_SEL_SOLD):
+        await _on_avail_select(chat_id, data_token[len(CB_AVAIL_SEL_SOLD):], "sold", query, context)
+        return
+    if data_token.startswith(CB_AVAIL_SEL_AVAIL):
+        await _on_avail_select(chat_id, data_token[len(CB_AVAIL_SEL_AVAIL):], "avail", query, context)
+        return
+    if data_token == CB_AVAIL_YES_SOLD:
+        await _on_avail_confirm(chat_id, available=False, query=query, context=context)
+        return
+    if data_token == CB_AVAIL_YES_AVAIL:
+        await _on_avail_confirm(chat_id, available=True, query=query, context=context)
+        return
+    if data_token == CB_AVAIL_NO:
+        await _on_avail_no(chat_id, query, context)
         return
 
     state = db.load_state(chat_id)
@@ -975,9 +1174,17 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
 
     # --- CANCEL CONFIRM ---
     if data_token == CB_CANCEL_CONFIRM:
+        try:
+            await query.edit_message_reply_markup(reply_markup=None)
+        except Exception:  # noqa: BLE001
+            pass
         await cancel_flow(chat_id, context)
         return
     if data_token == CB_CANCEL_ABORT:
+        try:
+            await query.edit_message_reply_markup(reply_markup=None)
+        except Exception:  # noqa: BLE001
+            pass
         await context.bot.send_message(chat_id, MESSAGES["cmd_cancel_no_msg"])
         return
 
@@ -1033,6 +1240,14 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
             return
         data["slot"] = data_token[len(CB_SLOT_PREFIX) :]
         await _advance_after(chat_id, SLOT, data, context)
+        return
+
+    # --- DESTINATION ---
+    if data_token.startswith(CB_DEST_PREFIX):
+        if step != DESTINATION:
+            return
+        data["destination"] = data_token[len(CB_DEST_PREFIX):]
+        await _advance_after(chat_id, DESTINATION, data, context)
         return
 
     # --- CATEGORY ---
@@ -1100,6 +1315,10 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
     if data_token == CB_AI_FALLBACK_CANCEL:
         if step != PREVIEW:
             return
+        try:
+            await query.edit_message_reply_markup(reply_markup=None)
+        except Exception:  # noqa: BLE001
+            pass
         await cancel_flow(chat_id, context)
         return
 
@@ -1125,6 +1344,10 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
     if data_token == CB_PREVIEW_CANCEL:
         if step != PREVIEW:
             return
+        try:
+            await query.edit_message_reply_markup(reply_markup=None)
+        except Exception:  # noqa: BLE001
+            pass
         await cancel_flow(chat_id, context)
         return
 
@@ -1139,6 +1362,7 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
             "description": DESCRIPTION,
             "when": WHEN,
             "category": CATEGORY,
+            "destination": DESTINATION,
         }.get(field)
         if target is None:
             return
@@ -1213,6 +1437,7 @@ async def _confirm_publish(
         "when": data.get("when"),
         "slot": data.get("slot"),
         "category": data.get("category"),
+        "destination": data.get("destination", "all"),
     }
 
     when = data.get("when")
@@ -1260,7 +1485,9 @@ async def _confirm_publish(
     db.clear_state(chat_id)
     _cancel_inactivity(context, chat_id)
 
-    def _status(ok: bool) -> str:
+    def _status(ok: bool | None) -> str:
+        if ok is None:
+            return "–"
         return "✅" if ok else "❌"
 
     try:
@@ -1274,13 +1501,14 @@ async def _confirm_publish(
             site_icon="🌐",
             ig_icon="📸",
             fb_icon="👥",
-            site=_status(result.get("site", False)),
-            instagram=_status(result.get("instagram", False)),
-            facebook=_status(result.get("facebook", False)),
+            site=_status(result.get("site")),
+            instagram=_status(result.get("instagram")),
+            facebook=_status(result.get("facebook")),
         ),
     )
 
-    if not result or not all(result.values()):
+    attempted = [v for v in result.values() if v is not None]
+    if not attempted or not all(attempted):
         await notify_admin(
             context,
             MESSAGES["publish_partial_alert"].format(chat_id=chat_id, result=result),
@@ -1342,6 +1570,7 @@ def status_for(chat_id: int) -> str:
     summary_lines.append(f"- descrizione: {data.get('description') or '-'}")
     summary_lines.append(f"- quando: {_format_when(data)}")
     summary_lines.append(f"- categoria: {data.get('category') or '-'}")
+    summary_lines.append(f"- dove: {_format_destination(data)}")
     return MESSAGES["cmd_state_header"].format(step=label, data="\n".join(summary_lines))
 
 

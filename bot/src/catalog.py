@@ -48,6 +48,30 @@ def list_categories() -> list[str]:
     return [str(c) for c in cats if c]
 
 
+def update_availability_local(product_id: str, available: bool) -> bool:
+    """Set available=True/False for a product in the local catalog.json.
+
+    Returns True if the product was found and updated, False otherwise.
+    """
+    path = SETTINGS.catalog_path
+    data = _read(path)
+    products = data.get("products") or []
+    target = next((p for p in products if p.get("id") == product_id), None)
+    if target is None:
+        logger.warning(
+            "catalog_availability_not_found",
+            extra={"product_id": product_id},
+        )
+        return False
+    target["available"] = available
+    _write(path, data)
+    logger.info(
+        "catalog_availability_updated",
+        extra={"product_id": product_id, "available": available},
+    )
+    return True
+
+
 def add_category(name: str) -> list[str]:
     name = name.strip().title()
     if not name:

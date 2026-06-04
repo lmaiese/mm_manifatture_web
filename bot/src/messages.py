@@ -7,6 +7,8 @@ MESSAGES: dict[str, str] = {
         "Con /nuovo pubblichi un prodotto su sito e social in pochi passi.\n\n"
         "Comandi disponibili:\n"
         "/nuovo — inizia una nuova pubblicazione\n"
+        "/venduto — segna un prodotto come venduto\n"
+        "/disponibile — segna un prodotto come di nuovo disponibile\n"
         "/rimuovi — nascondi un prodotto dal sito\n"
         "/lista — ultimi 5 prodotti pubblicati\n"
         "/riprendi — riprendi una pubblicazione in corso\n"
@@ -59,6 +61,11 @@ MESSAGES: dict[str, str] = {
         "Scrivi il nome della nuova categoria:"
     ),
     "category_added": "Categoria \"{name}\" aggiunta.",
+    # DESTINATION step
+    "step_destination_request": "Dove lo pubblico?",
+    "dest_site_button": "Solo Sito",
+    "dest_social_button": "Solo Social",
+    "dest_all_button": "Sito + Social",
     # PREVIEW step
     "step_preview": (
         "Riepilogo prodotto\n\n"
@@ -67,7 +74,8 @@ MESSAGES: dict[str, str] = {
         "Taglia: {size}\n"
         "Descrizione: {description}\n"
         "Pubblicazione: {when}\n"
-        "Categoria: {category}"
+        "Categoria: {category}\n"
+        "Dove: {destination}"
     ),
     "preview_confirm_button": "Conferma",
     "preview_edit_button": "Modifica",
@@ -79,6 +87,7 @@ MESSAGES: dict[str, str] = {
     "edit_description_button": "Descrizione",
     "edit_when_button": "Orario",
     "edit_category_button": "Categoria",
+    "edit_destination_button": "Destinazione",
     # AI caption
     "ai_generating": "Genero suggerimento AI...",
     "ai_unavailable_confirm": (
@@ -93,7 +102,8 @@ MESSAGES: dict[str, str] = {
         "Prezzo: {price}\n"
         "Taglia: {size}\n"
         "Pubblicazione: {when}\n"
-        "Categoria: {category}\n\n"
+        "Categoria: {category}\n"
+        "Dove: {destination}\n\n"
         "📝 Tua descrizione:\n{description}\n\n"
         "🏷️ Titolo AI: {ai_title}\n\n"
         "🤖 Suggerimento AI (sito):\n{ai_site}\n\n"
@@ -144,13 +154,14 @@ MESSAGES: dict[str, str] = {
         "/annulla per uscire."
     ),
     "help_price": "Scrivi solo il numero del prezzo (es: 25 oppure 25,50).",
-    "help_size": "Scegli una taglia dal menu' (XS/S/M/L/XL/XXL/TU) oppure scrivi una taglia personalizzata. \"Salta\" se non applicabile.",
+    "help_size": "Scegli la taglia dal menu' (adulto: XS–Unica; bambino: 0/3 mesi–11/12 anni) oppure scrivi una taglia personalizzata. \"Salta\" se non applicabile.",
     "help_description": "Scrivi una descrizione oppure premi \"Salta\".",
     "help_when": (
         "Scegli un bottone: Adesso, Scegli orario, oppure Automatico."
     ),
     "help_slot": "Scegli uno degli slot proposti.",
     "help_category": "Scegli una categoria oppure crea una nuova.",
+    "help_destination": "Scegli dove pubblicare: Solo Sito, Solo Social (Instagram + Facebook), o Sito + Social.",
     "help_preview": "Premi Conferma, Modifica o Annulla.",
     "help_idle": (
         "Nessuna pubblicazione in corso.\n\n"
@@ -172,6 +183,36 @@ MESSAGES: dict[str, str] = {
         "Puoi mandarne altre se vuoi, poi premi il bottone per andare avanti."
     ),
     "internal_error": "Qualcosa e' andato storto. Riprova o /annulla.",
+    # /venduto flow
+    "cmd_venduto_loading": "Carico la lista dei prodotti disponibili...",
+    "cmd_venduto_empty": "Nessun prodotto disponibile da segnare come venduto.",
+    "cmd_venduto_error": "Non riesco a leggere i prodotti. Riprova tra poco.",
+    "cmd_venduto_list_header": "Quale prodotto vuoi segnare come venduto?\n\nToccane uno:",
+    "cmd_venduto_confirm": (
+        "Segna come venduto?\n\n{product_info}\n\n"
+        "Rimarrà visibile sul sito con il badge \"Venduto\"."
+    ),
+    "cmd_venduto_ok": "✅ Segnato come venduto. Il sito si aggiorna entro ~1 minuto.",
+    "cmd_venduto_fail": "Qualcosa è andato storto. Riprova o controlla la connessione.",
+    "cmd_venduto_not_found": "Prodotto non trovato.",
+    "cmd_venduto_cancelled": "Nessuna modifica.",
+    # /disponibile flow
+    "cmd_disponibile_loading": "Carico la lista dei prodotti venduti...",
+    "cmd_disponibile_empty": "Nessun prodotto segnato come venduto al momento.",
+    "cmd_disponibile_error": "Non riesco a leggere i prodotti. Riprova tra poco.",
+    "cmd_disponibile_list_header": "Quale prodotto vuoi rendere di nuovo disponibile?\n\nToccane uno:",
+    "cmd_disponibile_confirm": (
+        "Segna come disponibile?\n\n{product_info}\n\n"
+        "Tornerà visibile come disponibile sul sito."
+    ),
+    "cmd_disponibile_ok": "✅ Segnato come disponibile. Il sito si aggiorna entro ~1 minuto.",
+    "cmd_disponibile_fail": "Qualcosa è andato storto. Riprova o controlla la connessione.",
+    "cmd_disponibile_not_found": "Prodotto non trovato.",
+    "cmd_disponibile_cancelled": "Nessuna modifica.",
+    # shared confirm buttons
+    "avail_confirm_yes_sold": "Sì, venduto",
+    "avail_confirm_yes_avail": "Sì, disponibile",
+    "avail_confirm_no": "No, annulla",
     # /rimuovi flow
     "cmd_rimuovi_loading": "Carico la lista dei prodotti...",
     "cmd_rimuovi_empty": "Nessun prodotto visibile sul sito al momento.",
@@ -196,7 +237,8 @@ STEP_LABELS: dict[int, str] = {
     4: "WHEN",
     5: "SLOT",
     6: "CATEGORY",
-    7: "PREVIEW",
+    7: "DESTINATION",
+    8: "PREVIEW",
 }
 
 
@@ -208,5 +250,6 @@ HELP_BY_STEP: dict[int, str] = {
     4: MESSAGES["help_when"],
     5: MESSAGES["help_slot"],
     6: MESSAGES["help_category"],
-    7: MESSAGES["help_preview"],
+    7: MESSAGES["help_destination"],
+    8: MESSAGES["help_preview"],
 }

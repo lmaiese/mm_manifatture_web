@@ -49,13 +49,15 @@ async def _post_init(app: Application) -> None:
     conv.reschedule_all_inactivity(app)
 
     await app.bot.set_my_commands([
-        BotCommand("nuovo",   "Pubblica un nuovo prodotto"),
-        BotCommand("rimuovi", "Nascondi un prodotto dal sito"),
-        BotCommand("lista",   "Ultimi 5 prodotti pubblicati"),
-        BotCommand("riprendi","Riprendi una pubblicazione in corso"),
-        BotCommand("stato",   "Vedi cosa hai inserito finora"),
-        BotCommand("annulla", "Annulla e ricomincia"),
-        BotCommand("aiuto",   "Aiuto sul passo corrente"),
+        BotCommand("nuovo",       "Pubblica un nuovo prodotto"),
+        BotCommand("venduto",     "Segna un prodotto come venduto"),
+        BotCommand("disponibile", "Segna un prodotto come disponibile"),
+        BotCommand("rimuovi",     "Nascondi un prodotto dal sito"),
+        BotCommand("lista",       "Ultimi 5 prodotti pubblicati"),
+        BotCommand("riprendi",    "Riprendi una pubblicazione in corso"),
+        BotCommand("stato",       "Vedi cosa hai inserito finora"),
+        BotCommand("annulla",     "Annulla e ricomincia"),
+        BotCommand("aiuto",       "Aiuto sul passo corrente"),
     ])
 
     jq = app.job_queue
@@ -96,9 +98,11 @@ def build_app() -> Application:
         .build()
     )
 
-    app.add_handler(CommandHandler("start",    cmd.cmd_start))
-    app.add_handler(CommandHandler("nuovo",    cmd.cmd_nuovo))
-    app.add_handler(CommandHandler("rimuovi",  cmd.cmd_rimuovi))
+    app.add_handler(CommandHandler("start",       cmd.cmd_start))
+    app.add_handler(CommandHandler("nuovo",       cmd.cmd_nuovo))
+    app.add_handler(CommandHandler("venduto",     cmd.cmd_venduto))
+    app.add_handler(CommandHandler("disponibile", cmd.cmd_disponibile))
+    app.add_handler(CommandHandler("rimuovi",     cmd.cmd_rimuovi))
     app.add_handler(CommandHandler("lista",    cmd.cmd_lista))
     app.add_handler(CommandHandler("annulla",  cmd.cmd_annulla))
     app.add_handler(CommandHandler("riprendi", cmd.cmd_riprendi))
