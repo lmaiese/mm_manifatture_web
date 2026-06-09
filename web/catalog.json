@@ -194,6 +194,23 @@
       "published": false,
       "available": true,
       "scheduled_for": null
+    },
+    {
+      "id": "ff06e383-0e44-43d8-a1ee-450aa1cb9fd4",
+      "created_at": "2026-06-09T14:42:55.791561+00:00",
+      "title": "Cardigan lana merinos 9-12 mesi",
+      "category": "Abbigliamento",
+      "price": 30.0,
+      "size": "9/12 mesi",
+      "description_site": "Cardigan in lana merinos per bimba, lavorato a punto punzonato che crea un effetto texture delicato sulla superficie. La lana merinos è morbidissima sulla pelle sensibile e garantisce calore senza appesantire. Taglia 9-12 mesi. €30,00.",
+      "description_instagram": "🧶 Cardigan in lana merinos per le piccole — morbido e leggero, perfetto per le mezze stagioni.\n\n9-12 mesi · €30\n\n#maglioncininobambino #lanamerinos #artigianatoitaliano #abbigliamentobambino #cilento",
+      "description_facebook": "Quando arriva l'autunno, i piccoli hanno bisogno di capi che li tengano al caldo senza essere troppo pesanti. Un cardigan in lana merinos è la soluzione perfetta: scalda, è morbidissimo sulla pelle delicata e si indossa facilmente anche sopra i body quotidiani.\n\nQuesto cardigan per bimba è lavorato a punto punzonato, una tecnica che crea una texture gradevole e particolarmente graziosa. La lana merinos regola la temperatura naturalmente, quindi il piccolo non avrà troppo caldo né troppo freddo.\n\nTaglia 9-12 mesi · Prezzo: €30,00\n\nScrivi per acquistare o per ricevere altre informazioni sul capo. 🧸",
+      "photos": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781016175/mm_manifatture/iknczfirvhcoptjhowx7.jpg"
+      ],
+      "published": true,
+      "available": true,
+      "scheduled_for": null
     }
   ],
   "categories": [
