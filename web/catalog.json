@@ -551,6 +551,23 @@
       "published": true,
       "available": true,
       "scheduled_for": null
+    },
+    {
+      "id": "a15dcc36-7716-4efa-946e-47cd97581cee",
+      "created_at": "2026-06-09T16:39:39.686244+00:00",
+      "title": "Maglioncino lana merino rosso grigio 2 anni",
+      "category": "Abbigliamento",
+      "price": 30.0,
+      "size": "2 anni",
+      "description_site": "Maglioncino in lana merino rosso e grigio con scritta ricamata a mano. Un capo caldo e morbido, pensato per i piccoli che amano dettagli divertenti. La taglia 2 anni si adatta perfettamente ai bambini di quell'età, mentre la qualità della lana merino garantisce comfort e durabilità nel tempo. €30,00.",
+      "description_instagram": "🧶 Lana merino rosso e grigio con una scritta ricamata a mano — maglioncino per bambini da 2 anni.\n\n€30 · Pezzo unico artigianale\n\n#maglioncininobambino #lanamerino #abbigliamentobambino #fattaamano #artigianatocilento",
+      "description_facebook": "Quando un maglioncino diventa speciale — non solo per il materiale scelto, ma per il dettaglio che lo rende unico.\n\nQuesto capo in lana merino rosso e grigio ha una scritta ricamata a mano che lo distingue da qualsiasi altro. Perfetto per i bambini di 2 anni, la lana merino regala morbidezza e calore senza irritare la pelle delicata. È il tipo di capo che cresce insieme al bambino, che non si consuma facilmente, che dura stagione dopo stagione.\n\nIdea regalo per chi conosce il valore dei pezzi fatti con cura — o semplicemente per vestire i propri figli con qualcosa di diverso, fatto a mano.\n\nPrezzo: €30,00 · Scrivi per ordinare 🤍",
+      "photos": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781023178/mm_manifatture/dzcqoscetm6ofieazmos.jpg"
+      ],
+      "published": true,
+      "available": true,
+      "scheduled_for": null
     }
   ],
   "categories": [
