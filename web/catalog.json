@@ -585,6 +585,23 @@
       "published": true,
       "available": true,
       "scheduled_for": null
+    },
+    {
+      "id": "32a7aaf6-0966-483d-a1d1-eeeebb6c85a2",
+      "created_at": "2026-06-09T16:45:53.233102+00:00",
+      "title": "Maglioncino lana merino righe 2 anni",
+      "category": "Abbigliamento",
+      "price": 25.0,
+      "size": "2 anni",
+      "description_site": "Maglioncino in lana merino a righe, lavorato a mano con filato naturale che avvolge delicatamente la pelle. La lana merino termoregola e respira con il corpo del bambino, mantenendolo caldo senza surriscaldare. Realizzato per la taglia 2 anni, è un capo pensato per le stagioni fredde che cresce con il tuo bambino. €25,00.",
+      "description_instagram": "Righe che scaldano — maglioncino in lana merino per i più piccoli 🧶\n\n2 anni · Lana merino naturale · €25\n\n#maglionchinobambino #lanamerino #artigianatolocaliano #fattaamano #cilento",
+      "description_facebook": "Quando arriva il freddo, cerchiamo sempre qualcosa che protegga i nostri bambini senza appesantirli. Un maglioncino che non gratta, che respira con la loro pelle, che dura nel tempo perché fatto con cura.\n\nQuesto maglioncino a righe è realizzato in lana merino — un filato naturale che termoregola perfettamente: tiene al caldo ma non fa sudare. Ogni pezzo è lavorato a mano, punto dopo punto, con l'attenzione che solo il lavoro artigianale sa garantire.\n\nPerfetto per la taglia 2 anni, è il capo che accompagna i bambini attraverso autunno e inverno, lavabile delicatamente e destinato a durare negli anni.\n\nPrezzo: €25,00 · Contattaci per ordinare il tuo 🧶",
+      "photos": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781023552/mm_manifatture/mmisvofomgmokhhj4tgu.jpg"
+      ],
+      "published": true,
+      "available": true,
+      "scheduled_for": null
     }
   ],
   "categories": [
