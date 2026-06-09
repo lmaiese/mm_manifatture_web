@@ -330,6 +330,23 @@
       "published": true,
       "available": true,
       "scheduled_for": null
+    },
+    {
+      "id": "dce8f6d3-032a-4244-a2f8-da79f835653a",
+      "created_at": "2026-06-09T15:04:52.126586+00:00",
+      "title": "Canotta viscosa elastica 2 anni",
+      "category": "Abbigliamento",
+      "price": 20.0,
+      "size": "2 anni",
+      "description_site": "Canotta in viscosa elastica con taglio leggermente svasato al fondo, pensata per i movimenti naturali dei bambini piccoli. La viscosa garantisce morbidezza sulla pelle e una vestibilità comoda, perfetta per le stagioni calde. Per bambini di 2 anni. €20,00.",
+      "description_instagram": "Canotta in viscosa elastica, svasata al fondo per comodità. Morbida e leggera per l'estate dei più piccoli 🤍\n\n2 anni · €20\n\n#canottabambino #viscosa #abbigliamentobambino #fattaamano #cilento",
+      "description_facebook": "Con i bambini di 2 anni la ricerca è sempre la stessa: trovare capi che lascino loro libertà di movimento senza rinunciare al comfort.\n\nPer questo Monica ha creato questa canotta in viscosa elastica con un taglio leggermente svasato al fondo — una soluzione semplice che segue il corpo del bambino mentre corre e gioca. La viscosa è morbida sulla pelle delicata e respira naturalmente, perfetta per il caldo estivo.\n\nOgni canotta è realizzata con lo stesso metodo artigianale: niente di meccanico, niente di standardizzato. Solo cura nei dettagli.\n\nPer bambini di 2 anni · Prezzo: €20,00\n\nContattaci se vuoi ordinare la tua.",
+      "photos": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781017491/mm_manifatture/fi1uc7ndkn8xzgjwopak.jpg"
+      ],
+      "published": true,
+      "available": true,
+      "scheduled_for": null
     }
   ],
   "categories": [
