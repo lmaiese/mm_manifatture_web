@@ -568,6 +568,23 @@
       "published": true,
       "available": true,
       "scheduled_for": null
+    },
+    {
+      "id": "08e4afc9-792e-4a2e-85e3-04d864919d03",
+      "created_at": "2026-06-09T16:42:35.649422+00:00",
+      "title": "Maglioncino merino marrone panna 2 anni",
+      "category": "Abbigliamento",
+      "price": 30.0,
+      "size": "2 anni",
+      "description_site": "Maglioncino in lana merino nelle tonalità marrone e panna, con ricamo a punto maglia che riporta la scritta Mini boy. Un capo pensato per i più piccoli durante i mesi freddi, morbido e caldo, con quel tocco di leggerezza che contraddistingue i filati naturali selezionati. Taglia 2 anni. €30,00.",
+      "description_instagram": "🧶 Marrone e panna, con una simpatica scritta ricamata — maglioncino in lana merino per chi ama il caldo d'inverno.\n\n2 anni · €30\n\n#maglioncininobambino #lanamerino #artigianatolocaliano #fattaamano #cilento",
+      "description_facebook": "Quando l'inverno bussa alla porta, i bambini hanno bisogno di capi che scaldano davvero — non solo fisicamente, ma anche il cuore di chi li sceglie.\n\nQuesto maglioncino in lana merino marrone e panna nasce da quella semplicità: un filato naturale, caldo, gentile sulla pelle. E poi quel ricamo a punto maglia con la scritta Mini boy, fatto a mano, che rende il pezzo unico e personalissimo.\n\nPerfetto per la taglia 2 anni, è il genere di capo che cresce con il bambino in bellezza — robusto, senza fronzoli, solo qualità e cura nei dettagli.\n\nPrezzo: €30,00",
+      "photos": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781023354/mm_manifatture/ccrhrgq9glwt2aqh10mr.jpg"
+      ],
+      "published": true,
+      "available": true,
+      "scheduled_for": null
     }
   ],
   "categories": [
