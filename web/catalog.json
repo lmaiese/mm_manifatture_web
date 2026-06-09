@@ -636,6 +636,23 @@
       "published": true,
       "available": true,
       "scheduled_for": null
+    },
+    {
+      "id": "ef3b415f-15a2-4273-ab82-2b62204eec47",
+      "created_at": "2026-06-09T16:51:59.649337+00:00",
+      "title": "Maglioncino lana merino righe beige arancione 5-6 anni",
+      "category": "Abbigliamento",
+      "price": 28.0,
+      "size": "5/6 anni",
+      "description_site": "Maglioncino in lana merino con righe beige e arancione, lavorato a mano con cura nei dettagli. Un capo leggero e caldo, perfetto per le giornate di mezza stagione, che mantiene la pelle delicata del bambino protetta e confortevole. Taglia 5-6 anni. €28,00.",
+      "description_instagram": "Righe che scaldano — maglioncino bimbo in lana merino, beige e arancione 🧡\n\n5-6 anni · Lana merino · €28\n\n#maglionchinobambino #lanamerino #artigianatolocaliano #abbigliamentobambino #fattaamano",
+      "description_facebook": "Quando il freddo inizia a farsi sentire, un maglioncino della giusta temperatura fa la differenza. Quello che abbiamo in bottega oggi è in lana merino — il filato che scaldava già le generazioni passate, perché sa fare bene il suo lavoro senza esagerare.\n\nRighe beige e arancione: una combinazione semplice, ma che porta un po' di sole anche nelle giornate grigie. Lavorato a mano, per la taglia 5-6 anni. La lana merino è naturalmente termoregolante, quindi il bambino non suda anche quando si muove giocando.\n\nOgni maglioncino esce dal lavoro leggermente diverso, perché niente è robotico qui — sono i dettagli che lo rendono autentico.\n\nPrezzo: €28,00 · Scrivi se hai domande o vuoi ordinarlo 🧶",
+      "photos": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781023918/mm_manifatture/famtp7ozfok48zerj9te.jpg"
+      ],
+      "published": true,
+      "available": true,
+      "scheduled_for": null
     }
   ],
   "categories": [
