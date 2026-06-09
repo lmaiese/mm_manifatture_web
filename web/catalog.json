@@ -279,6 +279,23 @@
       "published": true,
       "available": true,
       "scheduled_for": null
+    },
+    {
+      "id": "2ba728bc-8d5f-4bfc-b089-effc842b3d5e",
+      "created_at": "2026-06-09T14:57:47.664666+00:00",
+      "title": "Maglioncino merinos neonata 3-6 mesi greca ricamata",
+      "category": "Abbigliamento",
+      "price": 20.0,
+      "size": "3/6 mesi",
+      "description_site": "Maglioncino in lana merinos per neonata, realizzato a mano con una greca ricamata che corre lungo il petto. Il merinos è morbidissimo sulla pelle delicata e mantiene il calore naturale, perfetto per i primi mesi. Taglia 3-6 mesi. €20,00.",
+      "description_instagram": "Piccole grecche ricamate a mano su lana merinos — un maglioncino per neonata che tiene caldo e diventa ricordo.\n\n3-6 mesi · Lana merinos · €20\n\n#maglionchineonato #lanamerinos #abbigliamentobimbi #ricamomano #fattaamano #cilento",
+      "description_facebook": "Quando nasce una bimba, spesso si vuole che indossi qualcosa di speciale nei primi mesi — non solo pratico, ma che comunichi cura.\n\nQuesto maglioncino in lana merinos è stato pensato proprio così. La greca ricamata a mano rende ogni pezzo unico, e il merinos — morbidissimo — protegge la pelle delicata senza opprimere. È un indumento che cresce con i primi ricordi: perfetto per i 3-6 mesi, quando ancora tutto è novità.\n\nOgni ricamo è fatto a mano da Monica nel suo laboratorio del Cilento, quindi non troverai due maglioncini identici — proprio come non esistono due bambine uguali.\n\nTaglia 3-6 mesi · Prezzo: €20,00\n\nScrivici se vuoi regalare o conservare questo pezzo per tua figlia.",
+      "photos": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781017066/mm_manifatture/hc0h8kceze7fr5xekhxo.jpg"
+      ],
+      "published": true,
+      "available": true,
+      "scheduled_for": null
     }
   ],
   "categories": [
