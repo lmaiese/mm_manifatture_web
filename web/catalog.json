@@ -483,6 +483,23 @@
       "published": true,
       "available": true,
       "scheduled_for": null
+    },
+    {
+      "id": "ea401408-4587-47a1-bc65-6d5020dc32ef",
+      "created_at": "2026-06-09T16:14:12.373291+00:00",
+      "title": "Completo lana merino 3-6 mesi panna marrone",
+      "category": "Abbigliamento",
+      "price": 40.0,
+      "size": "3/6 mesi",
+      "description_site": "Completo in lana merino per neonati composto da pantaloncino marrone e scalda cuore panna, arricchito da un delicato motivo traforato. La morbidezza della merino assicura comfort e termoregolazione naturale, ideale per le pelli delicate dei piccoli. Taglia 3-6 mesi. €40,00.",
+      "description_instagram": "Caldo e delicato — completo neonato in lana merino con motivo traforato. Scalda cuore panna e pantaloncino marrone 🤍\n\n3-6 mesi · €40\n\n#maglionchinobambino #lanamerino #abbigliamentoneonato #fattaamano #artigianatolocaliano",
+      "description_facebook": "Quando aspetti un neonato, cerchi capi che siano al contempo pratici e pieni di cura. Questo completo in lana merino nasce dalla ricerca di Monica di creare abbigliamento confortevole e delicato per i più piccoli.\n\nPantaloncino marrone e scalda cuore panna si abbinano con semplicità, mentre il motivo traforato aggiunge un tocco di raffinatezza senza appesantire. La lana merino è naturalmente morbida e termoregolante, perfetta per la pelle sensibile dei neonati.\n\nOgni pezzo è lavorato a mano con attenzione ai dettagli — non troverai lo stesso completo altrove.\n\nTaglia 3-6 mesi · Prezzo: €40,00\n\nScrivi per ordinare o avere più informazioni 🤍",
+      "photos": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781021651/mm_manifatture/ugwftszxtfr6epkbpdg5.jpg"
+      ],
+      "published": true,
+      "available": true,
+      "scheduled_for": null
     }
   ],
   "categories": [
