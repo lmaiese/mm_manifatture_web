@@ -296,6 +296,23 @@
       "published": true,
       "available": true,
       "scheduled_for": null
+    },
+    {
+      "id": "3b04a109-5718-45b4-b70d-6831980023e8",
+      "created_at": "2026-06-09T14:59:50.493485+00:00",
+      "title": "Maglioncino merino a righe 3-6 mesi",
+      "category": "Abbigliamento",
+      "price": 20.0,
+      "size": "3/6 mesi",
+      "description_site": "Maglioncino in lana merino a righe, lavorato a mano con filato naturale e morbidissimo. Pensato per la pelle delicata dei neonati, offre calore senza irritare e si adatta perfettamente alle prime stagioni di vita. Taglia 3-6 mesi. €20,00.",
+      "description_instagram": "A righe, in lana merino pura — maglioncino per neonato lavorato a mano 🧶\n\n3-6 mesi · €20\n\n#maglionchineonato #lanamerinoitaliana #artigianatolocaliano #abbigliamentobimbo #fattaamano",
+      "description_facebook": "Quando arriva un neonato, pensi a cosa avvolgere quella pelle ancora così fragile. Un maglioncino deve essere caldo, ma soprattutto gentile.\n\nQuesto maglioncino a righe in lana merino nasce da questa idea: filato naturale, morbido, respirante. Lavorato a mano pezzo dopo pezzo, per la taglia 3-6 mesi.\n\nLa lana merino regola la temperatura — d'inverno scalda, in primavera non appesantisce. Non pizzica, non irrita. È semplicemente il maglioncino giusto per i primi mesi.\n\nTaglia 3-6 mesi · Prezzo: €20,00\n\nSe stai cercando un regalo per un neonato, scrivici. 🧶",
+      "photos": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781017189/mm_manifatture/m5ytnyju2oe0cg6qeu5c.jpg"
+      ],
+      "published": true,
+      "available": true,
+      "scheduled_for": null
     }
   ],
   "categories": [
