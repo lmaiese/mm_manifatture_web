@@ -432,6 +432,23 @@
       "published": true,
       "available": true,
       "scheduled_for": null
+    },
+    {
+      "id": "15981c35-3c47-4558-843c-b7d92961d318",
+      "created_at": "2026-06-09T15:44:25.344232+00:00",
+      "title": "Canotta bimba viscosa marinara 2 anni",
+      "category": "Abbigliamento",
+      "price": 20.0,
+      "size": "2 anni",
+      "description_site": "Canotta in viscosa elastica per bimba, taglio marinaro con leggera svasatura al fondo. La viscosa regala morbidezza e respira perfettamente sulla pelle delicata, mentre il taglio leggermente svasato segue naturalmente i movimenti di una bambina di 2 anni. Un capo versatile per la stagione calda, da indossare da solo o sotto altri pezzi. €20,00.",
+      "description_instagram": "Per le giornate calde — canotta in viscosa elastica, taglio marinaro con svasatura delicata 🌊\n\n2 anni · €20\n\n#canottabambina #viscosa #fattaamano #abbigliamentobambino #artigianatoitaliano",
+      "description_facebook": "Le cose semplici, a volte, sono quelle che rendono più facile la vita con i bambini piccoli.\n\nUna canotta in viscosa elastica, leggera e confortevole — disegnata per seguire i movimenti di una bimba di 2 anni senza costringerla. Il taglio marinaro e la svasatura delicata al fondo le danno un tocco di carattere, mentre il tessuto, morbido e traspirante, è gentile sulla pelle sensibile.\n\nPerfetta per le giornate calde, da sola o indossata sotto altri capi. Ogni canotta è confezionata con cura da Monica nel suo laboratorio nel Cilento.\n\nTaglia 2 anni · €20,00\n\nSe ti interessa, scrivici per ordinare la tua.",
+      "photos": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781019864/mm_manifatture/wuv8al3kuu0mwk3zdzof.jpg"
+      ],
+      "published": true,
+      "available": true,
+      "scheduled_for": null
     }
   ],
   "categories": [
