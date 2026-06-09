@@ -228,6 +228,23 @@
       "published": true,
       "available": true,
       "scheduled_for": null
+    },
+    {
+      "id": "8b0f2b1c-c1e3-4a4b-93fa-d0dff3cf7680",
+      "created_at": "2026-06-09T14:49:58.204343+00:00",
+      "title": "Maglioncino lana seta traforato 18 mesi",
+      "category": "Abbigliamento",
+      "price": 25.0,
+      "size": "18 mesi",
+      "description_site": "Maglioncino in lana e seta con delicata lavorazione traforata, pensato per la pelle sensibile dei più piccoli. La miscela di fibre naturali garantisce morbidezza e traspirabilità, mentre il motivo traforato aggiunge leggerezza senza compromessi sulla calore. Per un bimba di 18 mesi, un capo da indossare tutto l'anno. €25,00.",
+      "description_instagram": "Leggerezza e calore in una sola trama — maglioncino traforato in lana e seta per i più piccoli 🧶\n\n18 mesi · Lana 70% seta 30% · €25\n\n#maglionchinobambino #fattoadamano #lanaeseta #abbigliamentobambini #artigianatolocale",
+      "description_facebook": "Quando arriva il momento di scegliere un capo per la piccola, i dettagli fanno la differenza. Un maglioncino in lana e seta non è solo caldo — è una carezza sulla pelle delicata di un bimba di 18 mesi.\n\nLa lavorazione traforata lo rende adatto a più stagioni: abbastanza leggero per la primavera, abbastanza caldo per l'autunno. La miscela 70% lana merinos e 30% seta è stata scelta con cura, perché ogni filo conta quando si parla di bebè.\n\nOgni maglioncino è fatto a mano, quindi ogni punto è stato pensato per durare nel tempo — non è un capo da una stagione sola, ma da tramandare.\n\nPrezzo: €25,00 · Scrivici per ordinare il tuo 🤍",
+      "photos": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781016597/mm_manifatture/tscatxiyaltuorkxswsx.jpg"
+      ],
+      "published": true,
+      "available": true,
+      "scheduled_for": null
     }
   ],
   "categories": [
