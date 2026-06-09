@@ -245,6 +245,23 @@
       "published": true,
       "available": true,
       "scheduled_for": null
+    },
+    {
+      "id": "dc0e6630-8880-497a-b0fe-8911d65a6550",
+      "created_at": "2026-06-09T14:53:10.430907+00:00",
+      "title": "Maglioncino merinos 3-6 mesi",
+      "category": "Abbigliamento",
+      "price": 20.0,
+      "size": "3/6 mesi",
+      "description_site": "Maglioncino in lana merinos per neonata, lavorato a mano con la cura che contraddistingue ogni creazione di Monica. La lana merinos è morbida sulla pelle delicata, termoregolante e naturale. Perfetto come regalo per chi vuole un pezzo autentico, fatto con dedizione artigianale, invece di un capo anonimo di produzione industriale. Taglia 3-6 mesi. €20,00.",
+      "description_instagram": "👶 Lana merinos per le più piccole — maglioncino lavorato a mano, delicato e naturale.\n\n3-6 mesi · €20\n\n#maglioncinineonato #lanamerinos #abbigliamentobambino #fattaamano #artigianatolocaliano",
+      "description_facebook": "C'è qualcosa di speciale nel vestire un neonato con qualcosa fatto con le proprie mani. Non è solo un capo: è l'attenzione di chi lo ha lavorato ago dopo ago, pensando a una bimba che non conosce, ma alla quale vuole regalare il massimo della dolcezza.\n\nQuesto maglioncino in lana merinos nasce così — da Monica, che seleziona il filato naturale e lo trasforma in una maglia avvolgente, morbida sulla pelle delicata. Taglia 3-6 mesi, ideale come regalo per una nascita o per chi ama i dettagli veri.\n\nOgni pezzo è unico, proprio come ogni bambina.\n\nPrezzo: €20,00 · Scrivi per ordinare 🤍",
+      "photos": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781016789/mm_manifatture/wkjaorfuskemxqtcq89b.jpg"
+      ],
+      "published": true,
+      "available": true,
+      "scheduled_for": null
     }
   ],
   "categories": [
