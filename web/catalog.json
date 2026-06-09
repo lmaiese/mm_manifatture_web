@@ -415,6 +415,23 @@
       "published": true,
       "available": true,
       "scheduled_for": null
+    },
+    {
+      "id": "3f745750-da5b-4d5b-853d-febe016d96c6",
+      "created_at": "2026-06-09T15:41:43.510683+00:00",
+      "title": "Vestina viscosa 2 anni con fiore uncinetto",
+      "category": "Abbigliamento",
+      "price": 35.0,
+      "size": "2 anni",
+      "description_site": "Vestina in viscosa elastica con fiore applicato realizzato all'uncinetto — un capo leggero e delicato per la stagione calda. Il dettaglio floreale fatto a mano dà carattere a un indumento semplice, perfetto per bambini che si muovono con libertà. Taglia 2 anni. €35,00.",
+      "description_instagram": "🌸 Una vestina di viscosa elastica con un fiore uncinetto applicato a mano — morbida e pratica per i piccoli.\n\nTaglia 2 anni · €35\n\n#vestinabambina #viscosa #uncinetto #artigianatoitaliano #cilento #abbigliamentobambino",
+      "description_facebook": "Una piccola vestina che unisce praticità e ricerca artigianale.\n\nQuando pensi all'abbigliamento per bambini, immagini capi che durino nel tempo e che facciano sentire il bambino a suo agio — la viscosa elastica è proprio questo: morbida sulla pelle, fresca, adatta ai mesi più caldi.\n\nMonica ha scelto di aggiungere un dettaglio speciale: un fiore realizzato all'uncinetto e applicato direttamente sul capo. Non è ricerca sfrenata di decorazione, ma un gesto che trasforma una vestina ordinaria in un pezzo con una storia.\n\nIl risultato è un capo per bambini di 2 anni che combina il comfort della viscosa con l'unicità dell'artigianato.\n\nTaglia 2 anni · Prezzo: €35,00 · Scrivi per ordinare o avere più informazioni 🤍",
+      "photos": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781019702/mm_manifatture/klujvffn8hpe4cllsatd.jpg"
+      ],
+      "published": true,
+      "available": true,
+      "scheduled_for": null
     }
   ],
   "categories": [
