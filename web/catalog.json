@@ -313,6 +313,23 @@
       "published": true,
       "available": true,
       "scheduled_for": null
+    },
+    {
+      "id": "24b036dc-3dcb-415b-97c6-1dcac68b80b7",
+      "created_at": "2026-06-09T15:02:30.056264+00:00",
+      "title": "Cardigan cotone righe 3-6 mesi",
+      "category": "Abbigliamento",
+      "price": 25.0,
+      "size": "3/6 mesi",
+      "description_site": "Cardigan in cotone per neonato con righe in contrasto, lavorato a mano. Un capo leggero e pratico, perfetto per le mezze stagioni o da indossare sopra altri capi nei mesi più freddi. Misura 3-6 mesi. €25,00.",
+      "description_instagram": "Cardigan in cotone con righe in contrasto per i più piccoli — morbido e facile da indossare.\n\n3-6 mesi · €25\n\n#cardiganbebefattaamano #cotonenatuale #abbigliamentobambino #artigianatocilentano #fattoadamano",
+      "description_facebook": "I primi mesi con un bimbo richiedono capi versatili e confortevoli — cardigan che si tolgono e si rimettono facilmente, che si adattano alle temperature che cambiano durante la giornata.\n\nQuesto cardigan in cotone con righe in contrasto è pensato proprio per questo: leggero ma presente, morbido sulla pelle delicata, lavorato a mano con la stessa cura che Monica dedica a ogni pezzo.\n\nLe righe in contrasto aggiungono un tocco di colore senza appesantire. Perfetto per i mesi 3-6, quando i neonati iniziano a stare più tempo svegli e hanno bisogno di capi che seguano i loro movimenti.\n\nMisura: 3-6 mesi · Prezzo: €25,00 · Scrivi per ordinare 🤍",
+      "photos": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781017349/mm_manifatture/jkccbcebtm0kb4dlvhnn.jpg"
+      ],
+      "published": true,
+      "available": true,
+      "scheduled_for": null
     }
   ],
   "categories": [
