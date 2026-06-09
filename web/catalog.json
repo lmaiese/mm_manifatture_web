@@ -449,6 +449,23 @@
       "published": true,
       "available": true,
       "scheduled_for": null
+    },
+    {
+      "id": "2ffc7aea-45de-4cee-b2c2-6b5a4cc02288",
+      "created_at": "2026-06-09T16:04:14.743827+00:00",
+      "title": "Completino cotone ricamato 9-12 mesi",
+      "category": "Abbigliamento",
+      "price": 30.0,
+      "size": "9/12 mesi",
+      "description_site": "Completino in cotone per neonato composto da pantaloncino corto e maglietta, con ricamo realizzato a punto maglia. Un pezzo che unisce praticità e cura artigianale, perfetto per le giornate più calde. Taglia 9-12 mesi. €30,00.",
+      "description_instagram": "👶 Completino in cotone per i più piccoli — pantaloncino e maglietta con ricamo a punto maglia.\n\n9-12 mesi · €30\n\n#completinobambino #cotonenatural #puntomaglia #abbigliamentobambino #artigianatolocaliano",
+      "description_facebook": "Quando arriva il caldo, i neonati hanno bisogno di capi leggeri e confortevoli. Questo completino in cotone è stato pensato per le giornate più soleggiate: pantaloncino corto e maglietta, insieme, per un look semplice e pratico.\n\nA dargli carattere è il ricamo realizzato a punto maglia direttamente sul capo — un piccolo dettaglio artigianale che lo rende speciale. Ogni pezzo è lavorato con cura, prestando attenzione ai materiali e alle finiture.\n\nTaglia 9-12 mesi · Prezzo: €30,00\n\nPerfetto come regalo per i primi mesi di vita. Scrivi per ordinare il tuo.",
+      "photos": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781021053/mm_manifatture/tgi2jalj2szkklum5ghr.jpg"
+      ],
+      "published": true,
+      "available": true,
+      "scheduled_for": null
     }
   ],
   "categories": [
