@@ -602,6 +602,23 @@
       "published": true,
       "available": true,
       "scheduled_for": null
+    },
+    {
+      "id": "c6bef140-d9dd-41eb-8a27-14d400209c2a",
+      "created_at": "2026-06-09T16:47:20.812131+00:00",
+      "title": "Maglioncino lana merino 2 anni",
+      "category": "Abbigliamento",
+      "price": 25.0,
+      "size": "2 anni",
+      "description_site": "Maglioncino in lana merino per bambina, lavorato a mano con la cura che caratterizza ogni pezzo di M&M Manifatture. La merino è morbida sulla pelle delicata e mantiene il calore senza appesantire. Un capo pensato per durare nel tempo, da passare da una bambina all'altra. Taglia 2 anni. €25,00.",
+      "description_instagram": "Un maglioncino in lana merino per le piccole, fatto a mano con dedizione.\n\nTaglia 2 anni · Merino · €25\n\n#maglionchinobambino #lanamerino #abbigliamentobambino #fattaamano #artigianatolocaliano",
+      "description_facebook": "Quando si sceglie un capo per i bambini, conta che sia avvolgente e delicato. Questo maglioncino in lana merino è stato lavorato a mano pensando proprio a questo: al comfort di chi lo indossa e alla consapevolezza di chi lo regala.\n\nLa lana merino è naturalmente termoregolante — non fa sudare d'estate e protegge dal freddo d'inverno. È morbida, quasi una coccola, e resiste nel tempo. Ogni maglioncino esce dalle mani di Monica come un piccolo pezzo unico, con quella qualità che solo l'artigianato sa dare.\n\nTaglia 2 anni · Prezzo: €25,00\n\nScrivici per ordinare il tuo. 🧶",
+      "photos": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781023639/mm_manifatture/dn2pa4q6sbfeygozojn8.jpg"
+      ],
+      "published": true,
+      "available": true,
+      "scheduled_for": null
     }
   ],
   "categories": [
