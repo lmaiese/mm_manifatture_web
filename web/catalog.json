@@ -381,6 +381,23 @@
       "published": true,
       "available": true,
       "scheduled_for": null
+    },
+    {
+      "id": "02caeead-a8ac-40b1-91af-17c5cf52e818",
+      "created_at": "2026-06-09T15:37:45.758044+00:00",
+      "title": "Canotta bimba viscosa elastica 4-5 anni",
+      "category": "Abbigliamento",
+      "price": 25.0,
+      "size": "4/5 anni",
+      "description_site": "Canotta in viscosa elastica per bambina, taglio leggermente svasato al fondo che segue naturalmente i movimenti. La viscosa garantisce morbidezza sulla pelle e traspirazione durante la stagione calda, mentre l'elasticità mantiene la forma nel tempo. Taglia 4-5 anni. €25,00.",
+      "description_instagram": "Canotta in viscosa elastica per bambina — leggera, morbida, perfetta per l'estate 🌿\n\n4-5 anni · €25\n\n#canottabambina #viscosaelastica #abbigliamentobambino #fattoadamano #cilento",
+      "description_facebook": "Quando cerchi un capo che stia bene addosso a una bambina, la viscosa è sempre una scelta giusta. È fresca, non irrita la pelle sensibile, e ha quel tocco di morbidezza che i bambini amano.\n\nQuesta canotta in viscosa elastica è stata pensata proprio per questo: il taglio leggermente svasato al fondo le permette di muoversi liberamente, senza stringere né ondeggiare. La viscosa che abbiamo scelto è elastica, quindi mantiene la forma anche dopo diversi lavaggi.\n\nPerfetta per l'estate, da sola o sotto una maglia leggera. Taglia 4-5 anni.\n\nPrezzo: €25,00 · Scrivici per ordinare 🤍",
+      "photos": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781019464/mm_manifatture/hueonbhlcsnuuomr2rpi.jpg"
+      ],
+      "published": true,
+      "available": true,
+      "scheduled_for": null
     }
   ],
   "categories": [
