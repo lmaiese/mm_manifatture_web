@@ -176,6 +176,24 @@
       "published": true,
       "scheduled_for": null,
       "available": true
+    },
+    {
+      "id": "90cd23f4-01e1-47f8-8a1e-35e3ab765546",
+      "created_at": "2026-06-09T14:26:32.486889+00:00",
+      "title": "Cardigan lana merinos punzonata 9/12 mesi",
+      "category": "Abbigliamento",
+      "price": 30.0,
+      "size": "9/12 mesi",
+      "description_site": "Cardigan in lana merinos con lavorazione punzonata, pensato per i primi mesi di vita. La morbidezza naturale della merinos avvolge la pelle delicata del bambino, mentre il lavoro a punzone dona una texture sottile e ricercata. Misura 9-12 mesi. €30,00.",
+      "description_instagram": "Caldo e delicato — cardigan in lana merinos con lavorazione punzonata per i primi mesi 🤍\n\n9-12 mesi · €30\n\n#cardiganbambino #lanamerinos #abbigliamentobambino #fattaamano #artigianatoregionale",
+      "description_facebook": "Quando arriva un neonato, la scelta dei capi diventa importante. Non è solo questione di caldo, ma di rispetto per quella pelle ancora fragile e sensibile.\n\nPer questo Monica ha realizzato un cardigan in lana merinos — un materiale naturale che termoregola, che non pizzica, che cresce insieme al bambino nei primi mesi.\n\nLa lavorazione punzonata lo rende leggero e raffinato, perfetto per le mezze stagioni o come strato aggiuntivo. Ogni pezzo è fatto a mano, quindi ogni cardigan ha la sua personalità.\n\nMisura 9-12 mesi · €30,00\n\nSe stai cercando un regalo che duri nel tempo, scrivi pure.",
+      "photos": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781015190/mm_manifatture/gai9fg85sf22gzxofthr.jpg",
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781015191/mm_manifatture/nbcn4turvcexlm3rf0fe.jpg"
+      ],
+      "published": true,
+      "available": true,
+      "scheduled_for": null
     }
   ],
   "categories": [
