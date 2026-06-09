@@ -191,7 +191,7 @@
         "https://res.cloudinary.com/djke3vkmd/image/upload/v1781015190/mm_manifatture/gai9fg85sf22gzxofthr.jpg",
         "https://res.cloudinary.com/djke3vkmd/image/upload/v1781015191/mm_manifatture/nbcn4turvcexlm3rf0fe.jpg"
       ],
-      "published": true,
+      "published": false,
       "available": true,
       "scheduled_for": null
     }
