@@ -517,6 +517,23 @@
       "published": true,
       "available": true,
       "scheduled_for": null
+    },
+    {
+      "id": "c37f626f-b3ce-4b8f-aa4b-0d1abc4625cc",
+      "created_at": "2026-06-09T16:18:53.737461+00:00",
+      "title": "Gilet merino verde righe 4-5 anni",
+      "category": "Abbigliamento",
+      "price": 25.0,
+      "size": "4/5 anni",
+      "description_site": "Gilet in lana merino verde con righe in contrasto chiare, lavorato a mano per i bambini. La lana merino è morbida e termoregolante, perfetta per le mezze stagioni — mantiene il calore senza appesantire. Taglia 4-5 anni. €25,00.",
+      "description_instagram": "Verde e righe chiare per i giorni di mezza stagione 🍃 Gilet in lana merino, lavorato a mano per i più piccoli.\n\n4-5 anni · €25\n\n#maglionchinobambino #lanamerino #artigianatolocaliano #abbigliamentobambino #fattaamano",
+      "description_facebook": "Quando arriva l'autunno, i bambini hanno bisogno di capi che stiano bene addosso senza costrizioni. Questo gilet in lana merino è stato pensato proprio per questo: morbido, leggero e facile da indossare sopra una maglietta.\n\nIl verde con le righe in contrasto è un classico che non stanca mai, e la lana merino mantiene il calore quando serve ma respira quando il bambino si muove e gioca.\n\nOgni gilet è lavorato a mano, quindi i dettagli delle righe e la trama della maglia hanno quella qualità particolare che solo il lavoro artigianale può dare.\n\nTaglia 4-5 anni · Prezzo: €25,00\n\nScrivimi per ordinare il tuo, i pezzi sono in numero limitato.",
+      "photos": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781021933/mm_manifatture/gae94dhccvr1lgm6qfos.jpg"
+      ],
+      "published": true,
+      "available": true,
+      "scheduled_for": null
     }
   ],
   "categories": [
