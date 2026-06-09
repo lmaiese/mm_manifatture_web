@@ -262,6 +262,23 @@
       "published": true,
       "available": true,
       "scheduled_for": null
+    },
+    {
+      "id": "1d43a19c-94d3-491e-abfc-5eb8b80874b1",
+      "created_at": "2026-06-09T14:54:59.667340+00:00",
+      "title": "Maglioncino righe lana merinos 3-6 mesi",
+      "category": "Abbigliamento",
+      "price": 20.0,
+      "size": "3/6 mesi",
+      "description_site": "Maglioncino a righe in lana merinos, morbidissima al contatto con la pelle delicata del neonato. Lavorato a mano con cura per garantire comfort e calore nei primi mesi. Taglia 3-6 mesi. €20,00.",
+      "description_instagram": "Caldo abbraccio in lana merinos — maglioncino a righe per i primi mesi, fatto a mano con filato naturale 🧶\n\n3-6 mesi · €20\n\n#maglioncinineonato #lanamerinos #abbigliamentobambino #fattaamano #cilento",
+      "description_facebook": "Quando arriva un neonato, si vuole avvolgerlo nel migliore dei modi. Un maglioncino semplice, ma fatto con attenzione — righe delicate in lana merinos, filato naturale che non irrita la pelle sensibile.\n\nMonica lo lavora a mano, maglia dopo maglia, pensando a quei primi freddi autunnali e invernali quando il piccolo ha bisogno di calore vero, non di tessuti sintetici.\n\nPerfetto come regalo per chi sta per diventare genitore, o per il proprio bambino. Ogni pezzo è artigianale, fatto con calma.\n\nTaglia 3-6 mesi · Prezzo: €20,00\n\nScrivici per ordinare o per altre informazioni 🤍",
+      "photos": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781016899/mm_manifatture/oyocv4b6cbx8ybatzmmv.jpg"
+      ],
+      "published": true,
+      "available": true,
+      "scheduled_for": null
     }
   ],
   "categories": [
