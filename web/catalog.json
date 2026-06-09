@@ -500,6 +500,23 @@
       "published": true,
       "available": true,
       "scheduled_for": null
+    },
+    {
+      "id": "23bce33c-2571-44a9-acce-609ead1e0f21",
+      "created_at": "2026-06-09T16:16:43.609187+00:00",
+      "title": "Maglione merinos ricamato 3-4 anni",
+      "category": "Abbigliamento",
+      "price": 40.0,
+      "size": "3/4 anni",
+      "description_site": "Maglione in lana merinos con ricamo eseguito a punto maglia, un dettaglio che trasforma un capo semplice in qualcosa di cura artigianale. La lana merinos è morbida sulla pelle e termoregulatrice, perfetta per i bambini nelle mezze stagioni e nei mesi più freddi. Taglia 3-4 anni. €40,00.",
+      "description_instagram": "Lana merinos e ricamo a punto maglia — un maglione per bambini fatto con attenzione ai dettagli 🧶\n\n3-4 anni · €40\n\n#maglioniarbambini #lanamerinos #fattaamano #artigianatoitaliano #cilento",
+      "description_facebook": "Un maglione non è solo un capo che scalda — quando è fatto con cura, diventa un ricordo. Questo è in lana merinos, morbida e leggera, e il ricamo a punto maglia che lo caratterizza è stato eseguito a mano, stitch dopo stitch.\n\nPerfetto per un bambino dai 3 ai 4 anni che passa da una stagione all'altra, o come regalo che sa di fatto artigianale — quello che si riconosce al tocco.\n\nTaglia 3-4 anni · Prezzo: €40,00\n\nScrivi se vuoi conoscerne i dettagli o ordinarlo.",
+      "photos": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781021803/mm_manifatture/ty8bki7kp1eazwfp7nsd.jpg"
+      ],
+      "published": true,
+      "available": true,
+      "scheduled_for": null
     }
   ],
   "categories": [
