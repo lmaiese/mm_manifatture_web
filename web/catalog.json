@@ -619,6 +619,23 @@
       "published": true,
       "available": true,
       "scheduled_for": null
+    },
+    {
+      "id": "832cc2c0-a2f2-44c3-bd33-daccf4593c2c",
+      "created_at": "2026-06-09T16:49:37.421093+00:00",
+      "title": "Maglioncino lana merino 5-6 anni",
+      "category": "Abbigliamento",
+      "price": 28.0,
+      "size": "5/6 anni",
+      "description_site": "Maglioncino in lana merino, morbido e caldo per l'inverno. La merino è una fibra naturale che regola la temperatura e si prende cura della pelle delicata dei bambini. Taglia 5-6 anni. €28,00.",
+      "description_instagram": "Caldo come un abbraccio — maglioncino in lana merino per i piccoli, perfetto per le giornate fredde 🧶\n\nTaglia 5-6 anni · €28\n\n#maglioniabambino #lanamerino #abbigliamentoinfanzia #fattaamano #cilento",
+      "description_facebook": "Le giornate fredde arrivano e i bambini hanno bisogno di calore vero, non di tessuti che fastidiano la pelle.\n\nMonica ha realizzato questo maglioncino in pura lana merino — una fibra naturale che riscalda senza irritare, morbida come una carezza. Perfetto per i bimbi sensibili, leggero quel tanto che basta per essere indossato a lungo senza disagio.\n\nLa lana merino non prude, termoregola il corpo e resiste nel tempo se trattata con cura. Ogni pezzo esce dalle mani di chi sa che vestire un bambino è una responsabilità e un gesto d'amore.\n\nTaglia 5-6 anni · Prezzo: €28,00\n\nScrivici per ordinare il tuo.",
+      "photos": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781023776/mm_manifatture/bv4yishw3ofjgyipl6mx.jpg"
+      ],
+      "published": true,
+      "available": true,
+      "scheduled_for": null
     }
   ],
   "categories": [
