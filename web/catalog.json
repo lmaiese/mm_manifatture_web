@@ -466,6 +466,23 @@
       "published": true,
       "available": true,
       "scheduled_for": null
+    },
+    {
+      "id": "92e5147f-2e9b-44b1-909d-89f9b8723f1e",
+      "created_at": "2026-06-09T16:10:55.198106+00:00",
+      "title": "Completino merino verde e righe 0-3 mesi",
+      "category": "Abbigliamento",
+      "price": 30.0,
+      "size": "0/3 mesi",
+      "description_site": "Completino in lana merino per neonato, composto da pantaloncino verde e maglietta a righe. La lana merino è naturalmente termoregolante e delicata sulla pelle sensibile del bambino, perfetta per i primi mesi. Un set pratico e caldo da indossare nei giorni freschi, ideale come regalo per chi aspetta un bebé. Taglia 0-3 mesi. €30,00.",
+      "description_instagram": "Caldo e delicato — completino neonato in lana merino, pantaloncino verde e maglietta a righe 🍃\n\n0-3 mesi · €30\n\n#abbigliamentoneonato #fattaamano #lanamerino #completinobimbo #cilento",
+      "description_facebook": "Quando arriva un neonato, ogni capo conta. Deve essere morbido, caldo, respira con la pelle delicata del bambino. Per questo Monica ha cucito questo completino in pura lana merino — pantaloncino verde e maglietta a righe, perfetto per i primi mesi.\n\nLa lana merino è speciale: termoregola naturalmente, non pizzica, assorbe l'umidità senza bagnare. Un set pratico da indossare nei giorni più freschi, sia a casa che fuori.\n\nOgni pezzo è lavorato con cura, e il completino arriva pronto per essere indossato.\n\nTaglia 0-3 mesi · Prezzo: €30,00\n\nScrivi per informazioni o per acquistare. È un regalo bellissimo per chi aspetta un bebé.",
+      "photos": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781021454/mm_manifatture/essgr3mp6hdnhlx5ytd8.jpg"
+      ],
+      "published": true,
+      "available": true,
+      "scheduled_for": null
     }
   ],
   "categories": [
