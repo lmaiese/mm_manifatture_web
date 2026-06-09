@@ -653,6 +653,23 @@
       "published": true,
       "available": true,
       "scheduled_for": null
+    },
+    {
+      "id": "4fa3b400-a945-4908-b682-2bd0ee3d9730",
+      "created_at": "2026-06-09T16:54:11.952982+00:00",
+      "title": "Maglione lana merino trecce 5/6 anni",
+      "category": "Abbigliamento",
+      "price": 28.0,
+      "size": "5/6 anni",
+      "description_site": "Maglione in lana merino con motivo a trecce, lavorato a mano per bambini di 5/6 anni. La lana merino è morbida e termoregolante, perfetta per le stagioni di transizione e l'inverno. Un capo che cresce con il bambino, facile da indossare e da curare. €28,00.",
+      "description_instagram": "Caldo abbracciare 🧶 Maglione in lana merino con trecce per bambini — ogni punto fatto a mano.\n\n5/6 anni · €28\n\n#maglioncininobambino #lanamerinoitaliana #artigianatolocaliano #cilento #fattaamano",
+      "description_facebook": "Quando i bambini tornano a casa dopo una giornata fuori, un maglione caldo e morbido è il primo gesto di cura.\n\nQuesto maglione in lana merino con trecce è stato lavorato a mano per bambini di 5/6 anni. La lana merino termoregola naturalmente, mantiene il caldo senza far sudare, ed è delicata sulla pelle sensibile dei più piccoli.\n\nOgni treccia è lavorata punto per punto — non è veloce, non è industriale, ma è fatto con cura. Niente etichette che graffiano, niente colori artificiali: solo lana buona e lavoro artigianale.\n\nTaglia 5/6 anni · Prezzo: €28,00\n\nScrivi se vuoi saperne di più o se vuoi ordinarlo. 🧒",
+      "photos": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781024050/mm_manifatture/wv5kg4g0gw6jbjqjupnk.jpg"
+      ],
+      "published": true,
+      "available": true,
+      "scheduled_for": null
     }
   ],
   "categories": [
