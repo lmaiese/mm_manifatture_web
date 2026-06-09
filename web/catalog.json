@@ -534,6 +534,23 @@
       "published": true,
       "available": true,
       "scheduled_for": null
+    },
+    {
+      "id": "89956e86-827a-4683-b100-5794a535497b",
+      "created_at": "2026-06-09T16:22:59.649378+00:00",
+      "title": "Maglioncino merino blu 4/5 anni",
+      "category": "Abbigliamento",
+      "price": 25.0,
+      "size": "4/5 anni",
+      "description_site": "Maglioncino in lana merino blu con maniche grigie, lavorato a mano per bambini dai 4 ai 5 anni. Un capo caldo e morbido, perfetto per le stagioni fredde — la lana merino respira naturalmente e si adatta al corpo del bambino senza irrigidirsi. Taglia 4/5 anni. €25,00.",
+      "description_instagram": "Lana merino blu con maniche grigie — maglioncino per bambini fatto a mano, caldo e delicato sulla pelle.\n\n4/5 anni · €25\n\n#abbigliamentobambino #lanamerino #maglionchinobambino #fattaamano #artigianatolocaliano",
+      "description_facebook": "Quando un bambino indossa un maglioncino fatto con cura, si sente la differenza. È un capo che avvolge dolcemente, che respira con la pelle, che non irrita.\n\nQuesto maglioncino in lana merino blu — con le maniche grigie che rompono il colore in modo naturale — è stato lavorato a mano pensando ai bambini dai 4 ai 5 anni. La lana merino è una scelta consapevole: non punge, mantiene il calore senza soffocare, e invecchia bene.\n\nÈ il genere di capo che un genitore sceglie non perché sia alla moda, ma perché sa che il bambino lo indosserà volentieri, giorno dopo giorno.\n\nPrezzo: €25,00 · Scrivi per ordinare 🧶",
+      "photos": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781022178/mm_manifatture/hfaeixekxzmwshqbxge0.jpg"
+      ],
+      "published": true,
+      "available": true,
+      "scheduled_for": null
     }
   ],
   "categories": [
