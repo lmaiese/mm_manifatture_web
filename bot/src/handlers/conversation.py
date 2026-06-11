@@ -148,7 +148,13 @@ async def _inactivity_ping(context: ContextTypes.DEFAULT_TYPE) -> None:
         return
     _, _, updated_at = state
     scheduled_at = job.data.get("scheduled_at") if job and job.data else None  # type: ignore[union-attr]
-    if scheduled_at is not None and updated_at > scheduled_at:
+    # updated_at is an ISO string from SQLite; scheduled_at is a float Unix timestamp
+    # from time.time(). Convert to float before comparing.
+    try:
+        updated_ts = datetime.fromisoformat(updated_at).timestamp()
+    except (ValueError, TypeError):
+        updated_ts = 0.0
+    if scheduled_at is not None and updated_ts > scheduled_at:
         # A newer user interaction already re-scheduled the job; skip stale ping.
         logger.info("inactivity_ping_skipped_stale", extra={"chat_id": chat_id})
         return
