@@ -13,7 +13,10 @@
         "/products/01.jpg"
       ],
       "published": false,
-      "available": true
+      "available": true,
+      "photos_original": [
+        "/products/01.jpg"
+      ]
     },
     {
       "id": "demo-002",
@@ -28,7 +31,10 @@
         "/products/02.jpg"
       ],
       "published": false,
-      "available": false
+      "available": false,
+      "photos_original": [
+        "/products/02.jpg"
+      ]
     },
     {
       "id": "demo-003",
@@ -43,7 +49,10 @@
         "/products/03.jpg"
       ],
       "published": false,
-      "available": false
+      "available": false,
+      "photos_original": [
+        "/products/03.jpg"
+      ]
     },
     {
       "id": "demo-004",
@@ -58,7 +67,10 @@
         "/products/04.jpg"
       ],
       "published": false,
-      "available": true
+      "available": true,
+      "photos_original": [
+        "/products/04.jpg"
+      ]
     },
     {
       "id": "demo-005",
@@ -73,7 +85,10 @@
         "/products/05.jpg"
       ],
       "published": false,
-      "available": false
+      "available": false,
+      "photos_original": [
+        "/products/05.jpg"
+      ]
     },
     {
       "id": "demo-006",
@@ -88,7 +103,10 @@
         "/products/06.jpg"
       ],
       "published": false,
-      "available": false
+      "available": false,
+      "photos_original": [
+        "/products/06.jpg"
+      ]
     },
     {
       "id": "demo-007",
@@ -103,7 +121,10 @@
         "/products/07.jpg"
       ],
       "published": false,
-      "available": false
+      "available": false,
+      "photos_original": [
+        "/products/07.jpg"
+      ]
     },
     {
       "id": "demo-008",
@@ -118,7 +139,10 @@
         "/products/08.jpg"
       ],
       "published": false,
-      "available": false
+      "available": false,
+      "photos_original": [
+        "/products/08.jpg"
+      ]
     },
     {
       "id": "7f34d0da-99a6-413a-8bba-97575866fe95",
@@ -135,7 +159,10 @@
       ],
       "published": false,
       "scheduled_for": null,
-      "available": true
+      "available": true,
+      "photos_original": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1780304076/mm_manifatture/jyal2t4bevf4dpxozadt.jpg"
+      ]
     },
     {
       "id": "d97cf7d1-1238-4271-a9f2-2e08c47fc457",
@@ -151,7 +178,10 @@
         "https://res.cloudinary.com/djke3vkmd/image/upload/v1780310942/mm_manifatture/n8sfaj4jazmwc6obs4ig.jpg"
       ],
       "published": false,
-      "scheduled_for": null
+      "scheduled_for": null,
+      "photos_original": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1780310942/mm_manifatture/n8sfaj4jazmwc6obs4ig.jpg"
+      ]
     },
     {
       "id": "287a957e-725e-4ca0-97ea-85fe4e6430b4",
@@ -168,7 +198,10 @@
         "https://res.cloudinary.com/djke3vkmd/image/upload/v1780316289/mm_manifatture/r0jwlfkv7kt1aa19pola.jpg"
       ],
       "published": false,
-      "scheduled_for": null
+      "scheduled_for": null,
+      "photos_original": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1780316289/mm_manifatture/r0jwlfkv7kt1aa19pola.jpg"
+      ]
     },
     {
       "id": "c98c60ca-4dff-469c-9156-2c3d1cf15314",
@@ -182,12 +215,16 @@
       "description_instagram": "Completo giacca + canotta in viscosa confort con fondo punzonato. Morbido e versatile 🤍\n\nTaglia L · €90\n\n#abbigliartigianalecilento #viscosaconfort #completoabbigliamento #fattaamano #mezzastagione",
       "description_facebook": "Quando cerchi un capo che sia comodo ma non rinuncia al dettaglio — ecco quello che fa la differenza.\n\nMonica ha creato questo completo in viscosa confort, composto da giacca e canotta coordinati. Il materiale è morbido sulla pelle e leggermente elasticizzato, perfetto per chi vuole libertà di movimento senza rinunciare a una linea definita. Il lavoro al fondo punzonato aggiunge un tocco artigianale e rende il pezzo diverso da quello che troverai in negozio.\n\nTaglia L, ideale per la mezza stagione o da indossare a strati nei giorni più freschi.\n\nPrezzo: €90,00 · Scrivi per info o per ordinare.",
       "photos": [
-        "https://res.cloudinary.com/djke3vkmd/image/upload/v1780317106/mm_manifatture/rx6hduxealxqtqmga1gw.jpg",
-        "https://res.cloudinary.com/djke3vkmd/image/upload/v1780317106/mm_manifatture/ybo4mdly0esgx2lzva9x.jpg"
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781199688/mm_manifatture/y5uhyfvix9ulrswxfhow.jpg",
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781199690/mm_manifatture/qjss7ltlz67yyq3n4flo.jpg"
       ],
       "published": true,
       "scheduled_for": null,
-      "available": true
+      "available": true,
+      "photos_original": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1780317106/mm_manifatture/rx6hduxealxqtqmga1gw.jpg",
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1780317106/mm_manifatture/ybo4mdly0esgx2lzva9x.jpg"
+      ]
     },
     {
       "id": "90cd23f4-01e1-47f8-8a1e-35e3ab765546",
@@ -201,12 +238,16 @@
       "description_instagram": "Caldo e delicato — cardigan in lana merinos con lavorazione punzonata per i primi mesi 🤍\n\n9-12 mesi · €30\n\n#cardiganbambino #lanamerinos #abbigliamentobambino #fattaamano #artigianatoregionale",
       "description_facebook": "Quando arriva un neonato, la scelta dei capi diventa importante. Non è solo questione di caldo, ma di rispetto per quella pelle ancora fragile e sensibile.\n\nPer questo Monica ha realizzato un cardigan in lana merinos — un materiale naturale che termoregola, che non pizzica, che cresce insieme al bambino nei primi mesi.\n\nLa lavorazione punzonata lo rende leggero e raffinato, perfetto per le mezze stagioni o come strato aggiuntivo. Ogni pezzo è fatto a mano, quindi ogni cardigan ha la sua personalità.\n\nMisura 9-12 mesi · €30,00\n\nSe stai cercando un regalo che duri nel tempo, scrivi pure.",
       "photos": [
-        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781015190/mm_manifatture/gai9fg85sf22gzxofthr.jpg",
-        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781015191/mm_manifatture/nbcn4turvcexlm3rf0fe.jpg"
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781199693/mm_manifatture/zalod6dahjmnb14vsqsb.jpg",
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781199695/mm_manifatture/bzim49sxcsefxk6qq4we.jpg"
       ],
       "published": false,
       "available": true,
-      "scheduled_for": null
+      "scheduled_for": null,
+      "photos_original": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781015190/mm_manifatture/gai9fg85sf22gzxofthr.jpg",
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781015191/mm_manifatture/nbcn4turvcexlm3rf0fe.jpg"
+      ]
     },
     {
       "id": "ff06e383-0e44-43d8-a1ee-450aa1cb9fd4",
@@ -220,11 +261,14 @@
       "description_instagram": "🧶 Cardigan in lana merinos per le piccole — morbido e leggero, perfetto per le mezze stagioni.\n\n9-12 mesi · €30\n\n#maglioncininobambino #lanamerinos #artigianatoitaliano #abbigliamentobambino #cilento",
       "description_facebook": "Quando arriva l'autunno, i piccoli hanno bisogno di capi che li tengano al caldo senza essere troppo pesanti. Un cardigan in lana merinos è la soluzione perfetta: scalda, è morbidissimo sulla pelle delicata e si indossa facilmente anche sopra i body quotidiani.\n\nQuesto cardigan per bimba è lavorato a punto punzonato, una tecnica che crea una texture gradevole e particolarmente graziosa. La lana merinos regola la temperatura naturalmente, quindi il piccolo non avrà troppo caldo né troppo freddo.\n\nTaglia 9-12 mesi · Prezzo: €30,00\n\nScrivi per acquistare o per ricevere altre informazioni sul capo. 🧸",
       "photos": [
-        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781016175/mm_manifatture/iknczfirvhcoptjhowx7.jpg"
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781199697/mm_manifatture/qbmj6jvmz7pwad93oyxr.jpg"
       ],
       "published": true,
       "available": true,
-      "scheduled_for": null
+      "scheduled_for": null,
+      "photos_original": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781016175/mm_manifatture/iknczfirvhcoptjhowx7.jpg"
+      ]
     },
     {
       "id": "83f49fc0-1ca4-4fb3-9c80-0e59cfe3ccef",
@@ -238,11 +282,14 @@
       "description_instagram": "Cardigan in lana merino con lavorazione punzonata — morbidezza e calore per i piccoli 🧶\n\n9-12 mesi · €30\n\n#maglioninaibambini #lanamerino #artigianatolocaleitaliano #fattaamano #cilento",
       "description_facebook": "Quando arriva l'autunno, cerchiamo sempre quel capo che tenga al caldo senza coprire troppo. Questo cardigan in lana merino è nato proprio da questa idea: una base leggera e morbida che accompagna i bimbi tra le stagioni.\n\nLa lavorazione punzonata gli dà una texture particolare — non è solo piacevole al tatto, ma gli permette di respirare. La lana merino regola naturalmente la temperatura, quindi protegge dal freddo senza far sudare.\n\nTaglia 9-12 mesi · Prezzo: €30,00\n\nScrivici se vuoi vederlo o per ordinare.",
       "photos": [
-        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781016370/mm_manifatture/gauisooola3tp7hz3e4g.jpg"
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781199700/mm_manifatture/vqanjbvolxvkq3dhxvbv.jpg"
       ],
       "published": true,
       "available": true,
-      "scheduled_for": null
+      "scheduled_for": null,
+      "photos_original": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781016370/mm_manifatture/gauisooola3tp7hz3e4g.jpg"
+      ]
     },
     {
       "id": "8b0f2b1c-c1e3-4a4b-93fa-d0dff3cf7680",
@@ -256,11 +303,14 @@
       "description_instagram": "Leggerezza e calore in una sola trama — maglioncino traforato in lana e seta per i più piccoli 🧶\n\n18 mesi · Lana 70% seta 30% · €25\n\n#maglionchinobambino #fattoadamano #lanaeseta #abbigliamentobambini #artigianatolocale",
       "description_facebook": "Quando arriva il momento di scegliere un capo per la piccola, i dettagli fanno la differenza. Un maglioncino in lana e seta non è solo caldo — è una carezza sulla pelle delicata di un bimba di 18 mesi.\n\nLa lavorazione traforata lo rende adatto a più stagioni: abbastanza leggero per la primavera, abbastanza caldo per l'autunno. La miscela 70% lana merinos e 30% seta è stata scelta con cura, perché ogni filo conta quando si parla di bebè.\n\nOgni maglioncino è fatto a mano, quindi ogni punto è stato pensato per durare nel tempo — non è un capo da una stagione sola, ma da tramandare.\n\nPrezzo: €25,00 · Scrivici per ordinare il tuo 🤍",
       "photos": [
-        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781016597/mm_manifatture/tscatxiyaltuorkxswsx.jpg"
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781199702/mm_manifatture/kri5itpfxcaenbmyt2cl.jpg"
       ],
       "published": true,
       "available": true,
-      "scheduled_for": null
+      "scheduled_for": null,
+      "photos_original": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781016597/mm_manifatture/tscatxiyaltuorkxswsx.jpg"
+      ]
     },
     {
       "id": "dc0e6630-8880-497a-b0fe-8911d65a6550",
@@ -274,11 +324,14 @@
       "description_instagram": "👶 Lana merinos per le più piccole — maglioncino lavorato a mano, delicato e naturale.\n\n3-6 mesi · €20\n\n#maglioncinineonato #lanamerinos #abbigliamentobambino #fattaamano #artigianatolocaliano",
       "description_facebook": "C'è qualcosa di speciale nel vestire un neonato con qualcosa fatto con le proprie mani. Non è solo un capo: è l'attenzione di chi lo ha lavorato ago dopo ago, pensando a una bimba che non conosce, ma alla quale vuole regalare il massimo della dolcezza.\n\nQuesto maglioncino in lana merinos nasce così — da Monica, che seleziona il filato naturale e lo trasforma in una maglia avvolgente, morbida sulla pelle delicata. Taglia 3-6 mesi, ideale come regalo per una nascita o per chi ama i dettagli veri.\n\nOgni pezzo è unico, proprio come ogni bambina.\n\nPrezzo: €20,00 · Scrivi per ordinare 🤍",
       "photos": [
-        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781016789/mm_manifatture/wkjaorfuskemxqtcq89b.jpg"
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781199704/mm_manifatture/ty8pecjm0acgphgsretq.jpg"
       ],
       "published": true,
       "available": true,
-      "scheduled_for": null
+      "scheduled_for": null,
+      "photos_original": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781016789/mm_manifatture/wkjaorfuskemxqtcq89b.jpg"
+      ]
     },
     {
       "id": "1d43a19c-94d3-491e-abfc-5eb8b80874b1",
@@ -292,11 +345,14 @@
       "description_instagram": "Caldo abbraccio in lana merinos — maglioncino a righe per i primi mesi, fatto a mano con filato naturale 🧶\n\n3-6 mesi · €20\n\n#maglioncinineonato #lanamerinos #abbigliamentobambino #fattaamano #cilento",
       "description_facebook": "Quando arriva un neonato, si vuole avvolgerlo nel migliore dei modi. Un maglioncino semplice, ma fatto con attenzione — righe delicate in lana merinos, filato naturale che non irrita la pelle sensibile.\n\nMonica lo lavora a mano, maglia dopo maglia, pensando a quei primi freddi autunnali e invernali quando il piccolo ha bisogno di calore vero, non di tessuti sintetici.\n\nPerfetto come regalo per chi sta per diventare genitore, o per il proprio bambino. Ogni pezzo è artigianale, fatto con calma.\n\nTaglia 3-6 mesi · Prezzo: €20,00\n\nScrivici per ordinare o per altre informazioni 🤍",
       "photos": [
-        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781016899/mm_manifatture/oyocv4b6cbx8ybatzmmv.jpg"
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781199707/mm_manifatture/wdb5ii4ptw7um2w78rtf.jpg"
       ],
       "published": true,
       "available": true,
-      "scheduled_for": null
+      "scheduled_for": null,
+      "photos_original": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781016899/mm_manifatture/oyocv4b6cbx8ybatzmmv.jpg"
+      ]
     },
     {
       "id": "2ba728bc-8d5f-4bfc-b089-effc842b3d5e",
@@ -310,11 +366,14 @@
       "description_instagram": "Piccole grecche ricamate a mano su lana merinos — un maglioncino per neonata che tiene caldo e diventa ricordo.\n\n3-6 mesi · Lana merinos · €20\n\n#maglionchineonato #lanamerinos #abbigliamentobimbi #ricamomano #fattaamano #cilento",
       "description_facebook": "Quando nasce una bimba, spesso si vuole che indossi qualcosa di speciale nei primi mesi — non solo pratico, ma che comunichi cura.\n\nQuesto maglioncino in lana merinos è stato pensato proprio così. La greca ricamata a mano rende ogni pezzo unico, e il merinos — morbidissimo — protegge la pelle delicata senza opprimere. È un indumento che cresce con i primi ricordi: perfetto per i 3-6 mesi, quando ancora tutto è novità.\n\nOgni ricamo è fatto a mano da Monica nel suo laboratorio del Cilento, quindi non troverai due maglioncini identici — proprio come non esistono due bambine uguali.\n\nTaglia 3-6 mesi · Prezzo: €20,00\n\nScrivici se vuoi regalare o conservare questo pezzo per tua figlia.",
       "photos": [
-        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781017066/mm_manifatture/hc0h8kceze7fr5xekhxo.jpg"
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781199715/mm_manifatture/ta6y3mmxyqxathbhuqmg.jpg"
       ],
       "published": true,
       "available": true,
-      "scheduled_for": null
+      "scheduled_for": null,
+      "photos_original": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781017066/mm_manifatture/hc0h8kceze7fr5xekhxo.jpg"
+      ]
     },
     {
       "id": "3b04a109-5718-45b4-b70d-6831980023e8",
@@ -328,11 +387,14 @@
       "description_instagram": "A righe, in lana merino pura — maglioncino per neonato lavorato a mano 🧶\n\n3-6 mesi · €20\n\n#maglionchineonato #lanamerinoitaliana #artigianatolocaliano #abbigliamentobimbo #fattaamano",
       "description_facebook": "Quando arriva un neonato, pensi a cosa avvolgere quella pelle ancora così fragile. Un maglioncino deve essere caldo, ma soprattutto gentile.\n\nQuesto maglioncino a righe in lana merino nasce da questa idea: filato naturale, morbido, respirante. Lavorato a mano pezzo dopo pezzo, per la taglia 3-6 mesi.\n\nLa lana merino regola la temperatura — d'inverno scalda, in primavera non appesantisce. Non pizzica, non irrita. È semplicemente il maglioncino giusto per i primi mesi.\n\nTaglia 3-6 mesi · Prezzo: €20,00\n\nSe stai cercando un regalo per un neonato, scrivici. 🧶",
       "photos": [
-        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781017189/mm_manifatture/m5ytnyju2oe0cg6qeu5c.jpg"
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781199718/mm_manifatture/t4r311lv20cmwger5znw.jpg"
       ],
       "published": true,
       "available": true,
-      "scheduled_for": null
+      "scheduled_for": null,
+      "photos_original": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781017189/mm_manifatture/m5ytnyju2oe0cg6qeu5c.jpg"
+      ]
     },
     {
       "id": "24b036dc-3dcb-415b-97c6-1dcac68b80b7",
@@ -346,11 +408,14 @@
       "description_instagram": "Cardigan in cotone con righe in contrasto per i più piccoli — morbido e facile da indossare.\n\n3-6 mesi · €25\n\n#cardiganbebefattaamano #cotonenatuale #abbigliamentobambino #artigianatocilentano #fattoadamano",
       "description_facebook": "I primi mesi con un bimbo richiedono capi versatili e confortevoli — cardigan che si tolgono e si rimettono facilmente, che si adattano alle temperature che cambiano durante la giornata.\n\nQuesto cardigan in cotone con righe in contrasto è pensato proprio per questo: leggero ma presente, morbido sulla pelle delicata, lavorato a mano con la stessa cura che Monica dedica a ogni pezzo.\n\nLe righe in contrasto aggiungono un tocco di colore senza appesantire. Perfetto per i mesi 3-6, quando i neonati iniziano a stare più tempo svegli e hanno bisogno di capi che seguano i loro movimenti.\n\nMisura: 3-6 mesi · Prezzo: €25,00 · Scrivi per ordinare 🤍",
       "photos": [
-        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781017349/mm_manifatture/jkccbcebtm0kb4dlvhnn.jpg"
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781199720/mm_manifatture/chtkmrenpr1sxa5cdcqb.jpg"
       ],
       "published": true,
       "available": true,
-      "scheduled_for": null
+      "scheduled_for": null,
+      "photos_original": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781017349/mm_manifatture/jkccbcebtm0kb4dlvhnn.jpg"
+      ]
     },
     {
       "id": "dce8f6d3-032a-4244-a2f8-da79f835653a",
@@ -364,11 +429,14 @@
       "description_instagram": "Canotta in viscosa elastica, svasata al fondo per comodità. Morbida e leggera per l'estate dei più piccoli 🤍\n\n2 anni · €20\n\n#canottabambino #viscosa #abbigliamentobambino #fattaamano #cilento",
       "description_facebook": "Con i bambini di 2 anni la ricerca è sempre la stessa: trovare capi che lascino loro libertà di movimento senza rinunciare al comfort.\n\nPer questo Monica ha creato questa canotta in viscosa elastica con un taglio leggermente svasato al fondo — una soluzione semplice che segue il corpo del bambino mentre corre e gioca. La viscosa è morbida sulla pelle delicata e respira naturalmente, perfetta per il caldo estivo.\n\nOgni canotta è realizzata con lo stesso metodo artigianale: niente di meccanico, niente di standardizzato. Solo cura nei dettagli.\n\nPer bambini di 2 anni · Prezzo: €20,00\n\nContattaci se vuoi ordinare la tua.",
       "photos": [
-        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781017491/mm_manifatture/fi1uc7ndkn8xzgjwopak.jpg"
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781199727/mm_manifatture/osybdkauvwuhthnbsrau.jpg"
       ],
       "published": true,
       "available": true,
-      "scheduled_for": null
+      "scheduled_for": null,
+      "photos_original": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781017491/mm_manifatture/fi1uc7ndkn8xzgjwopak.jpg"
+      ]
     },
     {
       "id": "59db5196-472a-4a5f-9647-0d41f0682a49",
@@ -382,11 +450,14 @@
       "description_instagram": "Canotta in viscosa elastica per i caldi giorni d'estate — taglio svasato che segue il movimento della bimba 🌸\n\n2 anni · €20\n\n#canottabimba #viscosaelastica #abbigliamentobambini #fattaamano #cilento",
       "description_facebook": "Le estati con i bambini richiedono capi pratici, che si muovono insieme a loro senza limitare il gioco. Ecco perché Monica ha realizzato questa canotta in viscosa elastica per bimbe di 2 anni — con un taglio leggermente svasato al fondo che dona movimento naturale al corpo della piccola.\n\nLa viscosa elastica è morbida, traspirante e perfetta per le giornate calde. Un capo che potrai lavare frequentemente senza pensieri, e che la bimba indosserà volentieri perché comoda e leggera.\n\nDisponibile in quantità limitata.\n\nPrezzo: €20,00 · Scrivi per ordinare 🌾",
       "photos": [
-        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781017603/mm_manifatture/jtdqqpcuwkivrsa3e1mr.jpg"
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781199730/mm_manifatture/d7lfsfz6degm8irdrpef.jpg"
       ],
       "published": true,
       "available": true,
-      "scheduled_for": null
+      "scheduled_for": null,
+      "photos_original": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781017603/mm_manifatture/jtdqqpcuwkivrsa3e1mr.jpg"
+      ]
     },
     {
       "id": "2f82f896-1288-4cc9-a1cb-7fc0647dad20",
@@ -400,11 +471,14 @@
       "description_instagram": "Estate leggera 🌊 Canotta bimbo in viscosa elastica, righe bianche e azzurre. Morbida e fresca sulla pelle.\n\n2 anni · €20\n\n#abbigliamentobambino #viscosa #fattaamano #abititienati #cilento",
       "description_facebook": "Quando arriva il caldo, i bambini hanno bisogno di capi che lasciano respirare la pelle senza sacrificare il comfort. Questa canotta in viscosa elastica è nata per questo: leggera, morbida, con righe bianche e azzurre che ricordano il mare.\n\nLa viscosa è un materiale naturale che assorbe l'umidità e garantisce traspirabilità — perfetto per una canotta da indossare tutti i giorni durante l'estate o in primavera. L'elasticità della fibra la rende comoda anche quando il bambino si muove e gioca.\n\nAdatta a bambini di 2 anni, può essere indossata da sola o come strato sotto altri capi più leggeri.\n\nPrezzo: €20,00 · Scrivi per ordinare la tua!",
       "photos": [
-        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781017973/mm_manifatture/tfaiql73fksol0g7q2eg.jpg"
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781199732/mm_manifatture/rkocf5hdmlimmszuen6r.jpg"
       ],
       "published": true,
       "available": true,
-      "scheduled_for": null
+      "scheduled_for": null,
+      "photos_original": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781017973/mm_manifatture/tfaiql73fksol0g7q2eg.jpg"
+      ]
     },
     {
       "id": "02caeead-a8ac-40b1-91af-17c5cf52e818",
@@ -418,11 +492,14 @@
       "description_instagram": "Canotta in viscosa elastica per bambina — leggera, morbida, perfetta per l'estate 🌿\n\n4-5 anni · €25\n\n#canottabambina #viscosaelastica #abbigliamentobambino #fattoadamano #cilento",
       "description_facebook": "Quando cerchi un capo che stia bene addosso a una bambina, la viscosa è sempre una scelta giusta. È fresca, non irrita la pelle sensibile, e ha quel tocco di morbidezza che i bambini amano.\n\nQuesta canotta in viscosa elastica è stata pensata proprio per questo: il taglio leggermente svasato al fondo le permette di muoversi liberamente, senza stringere né ondeggiare. La viscosa che abbiamo scelto è elastica, quindi mantiene la forma anche dopo diversi lavaggi.\n\nPerfetta per l'estate, da sola o sotto una maglia leggera. Taglia 4-5 anni.\n\nPrezzo: €25,00 · Scrivici per ordinare 🤍",
       "photos": [
-        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781019464/mm_manifatture/hueonbhlcsnuuomr2rpi.jpg"
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781199734/mm_manifatture/szd8gr1eptapynvoxear.jpg"
       ],
       "published": true,
       "available": true,
-      "scheduled_for": null
+      "scheduled_for": null,
+      "photos_original": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781019464/mm_manifatture/hueonbhlcsnuuomr2rpi.jpg"
+      ]
     },
     {
       "id": "c5e7b8db-0155-4d04-8d26-a5de72b5faa6",
@@ -436,11 +513,14 @@
       "description_instagram": "Vestina in viscosa elastica per bambina — con fiore applicato lavorato all'uncinetto 🌼\n\nTaglia 2 anni · €35\n\n#vestinabambina #viscosaelastica #uncinetto #fattaamano #artigianalocilentano",
       "description_facebook": "Una vestina che cresce con i tuoi momenti — in viscosa elastica, quella che non la imbarazza perché le permette di muoversi, giocare, correre.\n\nMonica ha aggiunto un piccolo fiore all'uncinetto come dettaglio, lavorato interamente a mano. È quello che trasforma un capo semplice in qualcosa di speciale, in qualcosa che noterai quando la guardi.\n\nPerfetta per le bambine di 2 anni, sia per il quotidiano che per giorni più importanti. Il colore, il materiale morbido e quella piccola cura nel ricordo — quello che rende artigianale questo pezzo.\n\nTaglia 2 anni · €35,00\n\nScrivici se vuoi scoprire i colori disponibili o per ordinare.",
       "photos": [
-        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781019599/mm_manifatture/mowwkiltuf8dbs30ue1i.jpg"
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781199737/mm_manifatture/uy751glsq2ko8sq1mwhn.jpg"
       ],
       "published": true,
       "available": true,
-      "scheduled_for": null
+      "scheduled_for": null,
+      "photos_original": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781019599/mm_manifatture/mowwkiltuf8dbs30ue1i.jpg"
+      ]
     },
     {
       "id": "3f745750-da5b-4d5b-853d-febe016d96c6",
@@ -454,11 +534,14 @@
       "description_instagram": "🌸 Una vestina di viscosa elastica con un fiore uncinetto applicato a mano — morbida e pratica per i piccoli.\n\nTaglia 2 anni · €35\n\n#vestinabambina #viscosa #uncinetto #artigianatoitaliano #cilento #abbigliamentobambino",
       "description_facebook": "Una piccola vestina che unisce praticità e ricerca artigianale.\n\nQuando pensi all'abbigliamento per bambini, immagini capi che durino nel tempo e che facciano sentire il bambino a suo agio — la viscosa elastica è proprio questo: morbida sulla pelle, fresca, adatta ai mesi più caldi.\n\nMonica ha scelto di aggiungere un dettaglio speciale: un fiore realizzato all'uncinetto e applicato direttamente sul capo. Non è ricerca sfrenata di decorazione, ma un gesto che trasforma una vestina ordinaria in un pezzo con una storia.\n\nIl risultato è un capo per bambini di 2 anni che combina il comfort della viscosa con l'unicità dell'artigianato.\n\nTaglia 2 anni · Prezzo: €35,00 · Scrivi per ordinare o avere più informazioni 🤍",
       "photos": [
-        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781019702/mm_manifatture/klujvffn8hpe4cllsatd.jpg"
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781199740/mm_manifatture/kyrsqoxoy7nhdtmm5sxq.jpg"
       ],
       "published": true,
       "available": true,
-      "scheduled_for": null
+      "scheduled_for": null,
+      "photos_original": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781019702/mm_manifatture/klujvffn8hpe4cllsatd.jpg"
+      ]
     },
     {
       "id": "15981c35-3c47-4558-843c-b7d92961d318",
@@ -472,11 +555,14 @@
       "description_instagram": "Per le giornate calde — canotta in viscosa elastica, taglio marinaro con svasatura delicata 🌊\n\n2 anni · €20\n\n#canottabambina #viscosa #fattaamano #abbigliamentobambino #artigianatoitaliano",
       "description_facebook": "Le cose semplici, a volte, sono quelle che rendono più facile la vita con i bambini piccoli.\n\nUna canotta in viscosa elastica, leggera e confortevole — disegnata per seguire i movimenti di una bimba di 2 anni senza costringerla. Il taglio marinaro e la svasatura delicata al fondo le danno un tocco di carattere, mentre il tessuto, morbido e traspirante, è gentile sulla pelle sensibile.\n\nPerfetta per le giornate calde, da sola o indossata sotto altri capi. Ogni canotta è confezionata con cura da Monica nel suo laboratorio nel Cilento.\n\nTaglia 2 anni · €20,00\n\nSe ti interessa, scrivici per ordinare la tua.",
       "photos": [
-        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781019864/mm_manifatture/wuv8al3kuu0mwk3zdzof.jpg"
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781199742/mm_manifatture/ggdgw0kda8pk6rq1bjwj.jpg"
       ],
       "published": true,
       "available": true,
-      "scheduled_for": null
+      "scheduled_for": null,
+      "photos_original": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781019864/mm_manifatture/wuv8al3kuu0mwk3zdzof.jpg"
+      ]
     },
     {
       "id": "2ffc7aea-45de-4cee-b2c2-6b5a4cc02288",
@@ -490,11 +576,14 @@
       "description_instagram": "👶 Completino in cotone per i più piccoli — pantaloncino e maglietta con ricamo a punto maglia.\n\n9-12 mesi · €30\n\n#completinobambino #cotonenatural #puntomaglia #abbigliamentobambino #artigianatolocaliano",
       "description_facebook": "Quando arriva il caldo, i neonati hanno bisogno di capi leggeri e confortevoli. Questo completino in cotone è stato pensato per le giornate più soleggiate: pantaloncino corto e maglietta, insieme, per un look semplice e pratico.\n\nA dargli carattere è il ricamo realizzato a punto maglia direttamente sul capo — un piccolo dettaglio artigianale che lo rende speciale. Ogni pezzo è lavorato con cura, prestando attenzione ai materiali e alle finiture.\n\nTaglia 9-12 mesi · Prezzo: €30,00\n\nPerfetto come regalo per i primi mesi di vita. Scrivi per ordinare il tuo.",
       "photos": [
-        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781021053/mm_manifatture/tgi2jalj2szkklum5ghr.jpg"
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781199744/mm_manifatture/ewaskckgf5fyrkiwmojw.jpg"
       ],
       "published": true,
       "available": true,
-      "scheduled_for": null
+      "scheduled_for": null,
+      "photos_original": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781021053/mm_manifatture/tgi2jalj2szkklum5ghr.jpg"
+      ]
     },
     {
       "id": "92e5147f-2e9b-44b1-909d-89f9b8723f1e",
@@ -508,11 +597,14 @@
       "description_instagram": "Caldo e delicato — completino neonato in lana merino, pantaloncino verde e maglietta a righe 🍃\n\n0-3 mesi · €30\n\n#abbigliamentoneonato #fattaamano #lanamerino #completinobimbo #cilento",
       "description_facebook": "Quando arriva un neonato, ogni capo conta. Deve essere morbido, caldo, respira con la pelle delicata del bambino. Per questo Monica ha cucito questo completino in pura lana merino — pantaloncino verde e maglietta a righe, perfetto per i primi mesi.\n\nLa lana merino è speciale: termoregola naturalmente, non pizzica, assorbe l'umidità senza bagnare. Un set pratico da indossare nei giorni più freschi, sia a casa che fuori.\n\nOgni pezzo è lavorato con cura, e il completino arriva pronto per essere indossato.\n\nTaglia 0-3 mesi · Prezzo: €30,00\n\nScrivi per informazioni o per acquistare. È un regalo bellissimo per chi aspetta un bebé.",
       "photos": [
-        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781021454/mm_manifatture/essgr3mp6hdnhlx5ytd8.jpg"
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781199747/mm_manifatture/pmv1noucmwxqu8tnfld3.jpg"
       ],
       "published": true,
       "available": true,
-      "scheduled_for": null
+      "scheduled_for": null,
+      "photos_original": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781021454/mm_manifatture/essgr3mp6hdnhlx5ytd8.jpg"
+      ]
     },
     {
       "id": "ea401408-4587-47a1-bc65-6d5020dc32ef",
@@ -526,11 +618,14 @@
       "description_instagram": "Caldo e delicato — completo neonato in lana merino con motivo traforato. Scalda cuore panna e pantaloncino marrone 🤍\n\n3-6 mesi · €40\n\n#maglionchinobambino #lanamerino #abbigliamentoneonato #fattaamano #artigianatolocaliano",
       "description_facebook": "Quando aspetti un neonato, cerchi capi che siano al contempo pratici e pieni di cura. Questo completo in lana merino nasce dalla ricerca di Monica di creare abbigliamento confortevole e delicato per i più piccoli.\n\nPantaloncino marrone e scalda cuore panna si abbinano con semplicità, mentre il motivo traforato aggiunge un tocco di raffinatezza senza appesantire. La lana merino è naturalmente morbida e termoregolante, perfetta per la pelle sensibile dei neonati.\n\nOgni pezzo è lavorato a mano con attenzione ai dettagli — non troverai lo stesso completo altrove.\n\nTaglia 3-6 mesi · Prezzo: €40,00\n\nScrivi per ordinare o avere più informazioni 🤍",
       "photos": [
-        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781021651/mm_manifatture/ugwftszxtfr6epkbpdg5.jpg"
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781199749/mm_manifatture/lmbdm5kbekltau6ucpsh.jpg"
       ],
       "published": true,
       "available": true,
-      "scheduled_for": null
+      "scheduled_for": null,
+      "photos_original": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781021651/mm_manifatture/ugwftszxtfr6epkbpdg5.jpg"
+      ]
     },
     {
       "id": "23bce33c-2571-44a9-acce-609ead1e0f21",
@@ -544,11 +639,14 @@
       "description_instagram": "Lana merinos e ricamo a punto maglia — un maglione per bambini fatto con attenzione ai dettagli 🧶\n\n3-4 anni · €40\n\n#maglioniarbambini #lanamerinos #fattaamano #artigianatoitaliano #cilento",
       "description_facebook": "Un maglione non è solo un capo che scalda — quando è fatto con cura, diventa un ricordo. Questo è in lana merinos, morbida e leggera, e il ricamo a punto maglia che lo caratterizza è stato eseguito a mano, stitch dopo stitch.\n\nPerfetto per un bambino dai 3 ai 4 anni che passa da una stagione all'altra, o come regalo che sa di fatto artigianale — quello che si riconosce al tocco.\n\nTaglia 3-4 anni · Prezzo: €40,00\n\nScrivi se vuoi conoscerne i dettagli o ordinarlo.",
       "photos": [
-        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781021803/mm_manifatture/ty8bki7kp1eazwfp7nsd.jpg"
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781199752/mm_manifatture/afw5ufb7epgzhyicek40.jpg"
       ],
       "published": true,
       "available": true,
-      "scheduled_for": null
+      "scheduled_for": null,
+      "photos_original": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781021803/mm_manifatture/ty8bki7kp1eazwfp7nsd.jpg"
+      ]
     },
     {
       "id": "c37f626f-b3ce-4b8f-aa4b-0d1abc4625cc",
@@ -562,11 +660,14 @@
       "description_instagram": "Verde e righe chiare per i giorni di mezza stagione 🍃 Gilet in lana merino, lavorato a mano per i più piccoli.\n\n4-5 anni · €25\n\n#maglionchinobambino #lanamerino #artigianatolocaliano #abbigliamentobambino #fattaamano",
       "description_facebook": "Quando arriva l'autunno, i bambini hanno bisogno di capi che stiano bene addosso senza costrizioni. Questo gilet in lana merino è stato pensato proprio per questo: morbido, leggero e facile da indossare sopra una maglietta.\n\nIl verde con le righe in contrasto è un classico che non stanca mai, e la lana merino mantiene il calore quando serve ma respira quando il bambino si muove e gioca.\n\nOgni gilet è lavorato a mano, quindi i dettagli delle righe e la trama della maglia hanno quella qualità particolare che solo il lavoro artigianale può dare.\n\nTaglia 4-5 anni · Prezzo: €25,00\n\nScrivimi per ordinare il tuo, i pezzi sono in numero limitato.",
       "photos": [
-        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781021933/mm_manifatture/gae94dhccvr1lgm6qfos.jpg"
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781199757/mm_manifatture/t2mma8q1cxf5qx5gb1bx.jpg"
       ],
       "published": true,
       "available": true,
-      "scheduled_for": null
+      "scheduled_for": null,
+      "photos_original": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781021933/mm_manifatture/gae94dhccvr1lgm6qfos.jpg"
+      ]
     },
     {
       "id": "89956e86-827a-4683-b100-5794a535497b",
@@ -580,11 +681,14 @@
       "description_instagram": "Lana merino blu con maniche grigie — maglioncino per bambini fatto a mano, caldo e delicato sulla pelle.\n\n4/5 anni · €25\n\n#abbigliamentobambino #lanamerino #maglionchinobambino #fattaamano #artigianatolocaliano",
       "description_facebook": "Quando un bambino indossa un maglioncino fatto con cura, si sente la differenza. È un capo che avvolge dolcemente, che respira con la pelle, che non irrita.\n\nQuesto maglioncino in lana merino blu — con le maniche grigie che rompono il colore in modo naturale — è stato lavorato a mano pensando ai bambini dai 4 ai 5 anni. La lana merino è una scelta consapevole: non punge, mantiene il calore senza soffocare, e invecchia bene.\n\nÈ il genere di capo che un genitore sceglie non perché sia alla moda, ma perché sa che il bambino lo indosserà volentieri, giorno dopo giorno.\n\nPrezzo: €25,00 · Scrivi per ordinare 🧶",
       "photos": [
-        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781022178/mm_manifatture/hfaeixekxzmwshqbxge0.jpg"
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781199759/mm_manifatture/lfabfymbiz2qmommgxms.jpg"
       ],
       "published": true,
       "available": true,
-      "scheduled_for": null
+      "scheduled_for": null,
+      "photos_original": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781022178/mm_manifatture/hfaeixekxzmwshqbxge0.jpg"
+      ]
     },
     {
       "id": "a15dcc36-7716-4efa-946e-47cd97581cee",
@@ -598,11 +702,14 @@
       "description_instagram": "🧶 Lana merino rosso e grigio con una scritta ricamata a mano — maglioncino per bambini da 2 anni.\n\n€30 · Pezzo unico artigianale\n\n#maglioncininobambino #lanamerino #abbigliamentobambino #fattaamano #artigianatocilento",
       "description_facebook": "Quando un maglioncino diventa speciale — non solo per il materiale scelto, ma per il dettaglio che lo rende unico.\n\nQuesto capo in lana merino rosso e grigio ha una scritta ricamata a mano che lo distingue da qualsiasi altro. Perfetto per i bambini di 2 anni, la lana merino regala morbidezza e calore senza irritare la pelle delicata. È il tipo di capo che cresce insieme al bambino, che non si consuma facilmente, che dura stagione dopo stagione.\n\nIdea regalo per chi conosce il valore dei pezzi fatti con cura — o semplicemente per vestire i propri figli con qualcosa di diverso, fatto a mano.\n\nPrezzo: €30,00 · Scrivi per ordinare 🤍",
       "photos": [
-        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781023178/mm_manifatture/dzcqoscetm6ofieazmos.jpg"
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781199761/mm_manifatture/ehaszomx7jnyvflzxd6y.jpg"
       ],
       "published": true,
       "available": true,
-      "scheduled_for": null
+      "scheduled_for": null,
+      "photos_original": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781023178/mm_manifatture/dzcqoscetm6ofieazmos.jpg"
+      ]
     },
     {
       "id": "08e4afc9-792e-4a2e-85e3-04d864919d03",
@@ -616,11 +723,14 @@
       "description_instagram": "🧶 Marrone e panna, con una simpatica scritta ricamata — maglioncino in lana merino per chi ama il caldo d'inverno.\n\n2 anni · €30\n\n#maglioncininobambino #lanamerino #artigianatolocaliano #fattaamano #cilento",
       "description_facebook": "Quando l'inverno bussa alla porta, i bambini hanno bisogno di capi che scaldano davvero — non solo fisicamente, ma anche il cuore di chi li sceglie.\n\nQuesto maglioncino in lana merino marrone e panna nasce da quella semplicità: un filato naturale, caldo, gentile sulla pelle. E poi quel ricamo a punto maglia con la scritta Mini boy, fatto a mano, che rende il pezzo unico e personalissimo.\n\nPerfetto per la taglia 2 anni, è il genere di capo che cresce con il bambino in bellezza — robusto, senza fronzoli, solo qualità e cura nei dettagli.\n\nPrezzo: €30,00",
       "photos": [
-        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781023354/mm_manifatture/ccrhrgq9glwt2aqh10mr.jpg"
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781199766/mm_manifatture/de7afkpwv21ytts6rcmy.jpg"
       ],
       "published": true,
       "available": true,
-      "scheduled_for": null
+      "scheduled_for": null,
+      "photos_original": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781023354/mm_manifatture/ccrhrgq9glwt2aqh10mr.jpg"
+      ]
     },
     {
       "id": "32a7aaf6-0966-483d-a1d1-eeeebb6c85a2",
@@ -634,11 +744,14 @@
       "description_instagram": "Righe che scaldano — maglioncino in lana merino per i più piccoli 🧶\n\n2 anni · Lana merino naturale · €25\n\n#maglionchinobambino #lanamerino #artigianatolocaliano #fattaamano #cilento",
       "description_facebook": "Quando arriva il freddo, cerchiamo sempre qualcosa che protegga i nostri bambini senza appesantirli. Un maglioncino che non gratta, che respira con la loro pelle, che dura nel tempo perché fatto con cura.\n\nQuesto maglioncino a righe è realizzato in lana merino — un filato naturale che termoregola perfettamente: tiene al caldo ma non fa sudare. Ogni pezzo è lavorato a mano, punto dopo punto, con l'attenzione che solo il lavoro artigianale sa garantire.\n\nPerfetto per la taglia 2 anni, è il capo che accompagna i bambini attraverso autunno e inverno, lavabile delicatamente e destinato a durare negli anni.\n\nPrezzo: €25,00 · Contattaci per ordinare il tuo 🧶",
       "photos": [
-        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781023552/mm_manifatture/mmisvofomgmokhhj4tgu.jpg"
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781199775/mm_manifatture/jyesc69l6yqwm0fzk8qs.jpg"
       ],
       "published": true,
       "available": true,
-      "scheduled_for": null
+      "scheduled_for": null,
+      "photos_original": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781023552/mm_manifatture/mmisvofomgmokhhj4tgu.jpg"
+      ]
     },
     {
       "id": "c6bef140-d9dd-41eb-8a27-14d400209c2a",
@@ -652,11 +765,14 @@
       "description_instagram": "Un maglioncino in lana merino per le piccole, fatto a mano con dedizione.\n\nTaglia 2 anni · Merino · €25\n\n#maglionchinobambino #lanamerino #abbigliamentobambino #fattaamano #artigianatolocaliano",
       "description_facebook": "Quando si sceglie un capo per i bambini, conta che sia avvolgente e delicato. Questo maglioncino in lana merino è stato lavorato a mano pensando proprio a questo: al comfort di chi lo indossa e alla consapevolezza di chi lo regala.\n\nLa lana merino è naturalmente termoregolante — non fa sudare d'estate e protegge dal freddo d'inverno. È morbida, quasi una coccola, e resiste nel tempo. Ogni maglioncino esce dalle mani di Monica come un piccolo pezzo unico, con quella qualità che solo l'artigianato sa dare.\n\nTaglia 2 anni · Prezzo: €25,00\n\nScrivici per ordinare il tuo. 🧶",
       "photos": [
-        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781023639/mm_manifatture/dn2pa4q6sbfeygozojn8.jpg"
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781199780/mm_manifatture/gkockrnu6jyjqgt0tuve.jpg"
       ],
       "published": true,
       "available": true,
-      "scheduled_for": null
+      "scheduled_for": null,
+      "photos_original": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781023639/mm_manifatture/dn2pa4q6sbfeygozojn8.jpg"
+      ]
     },
     {
       "id": "832cc2c0-a2f2-44c3-bd33-daccf4593c2c",
@@ -670,11 +786,14 @@
       "description_instagram": "Caldo come un abbraccio — maglioncino in lana merino per i piccoli, perfetto per le giornate fredde 🧶\n\nTaglia 5-6 anni · €28\n\n#maglioniabambino #lanamerino #abbigliamentoinfanzia #fattaamano #cilento",
       "description_facebook": "Le giornate fredde arrivano e i bambini hanno bisogno di calore vero, non di tessuti che fastidiano la pelle.\n\nMonica ha realizzato questo maglioncino in pura lana merino — una fibra naturale che riscalda senza irritare, morbida come una carezza. Perfetto per i bimbi sensibili, leggero quel tanto che basta per essere indossato a lungo senza disagio.\n\nLa lana merino non prude, termoregola il corpo e resiste nel tempo se trattata con cura. Ogni pezzo esce dalle mani di chi sa che vestire un bambino è una responsabilità e un gesto d'amore.\n\nTaglia 5-6 anni · Prezzo: €28,00\n\nScrivici per ordinare il tuo.",
       "photos": [
-        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781023776/mm_manifatture/bv4yishw3ofjgyipl6mx.jpg"
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781199782/mm_manifatture/opej268iceaoulqkzady.jpg"
       ],
       "published": true,
       "available": true,
-      "scheduled_for": null
+      "scheduled_for": null,
+      "photos_original": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781023776/mm_manifatture/bv4yishw3ofjgyipl6mx.jpg"
+      ]
     },
     {
       "id": "ef3b415f-15a2-4273-ab82-2b62204eec47",
@@ -688,11 +807,14 @@
       "description_instagram": "Righe che scaldano — maglioncino bimbo in lana merino, beige e arancione 🧡\n\n5-6 anni · Lana merino · €28\n\n#maglionchinobambino #lanamerino #artigianatolocaliano #abbigliamentobambino #fattaamano",
       "description_facebook": "Quando il freddo inizia a farsi sentire, un maglioncino della giusta temperatura fa la differenza. Quello che abbiamo in bottega oggi è in lana merino — il filato che scaldava già le generazioni passate, perché sa fare bene il suo lavoro senza esagerare.\n\nRighe beige e arancione: una combinazione semplice, ma che porta un po' di sole anche nelle giornate grigie. Lavorato a mano, per la taglia 5-6 anni. La lana merino è naturalmente termoregolante, quindi il bambino non suda anche quando si muove giocando.\n\nOgni maglioncino esce dal lavoro leggermente diverso, perché niente è robotico qui — sono i dettagli che lo rendono autentico.\n\nPrezzo: €28,00 · Scrivi se hai domande o vuoi ordinarlo 🧶",
       "photos": [
-        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781023918/mm_manifatture/famtp7ozfok48zerj9te.jpg"
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781199792/mm_manifatture/kcsmxzkkjfbcbmbejel7.jpg"
       ],
       "published": true,
       "available": true,
-      "scheduled_for": null
+      "scheduled_for": null,
+      "photos_original": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781023918/mm_manifatture/famtp7ozfok48zerj9te.jpg"
+      ]
     },
     {
       "id": "4fa3b400-a945-4908-b682-2bd0ee3d9730",
@@ -706,11 +828,14 @@
       "description_instagram": "Caldo abbracciare 🧶 Maglione in lana merino con trecce per bambini — ogni punto fatto a mano.\n\n5/6 anni · €28\n\n#maglioncininobambino #lanamerinoitaliana #artigianatolocaliano #cilento #fattaamano",
       "description_facebook": "Quando i bambini tornano a casa dopo una giornata fuori, un maglione caldo e morbido è il primo gesto di cura.\n\nQuesto maglione in lana merino con trecce è stato lavorato a mano per bambini di 5/6 anni. La lana merino termoregola naturalmente, mantiene il caldo senza far sudare, ed è delicata sulla pelle sensibile dei più piccoli.\n\nOgni treccia è lavorata punto per punto — non è veloce, non è industriale, ma è fatto con cura. Niente etichette che graffiano, niente colori artificiali: solo lana buona e lavoro artigianale.\n\nTaglia 5/6 anni · Prezzo: €28,00\n\nScrivi se vuoi saperne di più o se vuoi ordinarlo. 🧒",
       "photos": [
-        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781024050/mm_manifatture/wv5kg4g0gw6jbjqjupnk.jpg"
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781199794/mm_manifatture/kdwuvkkqimaykds0yt0h.jpg"
       ],
       "published": true,
       "available": true,
-      "scheduled_for": null
+      "scheduled_for": null,
+      "photos_original": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781024050/mm_manifatture/wv5kg4g0gw6jbjqjupnk.jpg"
+      ]
     }
   ],
   "categories": [

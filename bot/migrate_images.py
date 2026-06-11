@@ -91,7 +91,7 @@ def _configure_cloudinary() -> None:
 
 
 def _process_and_upload(url: str, dry_run: bool) -> str:
-    """Download → process → upload. Returns new Cloudinary URL (or original on dry-run)."""
+    """Download -> process -> upload. Returns new Cloudinary URL (or original on dry-run)."""
     with tempfile.NamedTemporaryFile(suffix=".jpg", delete=False) as tmp:
         tmp_path = Path(tmp.name)
     out_path = tmp_path.parent / (tmp_path.stem + "_out.jpg")
@@ -111,16 +111,16 @@ def _process_and_upload(url: str, dry_run: bool) -> str:
             if bbox is not None:
                 img = _apply_smart_crop(img, bbox)
                 smart_crop_used = True
-                print(f"    haiku bbox {bbox} → smart crop applied")
+                print(f"    haiku bbox {bbox} -> smart crop applied")
             else:
-                print("    haiku returned no bbox → center crop only")
+                print("    haiku returned no bbox -> center crop only")
         else:
-            print("    ANTHROPIC_API_KEY not set → center crop only")
+            print("    ANTHROPIC_API_KEY not set -> center crop only")
 
         # Step 2: enforce 4:5 (safety net for rounding edge cases)
         img = _enforce_ratio(img)
         final_size = img.size
-        print(f"    {orig_size} → {final_size}  smart_crop={smart_crop_used}")
+        print(f"    {orig_size} -> {final_size}  smart_crop={smart_crop_used}")
 
         if dry_run:
             print("    [dry-run] skipping upload")
@@ -138,7 +138,7 @@ def _process_and_upload(url: str, dry_run: bool) -> str:
             unique_filename=True,
         )
         new_url = result["secure_url"]
-        print(f"ok → {new_url}")
+        print(f"ok -> {new_url}")
         return new_url
 
     finally:
@@ -206,7 +206,7 @@ def main() -> None:
 
             if orig_url in log and log[orig_url]["status"] == "done":
                 new_url = log[orig_url]["new_url"]
-                print(f"[{pid[:8]}] SKIP already migrated → {new_url[-40:]}")
+                print(f"[{pid[:8]}] SKIP already migrated -> {new_url[-40:]}")
                 new_photos.append(new_url)
                 skipped += 1
                 continue
