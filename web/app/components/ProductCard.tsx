@@ -7,7 +7,7 @@ export default function ProductCard({ product }: { product: Product }) {
 
   return (
     <article className={`bg-white rounded-lg border border-border overflow-hidden flex flex-col product-card${isSold ? ' product-card-sold' : ''}`}>
-      <div className="aspect-square relative bg-background overflow-hidden">
+      <div className="aspect-[4/5] relative bg-background overflow-hidden">
         {photo ? (
           <Image
             src={photo}
