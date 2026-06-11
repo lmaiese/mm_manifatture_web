@@ -10,6 +10,8 @@ bot/bot.sqlite-wal
 bot/logs/
 bot/photos/
 bot/data/reminders_state.json
+bot/catalog_backup_*.json
+bot/migrate_images_log.json
 
 # Web
 web/node_modules/
