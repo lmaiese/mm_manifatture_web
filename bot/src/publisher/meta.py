@@ -36,6 +36,22 @@ _GRAPH_BASE = "https://graph.facebook.com/v19.0"
 _CONTAINER_POLL_INTERVAL = 3   # seconds between status polls
 _CONTAINER_POLL_MAX = 10       # max attempts before timeout
 
+# Instagram Graph API requires 4:5 to 1.91:1 aspect ratio.
+# We enforce 4:5 via Cloudinary URL transformation at publish time — no re-upload.
+_IG_CROP_TRANSFORM = "c_fill,g_center,ar_4:5"
+
+
+def _cloudinary_ig_url(url: str) -> str:
+    """Inject 4:5 crop transform into a Cloudinary URL for Instagram compliance.
+
+    Non-Cloudinary URLs are returned unchanged (demo paths, external hosts).
+    """
+    upload_marker = "/upload/"
+    if "res.cloudinary.com" not in url or upload_marker not in url:
+        return url
+    idx = url.index(upload_marker) + len(upload_marker)
+    return url[:idx] + _IG_CROP_TRANSFORM + "/" + url[idx:]
+
 
 class MetaPublishError(Exception):
     pass
@@ -125,7 +141,7 @@ async def publish_instagram(product: dict[str, Any]) -> bool:
         logger.error("ig_publish_skipped", extra={"reason": "INSTAGRAM credentials missing"})
         return False
 
-    photo_urls: list[str] = product.get("photos") or []
+    photo_urls: list[str] = [_cloudinary_ig_url(u) for u in (product.get("photos") or [])]
     if not photo_urls:
         logger.error("ig_publish_skipped", extra={"reason": "no photo URLs"})
         return False
