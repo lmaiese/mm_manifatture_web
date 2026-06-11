@@ -29,12 +29,16 @@ class CaptionError(Exception):
     pass
 
 
+_VALID_TARGETS = {"bambino", "donna", "uomo", "unisex"}
+
+
 @dataclass
 class CaptionResult:
     site: str
     instagram: str
     facebook: str
     title: str
+    target_suggested: str | None = None
 
 # Brand voice — kept in a constant so it can be reviewed and updated independently
 # from prompt logic without touching the function signatures.
@@ -68,8 +72,8 @@ ANTIPATTERN — non scrivere mai così:
 ✗ "#handmade #love #style" (hashtag anglofoni generici)
 
 OUTPUT
-Rispondi esclusivamente con un oggetto JSON valido con chiavi "title", "site", "instagram", \
-"facebook". Nessun testo prima o dopo il JSON. Nessun markdown fence.\
+Rispondi esclusivamente con un oggetto JSON valido con chiavi "title", "target", "site", \
+"instagram", "facebook". Nessun testo prima o dopo il JSON. Nessun markdown fence.\
 """
 
 _FORMAT_SPEC = """\
@@ -79,6 +83,13 @@ TITOLO (chiave "title")
 - 3-6 parole. Formato: tipo + materiale/colore + taglia se bambino/neonato.
 - Esempi corretti: "Maglioncino merinos avorio 3-4 anni", "Cardigan alpaca grigio 6-7 anni", "Sciarpa lana tortora con frange".
 - Non includere il prezzo. Non usare articoli (il/la/un). Non usare aggettivi valutativi.
+
+TARGET (chiave "target")
+- Classifica a chi è rivolto il pezzo usando SOLO uno di questi valori: "bambino", "donna", "uomo", "unisex".
+- "bambino": qualunque capo per neonati o bambini 0-6 anni, a prescindere dal genere — NON distinguere bambino/bambina, usa sempre "bambino".
+- Se la taglia indica un'età 0-6 anni (es. "0/3 mesi", "9/12 mesi", "2 anni", "3/4 anni", "5/6 anni"), usa sempre "bambino", anche se la descrizione contiene parole come "bimba"/"bimbo"/"neonata"/"neonato".
+- "donna" / "uomo": capi adulti con un taglio o tipo capo chiaramente di un genere (es. "completo giacca e canotta da donna").
+- "unisex": capi adulti o accessori (es. sciarpe, cappelli) senza segnali di genere specifico, o quando non sei ragionevolmente sicuro.
 
 SITO (chiave "site")
 - 60-120 parole. Prosa descrittiva, due o tre frasi.
@@ -222,7 +233,13 @@ async def generate_captions(
         facebook = str(parsed.get("facebook", "")).strip()
         if not (title and site and instagram and facebook):
             raise ValueError(f"missing keys in response: {list(parsed.keys())}")
-        return CaptionResult(title=title, site=site, instagram=instagram, facebook=facebook)
+        target_raw = parsed.get("target")
+        target = str(target_raw).strip().lower() if target_raw else None
+        if target not in _VALID_TARGETS:
+            if target is not None:
+                logger.warning("caption_target_invalid", extra={"target_raw": target_raw})
+            target = None
+        return CaptionResult(title=title, site=site, instagram=instagram, facebook=facebook, target_suggested=target)
     except (json.JSONDecodeError, KeyError, ValueError) as exc:
         logger.error("caption_parse_failed", extra={"raw": raw[:300], "error": str(exc)})
         raise CaptionError(f"JSON parse failed: {exc}") from exc

@@ -42,6 +42,7 @@ def _make_product_entry(product: dict[str, Any]) -> dict[str, Any]:
         "published": True,
         "available": True,
         "scheduled_for": product.get("scheduled_for"),
+        "target": product.get("target"),
     }
 
 

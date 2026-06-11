@@ -15,6 +15,7 @@ export interface Product {
   published: boolean
   available?: boolean   // undefined / true = available for purchase; false = sold / historical
   scheduled_for?: string | null
+  target?: 'bambino' | 'donna' | 'uomo' | 'unisex' | null  // target demografico del pezzo; null/assente = non classificato
 }
 
 export interface Catalog {
@@ -54,4 +55,15 @@ export function getSoldProducts(): Product[] {
 
 export function getCategories(): string[] {
   return getCatalog().categories
+}
+
+/** Distinct `target` values present among published products (count > 0), in fixed display order. */
+export function getTargets(): string[] {
+  const order: NonNullable<Product['target']>[] = ['bambino', 'donna', 'uomo', 'unisex']
+  const present = new Set(
+    getCatalog()
+      .products.map((p) => p.target)
+      .filter((t): t is NonNullable<Product['target']> => !!t)
+  )
+  return order.filter((t) => present.has(t))
 }

@@ -494,6 +494,114 @@ h1, h2, h3 {
   border: 1px solid var(--border);
   border-radius: 0.5rem;
   overflow: hidden;
+  cursor: zoom-in;
+}
+
+.photo-gallery-img {
+  transition: transform 0.25s ease;
+}
+
+/* Zoom on hover — desktop only (devices with a precise pointer that can hover) */
+@media (hover: hover) and (pointer: fine) {
+  .photo-gallery-img.is-zoomed {
+    transform: scale(2);
+  }
+}
+
+/* Tap-to-expand hint icon, bottom-right of main image */
+.photo-gallery-expand-hint {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.45);
+  color: #fff;
+  border-radius: 50%;
+  font-size: 0.9375rem;
+  line-height: 1;
+  pointer-events: none;
+}
+
+/* Fullscreen lightbox */
+.photo-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(20, 16, 14, 0.92);
+  padding: 1.5rem;
+  cursor: zoom-out;
+}
+
+.photo-lightbox-image-wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  max-width: 1100px;
+  max-height: 85vh;
+  cursor: default;
+}
+
+.photo-lightbox-close,
+.photo-lightbox-nav {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.photo-lightbox-close:hover,
+.photo-lightbox-nav:hover {
+  background-color: rgba(255, 255, 255, 0.24);
+}
+
+.photo-lightbox-close {
+  top: 1rem;
+  right: 1rem;
+  width: 40px;
+  height: 40px;
+  font-size: 1.125rem;
+  z-index: 1;
+}
+
+.photo-lightbox-nav {
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  font-size: 1.75rem;
+}
+
+.photo-lightbox-prev {
+  left: 1rem;
+}
+
+.photo-lightbox-next {
+  right: 1rem;
+}
+
+.photo-lightbox-counter {
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  font-size: 0.8125rem;
+  background-color: rgba(0, 0, 0, 0.4);
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
 }
 
 .photo-gallery-thumbs {

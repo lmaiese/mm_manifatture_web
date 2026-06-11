@@ -75,6 +75,7 @@ MESSAGES: dict[str, str] = {
         "Descrizione: {description}\n"
         "Pubblicazione: {when}\n"
         "Categoria: {category}\n"
+        "Per chi: {target}\n"
         "Dove: {destination}"
     ),
     "preview_confirm_button": "Conferma",
@@ -87,7 +88,20 @@ MESSAGES: dict[str, str] = {
     "edit_description_button": "Descrizione",
     "edit_when_button": "Orario",
     "edit_category_button": "Categoria",
+    "edit_target_button": "Per chi",
     "edit_destination_button": "Destinazione",
+    # TARGET edit step
+    "step_target_request": "Per chi è questo pezzo?",
+    "target_bambino_button": "👶 Bambino (0-6 anni)",
+    "target_donna_button": "👩 Donna",
+    "target_uomo_button": "👨 Uomo",
+    "target_unisex_button": "🌀 Unisex",
+    "target_none_button": "❓ Non specificato",
+    "target_label_bambino": "Bambino (0-6 anni)",
+    "target_label_donna": "Donna",
+    "target_label_uomo": "Uomo",
+    "target_label_unisex": "Unisex",
+    "target_label_none": "-",
     # AI caption
     "ai_generating": "Genero suggerimento AI...",
     "ai_unavailable_confirm": (
@@ -103,6 +117,7 @@ MESSAGES: dict[str, str] = {
         "Taglia: {size}\n"
         "Pubblicazione: {when}\n"
         "Categoria: {category}\n"
+        "Per chi: {target}\n"
         "Dove: {destination}\n\n"
         "📝 Tua descrizione:\n{description}\n\n"
         "🏷️ Titolo AI: {ai_title}\n\n"
@@ -163,6 +178,7 @@ MESSAGES: dict[str, str] = {
     "help_category": "Scegli una categoria oppure crea una nuova.",
     "help_destination": "Scegli dove pubblicare: Solo Sito, Solo Social (Instagram + Facebook), o Sito + Social.",
     "help_preview": "Premi Conferma, Modifica o Annulla.",
+    "help_target": "Scegli a chi è rivolto il pezzo, oppure Non specificato.",
     "help_idle": (
         "Nessuna pubblicazione in corso.\n\n"
         "Scrivi /nuovo per pubblicare un prodotto, oppure manda direttamente una foto."
@@ -239,6 +255,7 @@ STEP_LABELS: dict[int, str] = {
     6: "CATEGORY",
     7: "DESTINATION",
     8: "PREVIEW",
+    9: "TARGET_EDIT",
 }
 
 
@@ -252,4 +269,5 @@ HELP_BY_STEP: dict[int, str] = {
     6: MESSAGES["help_category"],
     7: MESSAGES["help_destination"],
     8: MESSAGES["help_preview"],
+    9: MESSAGES["help_target"],
 }

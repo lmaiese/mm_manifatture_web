@@ -2,6 +2,7 @@
   "products": [
     {
       "id": "demo-001",
+      "target": "bambino",
       "created_at": "2026-05-20T10:00:00Z",
       "title": "Maglione righe navy 4 anni",
       "category": "Abbigliamento",
@@ -16,6 +17,7 @@
     },
     {
       "id": "demo-002",
+      "target": "bambino",
       "created_at": "2026-05-20T11:00:00Z",
       "title": "Cardigan grigio-blu 5 anni",
       "category": "Abbigliamento",
@@ -30,6 +32,7 @@
     },
     {
       "id": "demo-003",
+      "target": "bambino",
       "created_at": "2026-05-21T09:00:00Z",
       "title": "Maglione blu petrolio 4 anni",
       "category": "Abbigliamento",
@@ -44,6 +47,7 @@
     },
     {
       "id": "demo-004",
+      "target": "bambino",
       "created_at": "2026-05-21T10:00:00Z",
       "title": "Maglione trecce azzurro 3 anni",
       "category": "Abbigliamento",
@@ -58,6 +62,7 @@
     },
     {
       "id": "demo-005",
+      "target": "bambino",
       "created_at": "2026-05-22T09:00:00Z",
       "title": "Maglione raglan navy 6 anni",
       "category": "Abbigliamento",
@@ -72,6 +77,7 @@
     },
     {
       "id": "demo-006",
+      "target": "bambino",
       "created_at": "2026-05-22T10:00:00Z",
       "title": "Maglione righe teal 3 anni",
       "category": "Abbigliamento",
@@ -86,6 +92,7 @@
     },
     {
       "id": "demo-007",
+      "target": "bambino",
       "created_at": "2026-05-23T10:00:00Z",
       "title": "Bambolotto di pezza fatto a mano",
       "category": "Altro",
@@ -100,6 +107,7 @@
     },
     {
       "id": "demo-008",
+      "target": "bambino",
       "created_at": "2026-05-23T11:00:00Z",
       "title": "Bambolina di pezza fatta a mano",
       "category": "Altro",
@@ -114,6 +122,7 @@
     },
     {
       "id": "7f34d0da-99a6-413a-8bba-97575866fe95",
+      "target": "unisex",
       "created_at": "2026-06-01T08:54:36.972383+00:00",
       "category": "Altro",
       "price": 35.0,
@@ -130,6 +139,7 @@
     },
     {
       "id": "d97cf7d1-1238-4271-a9f2-2e08c47fc457",
+      "target": "bambino",
       "created_at": "2026-06-01T10:49:03.579272+00:00",
       "category": "Abbigliamento",
       "price": 45.0,
@@ -145,6 +155,7 @@
     },
     {
       "id": "287a957e-725e-4ca0-97ea-85fe4e6430b4",
+      "target": "bambino",
       "created_at": "2026-06-01T12:18:10.575415+00:00",
       "title": "",
       "category": "Abbigliamento",
@@ -161,6 +172,7 @@
     },
     {
       "id": "c98c60ca-4dff-469c-9156-2c3d1cf15314",
+      "target": "donna",
       "created_at": "2026-06-01T12:31:48.150487+00:00",
       "title": "Completo giacca e canotta viscosa taglia L",
       "category": "Abbigliamento",
@@ -179,6 +191,7 @@
     },
     {
       "id": "90cd23f4-01e1-47f8-8a1e-35e3ab765546",
+      "target": "bambino",
       "created_at": "2026-06-09T14:26:32.486889+00:00",
       "title": "Cardigan lana merinos punzonata 9/12 mesi",
       "category": "Abbigliamento",
@@ -197,6 +210,7 @@
     },
     {
       "id": "ff06e383-0e44-43d8-a1ee-450aa1cb9fd4",
+      "target": "bambino",
       "created_at": "2026-06-09T14:42:55.791561+00:00",
       "title": "Cardigan lana merinos 9-12 mesi",
       "category": "Abbigliamento",
@@ -214,6 +228,7 @@
     },
     {
       "id": "83f49fc0-1ca4-4fb3-9c80-0e59cfe3ccef",
+      "target": "bambino",
       "created_at": "2026-06-09T14:46:11.117958+00:00",
       "title": "Cardigan lana merino bimba 9-12 mesi",
       "category": "Abbigliamento",
@@ -231,6 +246,7 @@
     },
     {
       "id": "8b0f2b1c-c1e3-4a4b-93fa-d0dff3cf7680",
+      "target": "bambino",
       "created_at": "2026-06-09T14:49:58.204343+00:00",
       "title": "Maglioncino lana seta traforato 18 mesi",
       "category": "Abbigliamento",
@@ -248,6 +264,7 @@
     },
     {
       "id": "dc0e6630-8880-497a-b0fe-8911d65a6550",
+      "target": "bambino",
       "created_at": "2026-06-09T14:53:10.430907+00:00",
       "title": "Maglioncino merinos 3-6 mesi",
       "category": "Abbigliamento",
@@ -265,6 +282,7 @@
     },
     {
       "id": "1d43a19c-94d3-491e-abfc-5eb8b80874b1",
+      "target": "bambino",
       "created_at": "2026-06-09T14:54:59.667340+00:00",
       "title": "Maglioncino righe lana merinos 3-6 mesi",
       "category": "Abbigliamento",
@@ -282,6 +300,7 @@
     },
     {
       "id": "2ba728bc-8d5f-4bfc-b089-effc842b3d5e",
+      "target": "bambino",
       "created_at": "2026-06-09T14:57:47.664666+00:00",
       "title": "Maglioncino merinos neonata 3-6 mesi greca ricamata",
       "category": "Abbigliamento",
@@ -299,6 +318,7 @@
     },
     {
       "id": "3b04a109-5718-45b4-b70d-6831980023e8",
+      "target": "bambino",
       "created_at": "2026-06-09T14:59:50.493485+00:00",
       "title": "Maglioncino merino a righe 3-6 mesi",
       "category": "Abbigliamento",
@@ -316,6 +336,7 @@
     },
     {
       "id": "24b036dc-3dcb-415b-97c6-1dcac68b80b7",
+      "target": "bambino",
       "created_at": "2026-06-09T15:02:30.056264+00:00",
       "title": "Cardigan cotone righe 3-6 mesi",
       "category": "Abbigliamento",
@@ -333,6 +354,7 @@
     },
     {
       "id": "dce8f6d3-032a-4244-a2f8-da79f835653a",
+      "target": "bambino",
       "created_at": "2026-06-09T15:04:52.126586+00:00",
       "title": "Canotta viscosa elastica 2 anni",
       "category": "Abbigliamento",
@@ -350,6 +372,7 @@
     },
     {
       "id": "59db5196-472a-4a5f-9647-0d41f0682a49",
+      "target": "bambino",
       "created_at": "2026-06-09T15:06:43.898737+00:00",
       "title": "Canotta bimba viscosa elastica 2 anni",
       "category": "Abbigliamento",
@@ -367,6 +390,7 @@
     },
     {
       "id": "2f82f896-1288-4cc9-a1cb-7fc0647dad20",
+      "target": "bambino",
       "created_at": "2026-06-09T15:12:53.932175+00:00",
       "title": "Canotta bimbo viscosa righe bianche azzurre 2 anni",
       "category": "Abbigliamento",
@@ -384,6 +408,7 @@
     },
     {
       "id": "02caeead-a8ac-40b1-91af-17c5cf52e818",
+      "target": "bambino",
       "created_at": "2026-06-09T15:37:45.758044+00:00",
       "title": "Canotta bimba viscosa elastica 4-5 anni",
       "category": "Abbigliamento",
@@ -401,6 +426,7 @@
     },
     {
       "id": "c5e7b8db-0155-4d04-8d26-a5de72b5faa6",
+      "target": "bambino",
       "created_at": "2026-06-09T15:40:00.069641+00:00",
       "title": "Vestina viscosa elastica fiore uncinetto 2 anni",
       "category": "Abbigliamento",
@@ -418,6 +444,7 @@
     },
     {
       "id": "3f745750-da5b-4d5b-853d-febe016d96c6",
+      "target": "bambino",
       "created_at": "2026-06-09T15:41:43.510683+00:00",
       "title": "Vestina viscosa 2 anni con fiore uncinetto",
       "category": "Abbigliamento",
@@ -435,6 +462,7 @@
     },
     {
       "id": "15981c35-3c47-4558-843c-b7d92961d318",
+      "target": "bambino",
       "created_at": "2026-06-09T15:44:25.344232+00:00",
       "title": "Canotta bimba viscosa marinara 2 anni",
       "category": "Abbigliamento",
@@ -452,6 +480,7 @@
     },
     {
       "id": "2ffc7aea-45de-4cee-b2c2-6b5a4cc02288",
+      "target": "bambino",
       "created_at": "2026-06-09T16:04:14.743827+00:00",
       "title": "Completino cotone ricamato 9-12 mesi",
       "category": "Abbigliamento",
@@ -469,6 +498,7 @@
     },
     {
       "id": "92e5147f-2e9b-44b1-909d-89f9b8723f1e",
+      "target": "bambino",
       "created_at": "2026-06-09T16:10:55.198106+00:00",
       "title": "Completino merino verde e righe 0-3 mesi",
       "category": "Abbigliamento",
@@ -486,6 +516,7 @@
     },
     {
       "id": "ea401408-4587-47a1-bc65-6d5020dc32ef",
+      "target": "bambino",
       "created_at": "2026-06-09T16:14:12.373291+00:00",
       "title": "Completo lana merino 3-6 mesi panna marrone",
       "category": "Abbigliamento",
@@ -503,6 +534,7 @@
     },
     {
       "id": "23bce33c-2571-44a9-acce-609ead1e0f21",
+      "target": "bambino",
       "created_at": "2026-06-09T16:16:43.609187+00:00",
       "title": "Maglione merinos ricamato 3-4 anni",
       "category": "Abbigliamento",
@@ -520,6 +552,7 @@
     },
     {
       "id": "c37f626f-b3ce-4b8f-aa4b-0d1abc4625cc",
+      "target": "bambino",
       "created_at": "2026-06-09T16:18:53.737461+00:00",
       "title": "Gilet merino verde righe 4-5 anni",
       "category": "Abbigliamento",
@@ -537,6 +570,7 @@
     },
     {
       "id": "89956e86-827a-4683-b100-5794a535497b",
+      "target": "bambino",
       "created_at": "2026-06-09T16:22:59.649378+00:00",
       "title": "Maglioncino merino blu 4/5 anni",
       "category": "Abbigliamento",
@@ -554,6 +588,7 @@
     },
     {
       "id": "a15dcc36-7716-4efa-946e-47cd97581cee",
+      "target": "bambino",
       "created_at": "2026-06-09T16:39:39.686244+00:00",
       "title": "Maglioncino lana merino rosso grigio 2 anni",
       "category": "Abbigliamento",
@@ -571,6 +606,7 @@
     },
     {
       "id": "08e4afc9-792e-4a2e-85e3-04d864919d03",
+      "target": "bambino",
       "created_at": "2026-06-09T16:42:35.649422+00:00",
       "title": "Maglioncino merino marrone panna 2 anni",
       "category": "Abbigliamento",
@@ -588,6 +624,7 @@
     },
     {
       "id": "32a7aaf6-0966-483d-a1d1-eeeebb6c85a2",
+      "target": "bambino",
       "created_at": "2026-06-09T16:45:53.233102+00:00",
       "title": "Maglioncino lana merino righe 2 anni",
       "category": "Abbigliamento",
@@ -605,6 +642,7 @@
     },
     {
       "id": "c6bef140-d9dd-41eb-8a27-14d400209c2a",
+      "target": "bambino",
       "created_at": "2026-06-09T16:47:20.812131+00:00",
       "title": "Maglioncino lana merino 2 anni",
       "category": "Abbigliamento",
@@ -622,6 +660,7 @@
     },
     {
       "id": "832cc2c0-a2f2-44c3-bd33-daccf4593c2c",
+      "target": "bambino",
       "created_at": "2026-06-09T16:49:37.421093+00:00",
       "title": "Maglioncino lana merino 5-6 anni",
       "category": "Abbigliamento",
@@ -639,6 +678,7 @@
     },
     {
       "id": "ef3b415f-15a2-4273-ab82-2b62204eec47",
+      "target": "bambino",
       "created_at": "2026-06-09T16:51:59.649337+00:00",
       "title": "Maglioncino lana merino righe beige arancione 5-6 anni",
       "category": "Abbigliamento",
@@ -656,6 +696,7 @@
     },
     {
       "id": "4fa3b400-a945-4908-b682-2bd0ee3d9730",
+      "target": "bambino",
       "created_at": "2026-06-09T16:54:11.952982+00:00",
       "title": "Maglione lana merino trecce 5/6 anni",
       "category": "Abbigliamento",

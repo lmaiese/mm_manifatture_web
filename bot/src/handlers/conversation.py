@@ -32,6 +32,8 @@ logger = logging.getLogger("conversation")
 
 # Step constants
 PHOTO, PRICE, SIZE, DESCRIPTION, WHEN, SLOT, CATEGORY, DESTINATION, PREVIEW = range(9)
+# Out-of-band step, reachable only via the PREVIEW edit menu (not part of the linear flow)
+TARGET_EDIT = 9
 
 INACTIVITY_JOB_PREFIX = "inactivity_ping_"
 MEDIA_GROUP_FLUSH_SECONDS = 1.5  # wait for the rest of an album before acking
@@ -71,6 +73,7 @@ CB_AVAIL_SEL_AVAIL = "avail_sel_a:"   # selecting a product to mark as available
 CB_AVAIL_YES_SOLD  = "avail_yes_s"    # confirm → mark as sold
 CB_AVAIL_YES_AVAIL = "avail_yes_a"    # confirm → mark as available
 CB_AVAIL_NO        = "avail_no"       # cancel either flow
+CB_TARGET_PREFIX = "target:"
 CB_DEST_PREFIX = "dest:"
 _DEST_LABELS: dict[str, str] = {"site": "Solo Sito", "social": "Solo Social", "all": "Sito + Social"}
 
@@ -87,6 +90,7 @@ def _empty_state() -> dict[str, Any]:
         "when": None,          # "now" | "auto" | "slot"
         "slot": None,          # ISO datetime string when chosen
         "category": None,      # str
+        "target": None,        # "bambino" | "donna" | "uomo" | "unisex" | None
         "destination": "all",  # "site" | "social" | "all"
         "_edit_return": False, # if True, after current step go back to PREVIEW
         "_seen_media_groups": [],
@@ -123,6 +127,19 @@ def _format_destination(data: dict[str, Any]) -> str:
     return _DEST_LABELS.get(data.get("destination", "all"), data.get("destination", "all"))
 
 
+_TARGET_LABEL_KEYS: dict[str | None, str] = {
+    "bambino": "target_label_bambino",
+    "donna": "target_label_donna",
+    "uomo": "target_label_uomo",
+    "unisex": "target_label_unisex",
+    None: "target_label_none",
+}
+
+
+def _format_target(target: str | None) -> str:
+    return MESSAGES.get(_TARGET_LABEL_KEYS.get(target, "target_label_none"), "-")
+
+
 def _format_preview(data: dict[str, Any]) -> str:
     return MESSAGES["step_preview"].format(
         photos_count=len(data.get("photos") or []),
@@ -131,6 +148,7 @@ def _format_preview(data: dict[str, Any]) -> str:
         description=data.get("description") or "-",
         when=_format_when(data),
         category=data.get("category") or "-",
+        target=_format_target(data.get("target")),
         destination=_format_destination(data),
     )
 
@@ -295,6 +313,16 @@ def _category_keyboard() -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(rows)
 
 
+def _target_keyboard() -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup([
+        [InlineKeyboardButton(MESSAGES["target_bambino_button"], callback_data=f"{CB_TARGET_PREFIX}bambino")],
+        [InlineKeyboardButton(MESSAGES["target_donna_button"],   callback_data=f"{CB_TARGET_PREFIX}donna")],
+        [InlineKeyboardButton(MESSAGES["target_uomo_button"],    callback_data=f"{CB_TARGET_PREFIX}uomo")],
+        [InlineKeyboardButton(MESSAGES["target_unisex_button"],  callback_data=f"{CB_TARGET_PREFIX}unisex")],
+        [InlineKeyboardButton(MESSAGES["target_none_button"],    callback_data=f"{CB_TARGET_PREFIX}none")],
+    ])
+
+
 def _destination_keyboard() -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup([
         [InlineKeyboardButton(MESSAGES["dest_site_button"],   callback_data=f"{CB_DEST_PREFIX}site")],
@@ -387,6 +415,7 @@ def _edit_menu_keyboard() -> InlineKeyboardMarkup:
                 InlineKeyboardButton(MESSAGES["edit_category_button"], callback_data=f"{CB_EDIT_PREFIX}category"),
             ],
             [
+                InlineKeyboardButton(MESSAGES["edit_target_button"], callback_data=f"{CB_EDIT_PREFIX}target"),
                 InlineKeyboardButton(MESSAGES["edit_destination_button"], callback_data=f"{CB_EDIT_PREFIX}destination"),
             ],
         ]
@@ -410,6 +439,7 @@ async def _send_preview(
             size=data.get("size") or "-",
             when=_format_when(data),
             category=data.get("category") or "-",
+            target=_format_target(data.get("target")),
             destination=_format_destination(data),
             description=data.get("description") or "-",
             ai_title=captions.get("title", ""),
@@ -437,6 +467,9 @@ async def _send_preview(
                 "instagram": result.instagram,
                 "facebook": result.facebook,
             }
+            # Adopt the AI-suggested target only if the user hasn't set one yet.
+            if data.get("target") is None and result.target_suggested:
+                data["target"] = result.target_suggested
             # Persist cached captions so re-entering PREVIEW skips re-generation.
             state = db.load_state(chat_id)
             if state is not None:
@@ -451,6 +484,7 @@ async def _send_preview(
                 size=data.get("size") or "-",
                 when=_format_when(data),
                 category=data.get("category") or "-",
+                target=_format_target(data.get("target")),
                 destination=_format_destination(data),
                 description=data.get("description") or "-",
                 ai_title=result.title,
@@ -504,6 +538,8 @@ async def _ask_for_step(
         msg = await bot.send_message(chat_id, MESSAGES["step_category_request"], reply_markup=_category_keyboard())
     elif step == DESTINATION:
         msg = await bot.send_message(chat_id, MESSAGES["step_destination_request"], reply_markup=_destination_keyboard())
+    elif step == TARGET_EDIT:
+        msg = await bot.send_message(chat_id, MESSAGES["step_target_request"], reply_markup=_target_keyboard())
     elif step == PREVIEW:
         await _send_preview(chat_id, data, context)
         return  # _send_preview tracks its own message
@@ -1273,6 +1309,15 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
         await _advance_after(chat_id, CATEGORY, data, context)
         return
 
+    # --- TARGET (edit-only, reached via PREVIEW edit menu) ---
+    if data_token.startswith(CB_TARGET_PREFIX):
+        if step != TARGET_EDIT:
+            return
+        chosen = data_token[len(CB_TARGET_PREFIX):]
+        data["target"] = None if chosen == "none" else chosen
+        await _advance_after(chat_id, TARGET_EDIT, data, context)
+        return
+
     # --- AI CHOICE ---
     if data_token == CB_AI_USE:
         if step != PREVIEW:
@@ -1368,6 +1413,7 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
             "description": DESCRIPTION,
             "when": WHEN,
             "category": CATEGORY,
+            "target": TARGET_EDIT,
             "destination": DESTINATION,
         }.get(field)
         if target is None:
@@ -1443,6 +1489,7 @@ async def _confirm_publish(
         "when": data.get("when"),
         "slot": data.get("slot"),
         "category": data.get("category"),
+        "target": data.get("target"),
         "destination": data.get("destination", "all"),
     }
 
@@ -1576,6 +1623,7 @@ def status_for(chat_id: int) -> str:
     summary_lines.append(f"- descrizione: {data.get('description') or '-'}")
     summary_lines.append(f"- quando: {_format_when(data)}")
     summary_lines.append(f"- categoria: {data.get('category') or '-'}")
+    summary_lines.append(f"- per chi: {_format_target(data.get('target'))}")
     summary_lines.append(f"- dove: {_format_destination(data)}")
     return MESSAGES["cmd_state_header"].format(step=label, data="\n".join(summary_lines))
 
