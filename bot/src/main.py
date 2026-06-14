@@ -107,7 +107,8 @@ def build_app() -> Application:
     app.add_handler(CommandHandler("annulla",  cmd.cmd_annulla))
     app.add_handler(CommandHandler("riprendi", cmd.cmd_riprendi))
     app.add_handler(CommandHandler("aiuto",    cmd.cmd_aiuto))
-    app.add_handler(CommandHandler("stato",    cmd.cmd_stato))
+    app.add_handler(CommandHandler("stato",         cmd.cmd_stato))
+    app.add_handler(CommandHandler("refresh_token", cmd.cmd_refresh_token))
 
     app.add_handler(MessageHandler(filters.PHOTO, conv.on_photo))
     app.add_handler(

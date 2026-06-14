@@ -23,7 +23,7 @@ def is_allowed(chat_id: int) -> bool:
     return chat_id in SETTINGS.allowed_chat_ids
 
 
-async def whitelist_guard(update: Update, context: ContextTypes.DEFAULT_TYPE) -> bool:
+async def whitelist_guard(update: Update, _context: ContextTypes.DEFAULT_TYPE) -> bool:
     """Returns True if processing should continue. False = drop silently."""
     chat = update.effective_chat
     if chat is None:
@@ -35,6 +35,21 @@ async def whitelist_guard(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
         "blocked_unauthorized_chat",
         extra={"chat_id": chat.id, "user_id": getattr(user, "id", None)},
     )
+    return False
+
+
+def is_admin(chat_id: int) -> bool:
+    return SETTINGS.admin_chat_id is not None and chat_id == SETTINGS.admin_chat_id
+
+
+async def admin_guard(update: Update, _context: ContextTypes.DEFAULT_TYPE) -> bool:
+    """Returns True only for the configured admin chat. Drops silently otherwise."""
+    chat = update.effective_chat
+    if chat is None:
+        return False
+    if is_admin(chat.id):
+        return True
+    logger.warning("blocked_non_admin", extra={"chat_id": chat.id})
     return False
 
 

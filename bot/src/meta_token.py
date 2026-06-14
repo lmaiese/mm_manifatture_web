@@ -105,6 +105,21 @@ async def exchange_for_long_lived(
             return token, expires_at
 
 
+# ---------- page token fetch ----------
+
+
+async def fetch_page_token(long_lived_user_token: str, page_id: str) -> str:
+    """Return a long-lived Page Access Token derived from a long-lived user token."""
+    url = f"{_GRAPH_BASE}/{page_id}"
+    params = {"fields": "access_token", "access_token": long_lived_user_token}
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url, params=params, timeout=aiohttp.ClientTimeout(total=15)) as resp:
+            data = await resp.json()
+            if "error" in data:
+                raise ValueError(f"Meta page token fetch failed: {data['error']}")
+            return data["access_token"]
+
+
 # ---------- expiry check (called by daily job in scheduler.py) ----------
 
 
@@ -118,6 +133,14 @@ async def check_token_expiry(notify_fn=None) -> None:
         days = days_until_expiry(key)
         if days is None:
             logger.warning("token_not_found", extra={"key": key})
+            if notify_fn is not None:
+                try:
+                    await notify_fn(
+                        f"⚠️ Token Meta ({key}) non presente nel DB.\n"
+                        f"Usa /refresh_token <short_lived_token> per abilitare i reminder automatici di scadenza."
+                    )
+                except Exception as exc:
+                    logger.error("token_missing_notify_failed", extra={"key": key, "error": str(exc)})
             continue
         if days <= 7:
             msg = f"⚠️ Token Meta ({key}) scade tra {days} giorni. Rinnova il token."

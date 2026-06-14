@@ -77,6 +77,8 @@ class Settings:
     facebook_page_id: str = field(default="", repr=False)
     facebook_access_token: str = field(default="", repr=False)
     meta_enabled: bool = False
+    meta_app_id: str = field(default="", repr=False)
+    meta_app_secret: str = field(default="", repr=False)
     # Sprint 5 — Scheduler
     publication_slots: list[int] = field(default_factory=lambda: [10, 13, 18, 21])
     daily_report_enabled: bool = False
@@ -124,6 +126,8 @@ def load_settings() -> Settings:
         facebook_page_id=os.environ.get("FACEBOOK_PAGE_ID", ""),
         facebook_access_token=os.environ.get("FACEBOOK_ACCESS_TOKEN", ""),
         meta_enabled=os.environ.get("META_ENABLED", "0") == "1",
+        meta_app_id=os.environ.get("META_APP_ID", ""),
+        meta_app_secret=os.environ.get("META_APP_SECRET", ""),
         publication_slots=_parse_slots(os.environ.get("PUBLICATION_SLOTS", "10,13,18,21")),
         daily_report_enabled=os.environ.get("DAILY_REPORT_ENABLED", "0") == "1",
     )

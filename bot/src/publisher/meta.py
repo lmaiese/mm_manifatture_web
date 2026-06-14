@@ -29,6 +29,7 @@ from typing import Any
 import aiohttp
 
 from ..config import SETTINGS
+from .. import meta_token as _mt
 
 logger = logging.getLogger("publisher.meta")
 
@@ -39,6 +40,14 @@ _CONTAINER_POLL_MAX = 10       # max attempts before timeout
 # Instagram Graph API requires 4:5 to 1.91:1 aspect ratio.
 # We enforce 4:5 via Cloudinary URL transformation at publish time — no re-upload.
 _IG_CROP_TRANSFORM = "c_fill,g_center,ar_4:5"
+
+
+def _resolve_token(key: str, settings_token: str) -> str:
+    """Return DB token if present (post-refresh), otherwise fall back to .env value."""
+    result = _mt.load_token(key)
+    if result is not None:
+        return result[0]
+    return settings_token
 
 
 def _cloudinary_ig_url(url: str) -> str:
@@ -84,7 +93,7 @@ async def _ig_create_container(
     ) as resp:
         data = await resp.json()
         if "error" in data:
-            raise MetaPublishError(f"IG container error: {data['error']}")
+            raise MetaPublishError(f"IG container error: {data['error']} | url={params.get('image_url','')}")
         return data["id"]
 
 
@@ -136,7 +145,7 @@ async def _ig_publish_container(
 
 async def publish_instagram(product: dict[str, Any]) -> bool:
     ig_user_id = SETTINGS.instagram_user_id
-    token = SETTINGS.instagram_access_token
+    token = _resolve_token("instagram", SETTINGS.instagram_access_token)
     if not ig_user_id or not token:
         logger.error("ig_publish_skipped", extra={"reason": "INSTAGRAM credentials missing"})
         return False
@@ -217,7 +226,7 @@ async def _fb_upload_photo_unpublished(
 
 async def publish_facebook(product: dict[str, Any]) -> bool:
     page_id = SETTINGS.facebook_page_id
-    token = SETTINGS.facebook_access_token
+    token = _resolve_token("facebook", SETTINGS.facebook_access_token)
     if not page_id or not token:
         logger.error("fb_publish_skipped", extra={"reason": "FACEBOOK credentials missing"})
         return False

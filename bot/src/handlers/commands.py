@@ -9,9 +9,10 @@ from telegram import Update
 from telegram.ext import ContextTypes
 
 from .. import db
+from ..config import SETTINGS
 from ..messages import MESSAGES
 from . import conversation as conv
-from .safety import whitelist_guard  # noqa: F401 (re-exported for tests)
+from .safety import whitelist_guard, admin_guard  # noqa: F401 (re-exported for tests)
 
 logger = logging.getLogger("commands")
 
@@ -198,6 +199,52 @@ async def cmd_disponibile(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
         MESSAGES["cmd_disponibile_list_header"],
         reply_markup=InlineKeyboardMarkup(rows),
     )
+
+
+async def cmd_refresh_token(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    if not await admin_guard(update, context):
+        return
+    chat = update.effective_chat
+    if chat is None:
+        return
+    chat_id = chat.id
+
+    args = context.args or []
+    if not args:
+        await context.bot.send_message(chat_id, "Uso: /refresh_token <short_lived_token>")
+        return
+
+    if not SETTINGS.meta_app_id or not SETTINGS.meta_app_secret:
+        await context.bot.send_message(chat_id, "❌ META_APP_ID o META_APP_SECRET mancanti nel .env")
+        return
+
+    if not SETTINGS.facebook_page_id:
+        await context.bot.send_message(chat_id, "❌ FACEBOOK_PAGE_ID mancante nel .env")
+        return
+
+    short_token = args[0]
+    await context.bot.send_message(chat_id, "⏳ Exchange in corso...")
+
+    try:
+        from ..meta_token import exchange_for_long_lived, fetch_page_token, save_token
+
+        long_token, expires_at = await exchange_for_long_lived(
+            short_token, SETTINGS.meta_app_id, SETTINGS.meta_app_secret
+        )
+        save_token("instagram", long_token, expires_at)
+
+        page_token = await fetch_page_token(long_token, SETTINGS.facebook_page_id)
+        save_token("facebook", page_token, expires_at)
+
+        expiry_str = expires_at.strftime("%d/%m/%Y")
+        await context.bot.send_message(
+            chat_id,
+            f"✅ Token aggiornati nel DB.\n📅 Scadenza: {expiry_str}\n\nNessun riavvio necessario.",
+        )
+        logger.info("meta_tokens_refreshed", extra={"expires_at": expires_at.isoformat()})
+    except Exception as exc:
+        logger.error("refresh_token_failed", extra={"error": str(exc)})
+        await context.bot.send_message(chat_id, f"❌ Errore durante il refresh: {exc}")
 
 
 async def cmd_rimuovi(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
