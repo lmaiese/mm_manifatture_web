@@ -1,5 +1,6 @@
 # Bot
 bot/.venv/
+bot/.venv_new/
 bot/.env
 bot/__pycache__/
 bot/**/__pycache__/
