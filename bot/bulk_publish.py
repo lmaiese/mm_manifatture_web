@@ -104,6 +104,9 @@ def _is_publishable(product: dict) -> tuple[bool, str]:
     if product.get("published") is not True:
         return False, "not published on site"
 
+    if product.get("published_social") is True:
+        return False, "already published on social"
+
     if not _first_cloudinary_photo(product):
         return False, "no Cloudinary photo"
 
@@ -191,7 +194,7 @@ def main() -> None:
     already_handled = _already_handled_photos(db_path)
 
     publishable: list[dict] = []
-    skipped_demo = skipped_not_published = skipped_no_photo = skipped_no_desc = skipped_duplicate = 0
+    skipped_demo = skipped_not_published = skipped_already_social = skipped_no_photo = skipped_no_desc = skipped_duplicate = 0
 
     for product in all_products:
         if not isinstance(product, dict):
@@ -202,6 +205,8 @@ def main() -> None:
                 skipped_demo += 1
             elif reason == "not published on site":
                 skipped_not_published += 1
+            elif reason == "already published on social":
+                skipped_already_social += 1
             elif reason == "no Cloudinary photo":
                 skipped_no_photo += 1
             else:
@@ -217,13 +222,14 @@ def main() -> None:
         product = {**product, "destination": "social"}
         publishable.append(product)
 
-    print(f"\nProdotti nel catalog:            {len(all_products)}")
-    print(f"  Skip — demo:                   {skipped_demo}")
-    print(f"  Skip — non pubblicati su sito: {skipped_not_published}")
-    print(f"  Skip — nessuna foto Cloud.:    {skipped_no_photo}")
-    print(f"  Skip — desc IG mancante:       {skipped_no_desc}")
-    print(f"  Skip — già in coda/pubblicati: {skipped_duplicate}")
-    print(f"Da accodare:                     {len(publishable)}")
+    print(f"\nProdotti nel catalog:              {len(all_products)}")
+    print(f"  Skip — demo:                     {skipped_demo}")
+    print(f"  Skip — non pubblicati su sito:   {skipped_not_published}")
+    print(f"  Skip — già pubblicati su social: {skipped_already_social}")
+    print(f"  Skip — nessuna foto Cloud.:      {skipped_no_photo}")
+    print(f"  Skip — desc IG mancante:         {skipped_no_desc}")
+    print(f"  Skip — già in coda/DB:           {skipped_duplicate}")
+    print(f"Da accodare:                       {len(publishable)}")
 
     if not publishable:
         print("\nNessun prodotto da accodare.")

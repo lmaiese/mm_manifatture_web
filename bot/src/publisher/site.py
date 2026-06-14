@@ -29,7 +29,7 @@ CATALOG_PATH = "web/catalog.json"
 
 def _make_product_entry(product: dict[str, Any]) -> dict[str, Any]:
     return {
-        "id": str(uuid.uuid4()),
+        "id": product.get("id") or str(uuid.uuid4()),
         "created_at": datetime.now(timezone.utc).isoformat(),
         "title": product.get("title") or "",
         "category": product.get("category") or "",
@@ -41,6 +41,7 @@ def _make_product_entry(product: dict[str, Any]) -> dict[str, Any]:
         "photos": product.get("photos") or [],
         "published": True,
         "available": True,
+        "published_social": False,
         "scheduled_for": product.get("scheduled_for"),
         "target": product.get("target"),
     }
@@ -255,6 +256,46 @@ def _update_availability_sync(token: str, repo_name: str, product_id: str, avail
         return False
     except Exception as exc:
         logger.error("update_availability_failed", extra={"error": str(exc)})
+        return False
+
+
+async def update_social_published(product_id: str) -> bool:
+    """Set published_social=True for product_id, commit to GitHub. No Vercel deploy."""
+    token = SETTINGS.github_token
+    repo_name = SETTINGS.github_repo
+    if not token or not repo_name:
+        logger.error("update_social_published_skipped", extra={"reason": "missing config"})
+        return False
+    return await asyncio.to_thread(_update_social_published_sync, token, repo_name, product_id)
+
+
+def _update_social_published_sync(token: str, repo_name: str, product_id: str) -> bool:
+    gh = Github(token)
+    try:
+        repo = gh.get_repo(repo_name)
+        file = repo.get_contents(CATALOG_PATH, ref="main")
+        raw = file.decoded_content.decode("utf-8")  # type: ignore[union-attr]
+        catalog = json.loads(raw)
+        products = catalog.get("products") or []
+        target = next((p for p in products if p.get("id") == product_id), None)
+        if target is None:
+            logger.warning("update_social_published_not_found", extra={"product_id": product_id})
+            return False
+        target["published_social"] = True
+        repo.update_file(
+            path=CATALOG_PATH,
+            message=f"chore: mark product {product_id[:8]} as published_social",
+            content=json.dumps(catalog, ensure_ascii=False, indent=2),
+            sha=file.sha,  # type: ignore[union-attr]
+            branch="main",
+        )
+        logger.info("social_published_updated", extra={"product_id": product_id})
+        return True
+    except GithubException as exc:
+        logger.error("update_social_published_github_failed", extra={"error": str(exc)})
+        return False
+    except Exception as exc:
+        logger.error("update_social_published_failed", extra={"error": str(exc)})
         return False
 
 

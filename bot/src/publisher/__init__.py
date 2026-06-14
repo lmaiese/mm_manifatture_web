@@ -7,17 +7,22 @@ Sprint 4: Meta publisher (Instagram + Facebook) active when META_ENABLED=1.
 
 import asyncio
 import logging
+import uuid
 from typing import Any
 
 from ..config import SETTINGS
 from .mock import publish as mock_publish
-from .site import publish_to_site
+from .site import publish_to_site, update_social_published
 from .meta import publish_instagram, publish_facebook
 
 logger = logging.getLogger("publisher")
 
 
 async def publish(product: dict[str, Any]) -> dict[str, bool | None]:
+    # Ensure a stable id exists for catalog tracking across all publishers
+    if not product.get("id"):
+        product = {**product, "id": str(uuid.uuid4())}
+
     destination = product.get("destination", "all")
     publish_site = destination in ("site", "all")
     publish_social = destination in ("social", "all")
@@ -47,6 +52,13 @@ async def publish(product: dict[str, Any]) -> dict[str, bool | None]:
                 logger.error("ig_publish_exception", extra={"error": str(ig_result)})
             if isinstance(fb_result, Exception):
                 logger.error("fb_publish_exception", extra={"error": str(fb_result)})
+
+            if result["instagram"] or result["facebook"]:
+                product_id = product.get("id")
+                if product_id and SETTINGS.github_token:
+                    await update_social_published(product_id)
+                elif not product_id:
+                    logger.warning("social_published_skip", extra={"reason": "product has no id"})
         else:
             logger.debug("meta_publisher_disabled", extra={"reason": "META_ENABLED not set"})
 
