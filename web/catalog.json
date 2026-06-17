@@ -895,6 +895,24 @@
       "available": true,
       "scheduled_for": null,
       "target": null
+    },
+    {
+      "id": "cf505f0a-be1b-4306-bd0c-caabf1dbcd3b",
+      "created_at": "2026-06-17T17:30:34.419226+00:00",
+      "title": "Giacca cotone collo camicia donna",
+      "category": "Abbigliamento",
+      "price": 55.0,
+      "size": "M",
+      "description_site": "Giacca in cotone lavorata a mano con collo a camicia, taglia M. Un capo versatile che si adatta a diversi stili, dal casual all'elegante, perfetto per le mezze stagioni. La lavorazione artigianale garantisce una vestibilità attenta ai dettagli. €55,00.",
+      "description_instagram": "Un capo senza tempo — giacca in cotone con collo a camicia, fatto a mano 🤍\n\nTaglia M · €55\n\n#giaccaartigianale #fattoadamano #abbigliamentodonna #cotoneitaliano #artigianatolocaliano",
+      "description_facebook": "C'è un momento nella stagione in cui una giacca di cotone diventa indispensabile. Non troppo pesante, non troppo leggera — semplicemente giusta per quei giorni incerti tra una stagione e l'altra.\n\nQuesta giacca con collo a camicia è stata lavorata a mano da Monica con cura nel dettaglio. Il collo a camicia le dà un carattere quasi vintage, che puoi portare aperto e rilassato oppure strutturato e raffinato. Il cotone garantisce comfort e traspirabilità.\n\nTaglia M, ideale per chi vuole un capo versatile e durevole nel tempo, fatto con la consapevolezza dell'artigianato.\n\nPrezzo: €55,00 · Scrivi per info o per acquistare 🤍",
+      "photos": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781717433/mm_manifatture/vyn2e3xhdegboeqips5u.jpg"
+      ],
+      "published": true,
+      "available": true,
+      "scheduled_for": null,
+      "target": "donna"
     }
   ],
   "categories": [
