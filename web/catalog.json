@@ -877,6 +877,24 @@
         "https://res.cloudinary.com/djke3vkmd/image/upload/v1781024050/mm_manifatture/wv5kg4g0gw6jbjqjupnk.jpg"
       ],
       "published_social": false
+    },
+    {
+      "id": "1f63d13a-1fdf-4c5b-872a-6c7f273a1c6e",
+      "created_at": "2026-06-17T16:17:58.548511+00:00",
+      "title": "",
+      "category": "Abbigliamento",
+      "price": 15.0,
+      "size": "0/3 mesi",
+      "description_site": "",
+      "description_instagram": "",
+      "description_facebook": "",
+      "photos": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1781713077/mm_manifatture/minqd1iiq4ssbav8stqk.jpg"
+      ],
+      "published": true,
+      "available": true,
+      "scheduled_for": null,
+      "target": null
     }
   ],
   "categories": [
