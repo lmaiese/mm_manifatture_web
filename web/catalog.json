@@ -891,7 +891,7 @@
       "photos": [
         "https://res.cloudinary.com/djke3vkmd/image/upload/v1781713077/mm_manifatture/minqd1iiq4ssbav8stqk.jpg"
       ],
-      "published": true,
+      "published": false,
       "available": true,
       "scheduled_for": null,
       "target": null
