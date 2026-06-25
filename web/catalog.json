@@ -913,6 +913,25 @@
       "available": true,
       "scheduled_for": null,
       "target": "donna"
+    },
+    {
+      "id": "9e76dbaa-37e8-4c2b-b6d1-121a3bcb0957",
+      "created_at": "2026-06-25T16:49:23.196777+00:00",
+      "title": "Maglietta cotone manica corta M",
+      "category": "Abbigliamento",
+      "price": 35.0,
+      "size": "M",
+      "description_site": "Maglietta in cotone a manica corta, lavorata a mano con la cura artigianale che contraddistingue ogni pezzo di M&M Manifatture. Un capo leggero e versatile, perfetto per la stagione calda, che si indossa con facilità e regala una sensazione di comfort naturale. Taglia M. €35,00.",
+      "description_instagram": "Cotone fresco e lavorazione artigianale — maglietta semplice e versatile, perfetta per l'estate 🤍\n\nTaglia M · €35\n\n#magliettacotone #fattaamano #artigianatolocaliano #abbigliamentoaretigianale #cilento",
+      "description_facebook": "Quando il caldo arriva, la giusta maglietta fa la differenza. Leggera, in puro cotone, lavorata a mano — è il pezzo che cerchi quando vuoi qualcosa di semplice ma ben fatto.\n\nOgni maglietta che esce dal laboratorio di Monica porta con sé l'attenzione ai dettagli e la qualità dei materiali naturali che caratterizzano M&M Manifatture. Non è solo un capo, è una scelta consapevole.\n\nTaglia M · €35,00\n\nScrivici per ordinare la tua.",
+      "photos": [
+        "https://res.cloudinary.com/djke3vkmd/image/upload/v1782406162/mm_manifatture/g4w7u6axqhf3etbpmk6o.jpg"
+      ],
+      "published": true,
+      "available": true,
+      "published_social": false,
+      "scheduled_for": null,
+      "target": "unisex"
     }
   ],
   "categories": [
