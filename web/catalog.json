@@ -929,7 +929,7 @@
       ],
       "published": true,
       "available": true,
-      "published_social": false,
+      "published_social": true,
       "scheduled_for": null,
       "target": "unisex"
     }
